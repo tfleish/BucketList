@@ -1,0 +1,20 @@
+#main {
+  background-color: blue;
+}
+
+#sideList {
+	height: 100%;
+  width: 25%;
+	background-color: gray;
+}
+
+#bulletin {
+  position: relative;
+  height:75%;
+  width: 75%;
+  background-color: red;
+}
+
+#noteList {
+
+}
