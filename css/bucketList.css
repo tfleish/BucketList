@@ -17,7 +17,9 @@
   width: 85%;
   float: right;
   border: 1px solid gray;
-  background-color: #ddd;
+  background-image:url('../img/bulletin.jpg');
+  background-repeat:no-repeat;
+  background-size: 100%;
 }
 
 #taskInfo {
@@ -28,13 +30,22 @@
   background-color: #ddd;
 }
 
-#sticky {
-  padding: 0.5em;
-  width: 150px;
-  height: 150px;
-  background-color: yellow;
-  position: relative;
-  left: 300px;
-  top: 30px;
-  border: 2px solid black;
+#sticky1, #sticky2 {
+  padding: 3%;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  background-image:url('../img/sticky.jpeg');
+  background-repeat:no-repeat;
+  background-size: 100%;
+}
+
+#sticky1 {
+  left: 100px;
+  top: 65px;
+}
+
+#sticky1 {
+  left: 250px;
+  top: 70px;
 }
