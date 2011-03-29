@@ -1,20 +1,40 @@
-#main {
-  background-color: blue;
+#container {
+  background-color: #aaa;
+  border: 1px solid gray;
 }
 
-#sideList {
-	height: 100%;
-  width: 25%;
-	background-color: gray;
+
+#list {
+  height: 100%;
+  width: 14.75%;
+  float: left;
+  border: 1px solid gray;
+  background-color: #ddd;
 }
 
 #bulletin {
-  position: relative;
-  height:75%;
-  width: 75%;
-  background-color: red;
+  height: 60%;
+  width: 85%;
+  float: right;
+  border: 1px solid gray;
+  background-color: #ddd;
 }
 
-#noteList {
+#taskInfo {
+  height: 40%;
+  width: 85%;
+  float: right;
+  border: 1px solid gray;
+  background-color: #ddd;
+}
 
+#sticky {
+  padding: 0.5em;
+  width: 150px;
+  height: 150px;
+  background-color: yellow;
+  position: relative;
+  left: 300px;
+  top: 30px;
+  border: 2px solid black;
 }
