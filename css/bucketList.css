@@ -28,7 +28,7 @@
   padding: 3%;
   width: 100px;
   height: 100px;
-  position: absolute;
+  position: relative;
   background-image:url('../img/sticky.jpeg');
   background-repeat:no-repeat;
   background-size: 100%;
