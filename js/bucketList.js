@@ -13,6 +13,7 @@ function taskFocus(num, bucket) {
     $(id).text('');
     $(id).css('color', 'black');
   }
+  $("#taskInfo").html("Information about "+$(id).val());
 }
 
 
@@ -39,7 +40,10 @@ function taskBlur(num, bucket) {
     
     $('#b'+bucket).append(newCheck+newText);
   }
-
 }
 
+function taskType(num, bucket) {
+  var id = '#b'+bucket+'t'+num;
+  $("#taskInfo").html("Information about "+$(id).val());
+}
 
