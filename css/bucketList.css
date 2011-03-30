@@ -1,3 +1,7 @@
+#container {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
 #list {
   height: 100%;
   width: 14.75%;
@@ -24,7 +28,7 @@
   background-color: #ddd;
 }
 
-#sticky1, #sticky2 {
+.sticky {
   padding: 3%;
   width: 100px;
   height: 100px;
@@ -34,15 +38,44 @@
   background-size: 100%;
 }
 
-#sticky1 {
+#s1 {
   left: 100px;
   top: 65px;
 }
 
-#sticky1 {
+#s2 {
   left: 250px;
   top: 70px;
 }
 
 #accordian {
+}
+
+textarea {
+  border: none;
+  width: 80%;
+  height: 1.6em;
+  resize: none;
+}
+
+textarea:focus {
+  outline: none;
+}
+
+textarea.new {
+  color: #aaa;  
+}
+
+textarea.task {
+  color: black;
+}
+
+textarea.stickyNote {
+  background: transparent;
+  height: inherit;
+  width: inherit;
+}
+
+.hidden {
+  visibility:hidden;
 }
