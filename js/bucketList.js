@@ -35,7 +35,7 @@ function taskBlur(num, bucket) {
     
     
     var newCheck = "<input type='checkbox' class='hidden' id='" + newCheckId + "'>";
-    var newText = "<textarea class='new' id='"+newTaskId+"' onfocus=\"taskFocus('"+newTaskNum+"', '"+bucket+"')\" onblur=\"taskBlur('"+newTaskNum+"', '"+bucket+"')\">New Task</textarea>";
+    var newText = "<textarea class='new' id='"+newTaskId+"' onfocus=\"taskFocus('"+newTaskNum+"', '"+bucket+"')\" onblur=\"taskBlur('"+newTaskNum+"', '"+bucket+"')\">New Task</textarea><br>";
     
     $('#b'+bucket).append(newCheck+newText);
   }
