@@ -1,19 +1,53 @@
 $(document).ready(function(){
 
 	$(".sticky").draggable( {containment: "#bulletin"} );
-	
-	$("#accordion").accordion();
-  
+  setAccordion();
+ 
 
 });
 
+
+// This function sets the taskInfo pannel to contain the appropriate information
+// It is called when a bucket or task in the left list is clicked
+function setInfo(bucket, task) {
+  $('#'+currentView).addClass('hiddenFloat');
+  currentView = 'b'+bucket+'t'+task+'n';
+  $('#'+currentView).removeClass('hiddenFloat');
+}
+
+
+// This function creates the accordion in the left list
+// It is called whenever something is appended to the accordion
+function setAccordion(){
+  var stop = false;
+  $( "#accordion h3" ).click(function( event ) {
+    if ( stop ) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      stop = false;
+    }
+  });
+  
+  $( "#accordion" )
+    .accordion({
+      header: "> div > h3"
+    })
+    .sortable({
+      axis: "y",
+      handle: "h3",
+      stop: function() { stop = true; }
+    });
+}
+
+// This function sets the text in a textbox to black
+// Called when 'new task' gains focus
 function taskFocus(num, bucket) {
   var id = '#b'+bucket+'t'+num;
   if ($(id).hasClass('new')) {
     $(id).text('');
     $(id).css('color', 'black');
   }
-  $("#taskInfo").html("Information about "+$(id).val());
+  setInfo(bucket, num);
 }
 
 
@@ -35,15 +69,110 @@ function taskBlur(num, bucket) {
     $(pCheckId).removeClass('hidden');
     
     
-    var newCheck = "<input type='checkbox' class='hidden' id='" + newCheckId + "'>";
-    var newText = "<textarea class='new' id='"+newTaskId+"' onfocus=\"taskFocus('"+newTaskNum+"', '"+bucket+"')\" onblur=\"taskBlur('"+newTaskNum+"', '"+bucket+"')\">New Task</textarea><br>";
+    var newCheck = "<input type='checkbox' " 
+                           + "class='hidden' "
+                           + "id='" + newCheckId + "'>";
+    var newText = "<textarea class='new'"
+                             + "id= '" + newTaskId
+                             + "' onfocus=\"taskFocus('" + newTaskNum + "', '" + bucket + "')\" "
+                             + "onblur=\"taskBlur('" + newTaskNum + "', '" + bucket + "')\">New Task</textarea><br>";
     
     $('#b'+bucket).append(newCheck+newText);
+    
+    var name = $(pTaskId).val();
+    addToTaskInfo(bucket, num, name);
   }
 }
 
-function taskType(num, bucket) {
-  var id = '#b'+bucket+'t'+num;
-  $("#taskInfo").html("Information about "+$(id).val());
+function noteFocus(bucket, task, note) {
+  var id = '#b'+bucket+'t'+task+'n'+note;
+  if ($(id).hasClass('new')) {
+    $(id).text('');
+    $(id).css('color', 'black');
+  }
 }
 
+
+function noteBlur(bucket, task, note) {
+  var pNoteId = '#b'+bucket+'t'+task+'n'+note;
+  var pIconId = '#b'+bucket+'t'+task+'i'+note;
+  var newNoteNum = parseInt(note)+1;
+  var newNoteId = 'b'+bucket+'t'+task+'n'+newNoteNum;
+  var newIconId = 'b'+bucket+'t'+task+'i'+newNoteNum;
+  
+  
+  if ($(pNoteId).val() == '' && $(pNoteId).hasClass('new')) {
+    $(pNoteId).text('New Note');
+    $(pNoteId).css('color', '#aaa');
+  } 
+  else if ($(pNoteId).hasClass('new')) {
+    $(pNoteId).removeClass('new');
+    $(pIconId).removeClass('hidden');
+    
+    var newIcon = "<button type='button' "
+                           + "id='b"+bucket+"t"+task+"i"+newNoteNum+"' "
+                           + "class='stickyButton hidden' "
+                           + "onclick=\"addSticky('"+bucket+"', '"+task+"', '"+newNoteNum+"')\"></button>";
+    
+    var newText = "<textarea class='new note' "
+                             + "id='" + newNoteId
+                             + "' onfocus=\"noteFocus('" + bucket+"', '" + task + "', '" + newNoteNum + "')\" " 
+                             + "onblur=\"noteBlur('" + bucket+"', '" + task + "', '" + newNoteNum + "')\">New Task</textarea><br>";
+    
+    $('#b'+bucket+'t'+task+'n').append(newIcon+newText);
+  }
+}
+
+function addSticky(bucket, task, note) {
+  var id = 'b'+bucket+'t'+task+'n'+note+'s';
+  var noteId = '#b'+bucket+'t'+task+'n'+note;
+  var buttonId = '#b'+bucket+'t'+task+'i'+note;
+  $(buttonId).attr("disabled", "disabled");
+  var note = "<div class='sticky' id='"+id+"'><textarea class='stickyNote'>"+$(noteId).val()+"</textarea></div>";
+  $("#bulletin").append(note);
+  $(".sticky").draggable( {containment: "#bulletin"} );
+}
+
+function taskType(num, bucket) {
+  var idInfo = '#b'+bucket+'t'+num+'name';
+  var id = '#b'+bucket+'t'+num;
+  $(idInfo).html("Information about "+$(id).val());
+}
+
+function addBucket() {
+  var num = $("#accordion > div").size()+1;
+
+  var name = "new bucket";
+  
+  var title = "<h3 id='b"+num+"t"+0+"name'><a href='#' id='b"+num+"name' onclick=\"setInfo('"+num+"', '0')\">"+name+"</a></h3>";
+     
+  var content = "<div id='b"+num
+                      + "' class='bucket'>"
+                + "<input type='checkbox' class='hidden' id='b"+num+"c1'>"
+                + "<textarea class='new' "
+                             + "id='b"+num+"t1' "
+                             + "onfocus=\"taskFocus('1', '"+num+"')\" "
+                             + "onblur=\"taskBlur('1', '"+num+"')\" "
+                             + "onkeyup=\"taskType('1', '"+num+"')\">New Task</textarea><br></div>";
+
+  $("#accordion").append("<div>"+title+content+"</div>").accordion('destroy'); //.accordion({ "active" : num-1 })
+  setAccordion();
+   
+  addToTaskInfo(num, 0, name);
+}
+
+function addToTaskInfo(bucket, task, name) {
+  
+  var html = "<div id='b"+bucket+"t"+task+"n' class='hiddenFloat'>"
+              + "<h3 id='b"+bucket+"t"+task+"name'> Information about " + name + "</h3>"
+              + "<button type='button' "
+                         + "id='b"+bucket+"t"+task+"i1' "
+                         + "class='stickyButton hidden' "
+                         + "onclick=\"addSticky('"+bucket+"', '"+task+"', '1')\"></button>"
+              
+              + "<textarea class='new note'"
+                           + "id='b"+bucket+"t"+task+"n1'"
+                           + "onfocus=\"noteFocus('"+bucket+"', '"+task+"', '1')\" "
+                           + "onblur=\"noteBlur('"+bucket+"', '"+task+"', '1')\"> New Note</textarea><br></div>" ;
+  $("#taskInfo").append(html);
+}

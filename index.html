@@ -16,102 +16,86 @@
 		<script type="text/javascript" src="3rdparty/jquery_1.4.2/jquery_libraries/jquery-ui-1.8.5.custom.min.js"></script>
 		
 		<script type="text/javascript" src="js/bucketList.js"></script>
+		
+		<script type="text/javascript" language="JavaScript">
+		  var currentView = "welcome";
+		</script>
 	</head>
 	
 	
 	<body>
 	  <div id="container">
+  
+    	<div id="rightSide">
+      	
+      	<div id="bulletin">
+
+      	</div> <!-- END bulletin -->
+      	      	
+        <div id="taskInfo">
+        
+          <div id="welcome">
+            Welcome to BucketList!
+          </div>
+           
+          <div id="b1t0n" class="hiddenFloat">
+            <h3 id="b1t0name"> Information about 6.033</h3>
+            
+            <button type="button" id="b1t0i1" class="stickyButton hidden" onclick="addSticky('1', '0', '1')"></button>
+            <textarea class="new note" 
+                      id="b1t0n1"
+                      onfocus="noteFocus('1', '0', '1')" 
+                      onblur="noteBlur('1', '0', '1')"> New Note</textarea><br>
+          </div> 
+          
+          <div id="b1t1n" class="hiddenFloat">
+            <h3 id="b1t1name"> Information about DP1</h3>
+            
+            <button type="button" id="b1t1i1" class="stickyButton hidden" onclick="addSticky('1', '1', '1')"></button>
+            <textarea class="new note" 
+                      id="b1t1n1"
+                      onfocus="noteFocus('1', '1', '1')" 
+                      onblur="noteBlur('1', '1', '1')"> New Note</textarea><br>
+          </div> 
+          
+        </div> <!-- END taskInfo -->
+   
+      </div> <!-- END rightSide -->
+      
+      
     	<div id="list">
     	  Tamara Fleisher
         <h2>BucketList</h2>
-        <div id="accordion" style="font-size:62.5%;">
+        
+        <div id="accordion" style="font-size:62.5%;">     
           
-          <h3><a href="#">6.033</a></h3>
-          <div id="b1"> 
-            <input type="checkbox" id="b1c1">
-            <textarea class="task" 
-                      id="b1t1" 
-                      onfocus="taskFocus('1', '1')" 
-                      onblur="taskBlur('1', '1')" 
-                      onkeyup="taskType('1', '1')">DP1</textarea><br>
-            
-            <input type="checkbox" id="b1c2">
-            <textarea class="task" 
-                      id="b1t2" onfocus="taskFocus('2', '1')" 
-                      onblur="taskBlur('2', '1')" 
-                      onkeyup="taskType('2', '1')">RAID Paper</textarea><br>
-            
-            <input type="checkbox" class="hidden" id="b1c3">
-            <textarea class="new" 
-                      id="b1t3" 
-                      onfocus="taskFocus('3', '1')" 
-                      onblur="taskBlur('3', '1')" 
-                      onkeyup="taskType('3', '1')">New Task</textarea>
-          </div>
+          <div class="bucketGroup">
+            <h3><a href="#" id="b1name" onclick="setInfo('1', '0')">6.033</a></h3>
+            <div id="b1" class="bucket"> 
+              <input type="checkbox" id="b1c1">
+              <textarea class="task" 
+                        id="b1t1" 
+                        onfocus="taskFocus('1', '1')" 
+                        onblur="taskBlur('1', '1')" 
+                        onkeyup="taskType('1', '1')">DP1</textarea><br>
+              
+              <input type="checkbox" class="hidden" id="b1c2">
+              <textarea class="new" 
+                        id="b1t2" 
+                        onfocus="taskFocus('2', '1')" 
+                        onblur="taskBlur('2', '1')" 
+                        onkeyup="taskType('2', '1')">New Task</textarea>
+            </div> <!-- END  bucket -->
+          </div> <!-- END bucketGroup -->   
+        </div> <!-- END accordion -->
+        
+        <button type="button" onclick="addBucket()">Add a Bucket</button>
           
-          <h3><a href="#">6.813</a></h3>
-          <div id="b2">
-            <input type="checkbox" id="b2c1">
-            <textarea class="task" 
-                      id="b2t1" 
-                      onfocus="taskFocus('1', '2')" 
-                      onblur="taskBlur('1', '2')" 
-                      onkeyup="taskType('1', '2')">GR4</textarea><br>
-            
-            <input type="checkbox" id="b2c2">
-            <textarea class="task" 
-                      id="b2t2" 
-                      onfocus="taskFocus('2', '2')" 
-                      onblur="taskBlur('2', '2')" 
-                      onkeyup="taskType('2', '2')">Pset 3</textarea><br>
-            
-            <input type="checkbox" class="hidden" id="b2c3">
-            <textarea class="new" 
-                      id="b2t3" 
-                      onfocus="taskFocus('3', '2')" 
-                      onblur="taskBlur('3', '2')" 
-                      onkeyup="taskType('3', '2')">New Task</textarea>
-          </div>
-          
-          <h3><a href="#">UROP</a></h3>
-          <div id="b3">
-            <input type="checkbox" id="b3c1">
-            <textarea class="task" 
-                      id="b3t1" 
-                      onfocus="taskFocus('1', '3')" 
-                      onblur="taskBlur('1', '3')" 
-                      onkeyup="taskType('1', '3')">Add form</textarea><br>
-            
-            <input type="checkbox" id="b3c2">
-            <textarea class="task" 
-                      id="b3t2" 
-                      onfocus="taskFocus('2', '3')" 
-                      onblur="taskBlur('2', '3')" 
-                      onkeyup="taskType('2', 3')">Do work!!!</textarea><br>
-            
-            <input type="checkbox" class="hidden" id="b3c3">
-            <textarea class="new" 
-                      id="b3t3" 
-                      onfocus="taskFocus('3', '3')" 
-                      onblur="taskBlur('3', '3')"  
-                      onkeyup="taskType('3', '3')">New Task</textarea>
-          </div>
-        </div>   
-    	</div>	
+    	</div> <!-- END list -->
     	
-    	<div id="bulletin">
-        <div class="sticky" id="s1">
-          <textarea class="stickyNote">This is a Note</textarea>
-        </div>
-        <div class="sticky" id="s2">
-          <textarea class="stickyNote">This is another note!</textarea>
-        </div>
-    	</div>
-    	
-      <div id="taskInfo">
-        Welcome to BucketList!
-      </div>
-    </div>
+    	<div class="clear"></div>
+    
+    </div> <!-- END container -->
   </body>
 
 
