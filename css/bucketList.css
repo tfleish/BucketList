@@ -30,9 +30,22 @@
   padding: 1em;
   background-color: transparent;
   overflow-y: auto; 
+  height: 34%;
 }
 
-button.stickyButton {
+h2 {
+  text-align: center;
+}
+
+button.newBucket {
+  display: block;
+  width: 65%;
+  height: 30px;
+  margin: 0px auto;
+}
+
+#bucketName {
+  text-align: center;
 }
 
 .sticky {
@@ -42,8 +55,10 @@ button.stickyButton {
   background-image: url('../img/sticky.jpeg');
   background-repeat: no-repeat;
   background-size: 100%;
-  padding: 22px;
+  padding-left: 25px;
   padding-top: 30px;
+  padding-right: 20px;
+  padding-bottom: 30px;
   cursor: pointer;
 }
 
@@ -64,7 +79,8 @@ textarea:focus {
 }
 
 textarea.new {
-  color: #aaa;  
+  color: #aaa;
+  background-color: trasparent;  
   display:inline-block;
 }
 
@@ -75,7 +91,6 @@ textarea.real {
 
 textarea.note {
   height: 2em;
-  margin: 10px;
   border-bottom: dashed 1px;
   border-color:-moz-use-text-color;
 }

@@ -1,10 +1,7 @@
 $(document).ready(function(){
-
 	$(".sticky").draggable( {containment: "#bulletin"} );
   setAccordion();
- 
-
-});
+ });
 
 
 // This function sets the taskInfo pannel to contain the appropriate information
@@ -71,16 +68,18 @@ function taskBlur(num, bucket) {
     
     var newCheck = "<input type='checkbox' " 
                            + "class='hidden' "
-                           + "id='" + newCheckId + "'>";
+                           + "id='" + newCheckId + "'> ";
     var newText = "<textarea class='new'"
                              + "id= '" + newTaskId
                              + "' onfocus=\"taskFocus('" + newTaskNum + "', '" + bucket + "')\" "
-                             + "onblur=\"taskBlur('" + newTaskNum + "', '" + bucket + "')\">New Task</textarea><br>";
+                             + "onblur=\"taskBlur('" + newTaskNum + "', '" + bucket + "')\" "
+                             + "onkeypress=\"ifEnter('#"+newTaskId+"', event)\">New Task</textarea><br>";
     
     $('#b'+bucket).append(newCheck+newText);
     
     var name = $(pTaskId).val();
-    addToTaskInfo(bucket, num, name);
+    addTaskToInfo(bucket, num, name);
+    // $('#'+newTaskId).focus();
   }
 }
 
@@ -117,9 +116,11 @@ function noteBlur(bucket, task, note) {
     var newText = "<textarea class='new note' "
                              + "id='" + newNoteId
                              + "' onfocus=\"noteFocus('" + bucket+"', '" + task + "', '" + newNoteNum + "')\" " 
-                             + "onblur=\"noteBlur('" + bucket+"', '" + task + "', '" + newNoteNum + "')\">New Task</textarea><br>";
+                             + "onblur=\"noteBlur('" + bucket+"', '" + task + "', '" + newNoteNum + "')\""
+                             + "onkeypress=\"ifEnter('#"+newNoteId+"', event)\">New Task</textarea><br>";
     
     $('#b'+bucket+'t'+task+'n').append(newIcon+newText);
+    // $('#'+newNodeId).focus();
   }
 }
 
@@ -133,36 +134,52 @@ function addSticky(bucket, task, note) {
   $(".sticky").draggable( {containment: "#bulletin"} );
 }
 
+function stickyType(Sid, Nid) {
+  $(Nid).text($(Sid).val());
+}
+
+function noteType(Sid, Nid) {
+  $(Sid).text($(Nid).val());
+}
+
 function taskType(num, bucket) {
   var idInfo = '#b'+bucket+'t'+num+'name';
   var id = '#b'+bucket+'t'+num;
   $(idInfo).html("Information about "+$(id).val());
 }
 
-function addBucket() {
-  var num = $("#accordion > div").size()+1;
-
-  var name = "new bucket";
-  
-  var title = "<h3 id='b"+num+"t"+0+"name'><a href='#' id='b"+num+"name' onclick=\"setInfo('"+num+"', '0')\">"+name+"</a></h3>";
-     
-  var content = "<div id='b"+num
-                      + "' class='bucket'>"
-                + "<input type='checkbox' class='hidden' id='b"+num+"c1'>"
-                + "<textarea class='new' "
-                             + "id='b"+num+"t1' "
-                             + "onfocus=\"taskFocus('1', '"+num+"')\" "
-                             + "onblur=\"taskBlur('1', '"+num+"')\" "
-                             + "onkeyup=\"taskType('1', '"+num+"')\">New Task</textarea><br></div>";
-
-  $("#accordion").append("<div>"+title+content+"</div>").accordion('destroy'); //.accordion({ "active" : num-1 })
-  setAccordion();
-   
-  addToTaskInfo(num, 0, name);
+function bucketName() {
+  $("#bucketName").removeClass("hidden");
+  $("#name").focus();
 }
 
-function addToTaskInfo(bucket, task, name) {
+function addBucket() {
+  var name = $("#name").val();
+  if (name != "") {
+    var num = $("#accordion > div").size()+1;
+    $("#name").text("");
+    
+    var title = "<h3 id='b"+num+"t"+0+"name'><a href='#' id='b"+num+"name' onclick=\"setInfo('"+num+"', '0')\">"+name+"</a></h3>";
+       
+    var content = "<div id='b"+num
+                        + "' class='bucket'>"
+                  + "<input type='checkbox' class='hidden' id='b"+num+"c1'>"
+                  + "<textarea class='new' "
+                               + "id='b"+num+"t1' "
+                               + "onfocus=\"taskFocus('1', '"+num+"')\" "
+                               + "onblur=\"taskBlur('1', '"+num+"')\" "
+                               + "onkeypress=\"ifEnter('#b"+num+"t1', event)\""
+                               + "onkeyup=\"taskType('1', '"+num+"')\">New Task</textarea><br></div>";
   
+    $("#accordion").append("<div>"+title+content+"</div>").accordion('destroy'); //.accordion({ "active" : num-1 })
+    setAccordion();
+     
+    addBucketToInfo(num, name);
+  }
+  $("#bucketName").addClass("hidden");
+}
+  
+function addTaskToInfo(bucket, task, name) {
   var html = "<div id='b"+bucket+"t"+task+"n' class='hiddenFloat'>"
               + "<h3 id='b"+bucket+"t"+task+"name'> Information about " + name + "</h3>"
               + "<button type='button' "
@@ -173,6 +190,33 @@ function addToTaskInfo(bucket, task, name) {
               + "<textarea class='new note'"
                            + "id='b"+bucket+"t"+task+"n1'"
                            + "onfocus=\"noteFocus('"+bucket+"', '"+task+"', '1')\" "
-                           + "onblur=\"noteBlur('"+bucket+"', '"+task+"', '1')\"> New Note</textarea><br></div>" ;
+                           + "onblur=\"noteBlur('"+bucket+"', '"+task+"', '1')\""
+                           + "onkeypress=\"ifEnter('#b"+bucket+"t"+task+"n1', event)\">New Note</textarea><br></div>" ;
+    $("#taskInfo").append(html);
+  
+}
+
+
+function addBucketToInfo(bucket, name) {
+  var html = "<div id='b"+bucket+"t0n' class='hiddenFloat'>"
+              + "<h3 id='b"+bucket+"t0name'> Information about " + name + "</h3>"
+              + "<button type='button' "
+                         + "id='b"+bucket+"t0i1' "
+                         + "class='stickyButton hidden' "
+                         + "onclick=\"addSticky('"+bucket+"', '0', '1')\"></button>"
+              
+              + "<textarea class='new note'"
+                           + "id='b"+bucket+"t0n1'"
+                           + "onfocus=\"noteFocus('"+bucket+"', '0', '1')\" "
+                           + "onblur=\"noteBlur('"+bucket+"', '0', '1')\" "
+                           + "onkeypress=\"ifEnter('#b"+bucket+"t0n1', event)\">New Note</textarea><br></div>";
+
   $("#taskInfo").append(html);
+}
+
+function ifEnter(field, event) {
+  var theCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+  if (theCode == 13){
+    $(field).blur();
+  }  
 }

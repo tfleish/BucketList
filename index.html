@@ -28,11 +28,7 @@
   
     	<div id="rightSide">
       	
-      	<div id="bulletin">
-
-      	</div> <!-- END bulletin -->
-      	      	
-        <div id="taskInfo">
+      	        <div id="taskInfo">
         
           <div id="welcome">
             Welcome to BucketList!
@@ -45,7 +41,8 @@
             <textarea class="new note" 
                       id="b1t0n1"
                       onfocus="noteFocus('1', '0', '1')" 
-                      onblur="noteBlur('1', '0', '1')"> New Note</textarea><br>
+                      onblur="noteBlur('1', '0', '1')"
+                      onkeypress="ifEnter('#b1t0n1', event)"> New Note</textarea><br>
           </div> 
           
           <div id="b1t1n" class="hiddenFloat">
@@ -55,10 +52,14 @@
             <textarea class="new note" 
                       id="b1t1n1"
                       onfocus="noteFocus('1', '1', '1')" 
-                      onblur="noteBlur('1', '1', '1')"> New Note</textarea><br>
+                      onblur="noteBlur('1', '1', '1')"
+                      onkeypress="ifEnter('#b1t1n1', event)"> New Note</textarea><br>
           </div> 
           
         </div> <!-- END taskInfo -->
+      	
+      	<div id="bulletin">
+      	</div> <!-- END bulletin -->
    
       </div> <!-- END rightSide -->
       
@@ -70,13 +71,15 @@
         <div id="accordion" style="font-size:62.5%;">     
           
           <div class="bucketGroup">
+            <!-- 
             <h3><a href="#" id="b1name" onclick="setInfo('1', '0')">6.033</a></h3>
             <div id="b1" class="bucket"> 
               <input type="checkbox" id="b1c1">
               <textarea class="task" 
                         id="b1t1" 
                         onfocus="taskFocus('1', '1')" 
-                        onblur="taskBlur('1', '1')" 
+                        onblur="taskBlur('1', '1')"
+                        onkeypress="ifEnter('#b1t1', event)" 
                         onkeyup="taskType('1', '1')">DP1</textarea><br>
               
               <input type="checkbox" class="hidden" id="b1c2">
@@ -84,13 +87,21 @@
                         id="b1t2" 
                         onfocus="taskFocus('2', '1')" 
                         onblur="taskBlur('2', '1')" 
-                        onkeyup="taskType('2', '1')">New Task</textarea>
-            </div> <!-- END  bucket -->
+                        onkeypress="ifEnter('#b1t2', event)"
+                        onkeyup="taskType('2', '1')">New Task</textarea><br>
+            </div> <!-- END  bucket -- >
+             -->
           </div> <!-- END bucketGroup -->   
         </div> <!-- END accordion -->
         
-        <button type="button" onclick="addBucket()">Add a Bucket</button>
-          
+        <br>
+        <button type="button" class="newBucket" onclick="bucketName()">New Bucket</button><br>
+        <div id="bucketName" class="hidden">
+          Bucket Name:<br>
+          <textarea id="name" 
+                    onblur="addBucket()"
+                    onkeypress="ifEnter('#name', event)"></textarea><br>
+        </div>
     	</div> <!-- END list -->
     	
     	<div class="clear"></div>
