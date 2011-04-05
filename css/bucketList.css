@@ -2,7 +2,7 @@
   font-family: Verdana, Arial, Helvetica, sans-serif;
   background-color: #ddd;
   border: 1px solid gray;
-  height: auto;
+  height: 100%;
 }
 
 #list {
@@ -21,16 +21,16 @@
 
 #bulletin {
   background-image: url('../img/bulletin.jpg');
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-size: 100%;
   height: 65%;
 }
 
 #taskInfo {
-  padding: 1em;
   background-color: transparent;
   overflow-y: auto; 
-  height: 34%;
+  height: 35%;
+  width: 70%;
 }
 
 h2 {
@@ -48,6 +48,15 @@ button.newBucket {
   text-align: center;
 }
 
+#collabsBar {
+	position: fixed;
+	top: 1em;
+	right: 1em;
+	background-color: transparent;
+	overflow-y: auto; 
+	height: 35%;
+	width: 20%;
+}
 .sticky {
   width: 100px;
   height: 100px;
@@ -56,9 +65,8 @@ button.newBucket {
   background-repeat: no-repeat;
   background-size: 100%;
   padding-left: 25px;
-  padding-top: 30px;
+  padding-top: 28px;
   padding-right: 20px;
-  padding-bottom: 30px;
   cursor: pointer;
 }
 
@@ -110,6 +118,7 @@ button.disabled {
 
 .hiddenFloat {
   display: none;
+  float: left;
 }
 
 .bucket {

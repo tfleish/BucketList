@@ -108,7 +108,7 @@ function noteBlur(bucket, task, note) {
     $(pNoteId).removeClass('new');
     $(pIconId).removeClass('hidden');
     
-    var newIcon = "<img src=\"../img/addStickyIcon.gif\""
+    var newIcon = "<img src=\"img/addStickyIcon.gif\""
                            + "id='b"+bucket+"t"+task+"i"+newNoteNum+"' "
                            + "class='stickyButton hidden' "
                            + "onclick=\"addSticky('"+bucket+"', '"+task+"', '"+newNoteNum+"')\"></img>";
@@ -183,8 +183,8 @@ function addBucket() {
   
 function addTaskToInfo(bucket, task, name) {
   var html = "<div id='b"+bucket+"t"+task+"n' class='hiddenFloat'>"
-              + "<h3 id='b"+bucket+"t"+task+"name'> Information about " + name + "</h3>"
-              + "<img src=\"../img/addStickyIcon.gif\" "
+              + "<h3 id='b"+bucket+"t"+task+"name' style='margin: 10px'> Information about " + name + "</h3>"
+              + "<img src=\"img/addStickyIcon.gif\" "
                          + "id='b"+bucket+"t"+task+"i1' "
                          + "class='stickyButton hidden' "
                          + "onclick=\"addSticky('"+bucket+"', '"+task+"', '1')\"></img>"
@@ -193,16 +193,19 @@ function addTaskToInfo(bucket, task, name) {
                            + "id='b"+bucket+"t"+task+"n1'"
                            + "onfocus=\"noteFocus('"+bucket+"', '"+task+"', '1')\" "
                            + "onblur=\"noteBlur('"+bucket+"', '"+task+"', '1')\""
-                           + "onkeypress=\"ifEnter('#b"+bucket+"t"+task+"n1', event)\">New Note</textarea><br></div>" ;
+                           + "onkeypress=\"ifEnter('#b"+bucket+"t"+task+"n1', event)\">New Note</textarea><br></div>";
+	
+	var html2 = "<div id='b"+bucket+"t"+task+"colls' float: right;>Collaborators</div>";
+	
     $("#taskInfo").append(html);
+	$("#collabsBar").append(html2);
   
 }
 
-
 function addBucketToInfo(bucket, name) {
   var html = "<div id='b"+bucket+"t0n' class='hiddenFloat'>"
-              + "<h3 id='b"+bucket+"t0name'> Information about " + name + "</h3>"
-              + "<img src=\"../img/addStickyIcon.gif\" "
+              + "<h3 id='b"+bucket+"t0name' style='margin: 10px'> Information about " + name + "</h3>"
+              + "<img src=\"img/addStickyIcon.gif\" "
                          + "id='b"+bucket+"t0i1' "
                          + "class='stickyButton hidden' "
                          + "onclick=\"addSticky('"+bucket+"', '0', '1')\"></img>"
@@ -214,6 +217,21 @@ function addBucketToInfo(bucket, name) {
                            + "onkeypress=\"ifEnter('#b"+bucket+"t0n1', event)\">New Note</textarea><br></div>";
 
   $("#taskInfo").append(html);
+}
+
+function getInfoHTML(bucket, task, name) {
+	  var html = "<div id='b"+bucket+"t"+task+"n' class='hiddenFloat'>"
+              + "<h3 id='b"+bucket+"t"+task+"name' style='margin: 10px'> Information about " + name + "</h3>"
+              + "<img src=\"img/addStickyIcon.gif\" "
+                         + "id='b"+bucket+"t"+task+"i1' "
+                         + "class='stickyButton hidden' "
+                         + "onclick=\"addSticky('"+bucket+"', '"+task+"', '1')\"></img>"
+              
+              + "<textarea class='new note'"
+                           + "id='b"+bucket+"t"+task+"n1'"
+                           + "onfocus=\"noteFocus('"+bucket+"', '"+task+"', '1')\" "
+                           + "onblur=\"noteBlur('"+bucket+"', '"+task+"', '1')\""
+                           + "onkeypress=\"ifEnter('#b"+bucket+"t"+task+"n1', event)\">New Note</textarea><br></div>";
 }
 
 function ifEnter(field, event) {
