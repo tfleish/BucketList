@@ -30,7 +30,7 @@
   background-color: transparent;
   overflow-y: auto; 
   height: 35%;
-  width: 70%;
+  width: 100%;
 }
 
 h2 {
@@ -50,8 +50,8 @@ button.newBucket {
 
 #collabsBar {
 	position: fixed;
-	top: 1em;
-	right: 1em;
+	top: 1px;
+	right: 1px;
 	background-color: transparent;
 	overflow-y: auto; 
 	height: 35%;

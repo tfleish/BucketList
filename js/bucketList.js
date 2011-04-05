@@ -195,7 +195,7 @@ function addTaskToInfo(bucket, task, name) {
                            + "onblur=\"noteBlur('"+bucket+"', '"+task+"', '1')\""
                            + "onkeypress=\"ifEnter('#b"+bucket+"t"+task+"n1', event)\">New Note</textarea><br></div>";
 	
-	var html2 = "<div id='b"+bucket+"t"+task+"colls' float: right;>Collaborators</div>";
+	var html2 = "<h3 id='b"+bucket+"t"+task+"colls' style='margin: 10px'>Collaborators</h3>";
 	
     $("#taskInfo").append(html);
 	$("#collabsBar").append(html2);
@@ -215,8 +215,11 @@ function addBucketToInfo(bucket, name) {
                            + "onfocus=\"noteFocus('"+bucket+"', '0', '1')\" "
                            + "onblur=\"noteBlur('"+bucket+"', '0', '1')\" "
                            + "onkeypress=\"ifEnter('#b"+bucket+"t0n1', event)\">New Note</textarea><br></div>";
+	var html2 = "<h3 id='b"+bucket+"t0colls' style='margin: 10px'>Collaborators</h3>";
 
   $("#taskInfo").append(html);
+  	$("#collabsBar").append(html2);
+
 }
 
 function getInfoHTML(bucket, task, name) {

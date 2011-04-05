@@ -1,0 +1,62 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<title>BucketList</title>
+		
+		<link rel="stylesheet" href="css/bucketList.css" type="text/css">
+		
+		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+  
+		
+		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.core.js"></script>
+ 		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.widget.js"></script>
+ 		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.mouse.js"></script>
+		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.draggable.js"></script>
+ 		<script type="text/javascript" src="3rdparty/jquery_1.4.2/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="3rdparty/jquery_1.4.2/jquery_libraries/jquery-ui-1.8.5.custom.min.js"></script>
+		
+		<script type="text/javascript" src="js/bucketList.js"></script>
+	</head>
+	
+	
+	<body>
+	  <div id="container">
+    	<div id="list">
+    	  Tamara Fleisher
+        <h2>BucketList</h2>
+        <div id="accordion" style="font-size:62.5%;">
+          <h3><a href="#">6.033</a></h3>
+          <div>
+            <input type="checkbox"><textarea class="task" id="t1">DP1</textarea><br>
+            <input type="checkbox"><textarea class="task" id="t2">RAID Paper</textarea><br>
+            <input type="checkbox"><textarea class="new" id="t3">New Task</textarea>
+          </div>
+          <h3><a href="#">6.813</a></h3>
+          <div>
+            <input type="checkbox"><textarea class="task" id="t4">Pset 3</textarea><br>
+            <input type="checkbox"><textarea class="task" id="t5">GR4</textarea><br>
+            <input type="checkbox"><textarea class="task" id="t6">Read Notes!</textarea><br>
+            <input type="checkbox"><textarea class="new" id="t7">New Task</textarea>
+          </div>
+          <h3><a href="#">UROP</a></h3>
+          <div>
+            Submit add form!<br><br>
+            Do the work!!!!!
+          </div>
+        </div>   
+    	</div>	
+    	
+    	<div id="bulletin">
+        <div class="sticky" id="s1">This is a note!</div>
+        <div class="sticky" id="s2">This is another note!</div>
+    	</div>
+    	
+      <div id="taskInfo">
+        task info
+      </div>
+    </div>
+  </body>
+
+
+</html>
