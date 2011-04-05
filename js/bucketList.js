@@ -108,10 +108,10 @@ function noteBlur(bucket, task, note) {
     $(pNoteId).removeClass('new');
     $(pIconId).removeClass('hidden');
     
-    var newIcon = "<button type='button' "
+    var newIcon = "<img src=\"../img/addStickyIcon.gif\""
                            + "id='b"+bucket+"t"+task+"i"+newNoteNum+"' "
                            + "class='stickyButton hidden' "
-                           + "onclick=\"addSticky('"+bucket+"', '"+task+"', '"+newNoteNum+"')\"></button>";
+                           + "onclick=\"addSticky('"+bucket+"', '"+task+"', '"+newNoteNum+"')\"></img>";
     
     var newText = "<textarea class='new note' "
                              + "id='" + newNoteId
@@ -128,7 +128,9 @@ function addSticky(bucket, task, note) {
   var id = 'b'+bucket+'t'+task+'n'+note+'s';
   var noteId = '#b'+bucket+'t'+task+'n'+note;
   var buttonId = '#b'+bucket+'t'+task+'i'+note;
-  $(buttonId).attr("disabled", "disabled");
+  $(buttonId).attr("onclick", "");
+  $(buttonId).css("opacity", "0.3");
+  $(buttonId).css("filter", "alpha(opacity=30)");
   var note = "<div class='sticky' id='"+id+"'><textarea class='stickyNote'>"+$(noteId).val()+"</textarea></div>";
   $("#bulletin").append(note);
   $(".sticky").draggable( {containment: "#bulletin"} );
@@ -182,10 +184,10 @@ function addBucket() {
 function addTaskToInfo(bucket, task, name) {
   var html = "<div id='b"+bucket+"t"+task+"n' class='hiddenFloat'>"
               + "<h3 id='b"+bucket+"t"+task+"name'> Information about " + name + "</h3>"
-              + "<button type='button' "
+              + "<img src=\"../img/addStickyIcon.gif\" "
                          + "id='b"+bucket+"t"+task+"i1' "
                          + "class='stickyButton hidden' "
-                         + "onclick=\"addSticky('"+bucket+"', '"+task+"', '1')\"></button>"
+                         + "onclick=\"addSticky('"+bucket+"', '"+task+"', '1')\"></img>"
               
               + "<textarea class='new note'"
                            + "id='b"+bucket+"t"+task+"n1'"
@@ -200,10 +202,10 @@ function addTaskToInfo(bucket, task, name) {
 function addBucketToInfo(bucket, name) {
   var html = "<div id='b"+bucket+"t0n' class='hiddenFloat'>"
               + "<h3 id='b"+bucket+"t0name'> Information about " + name + "</h3>"
-              + "<button type='button' "
+              + "<img src=\"../img/addStickyIcon.gif\" "
                          + "id='b"+bucket+"t0i1' "
                          + "class='stickyButton hidden' "
-                         + "onclick=\"addSticky('"+bucket+"', '0', '1')\"></button>"
+                         + "onclick=\"addSticky('"+bucket+"', '0', '1')\"></img>"
               
               + "<textarea class='new note'"
                            + "id='b"+bucket+"t0n1'"

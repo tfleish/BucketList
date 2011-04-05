@@ -62,7 +62,6 @@ button.newBucket {
   cursor: pointer;
 }
 
-
 #accordian {
 }
 
@@ -99,10 +98,6 @@ textarea.stickyNote {
   background: transparent;
   height: inherit;
   width: inherit;
-}
-
-button.stickyButton {
-  background: transparent url(../img/sticky.jpeg);
 }
 
 button.disabled {
