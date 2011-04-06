@@ -1,0 +1,193 @@
+<html><h1>The H1 tag looks like this</h1>
+<p>The paragraph tag after an H1 tag looks like this</p>
+<h2>The H2 tag looks like this</h2>
+<p>The paragraph tag after an H2 tag looks like this</p>
+<h3>The H3 tag looks like this</h3>
+<p>The paragraph tag after an H3 tag looks like this</p>
+<h4>The H4 tag looks like this</h4>
+<p>The paragraph tag after an H4 tag looks like this</p>
+<h5>The H5 tag looks like this</h5>
+<p>The paragraph tag after an H5 tag looks like this</p>
+<ol>
+<li><strong>This is a strong element in an ordered list</strong></li>
+<li><i>This is an italic element in an ordered list</i></li>
+<li><b>This is a bold element in an ordered list</b></li>
+<li><em>This is an emphasized element in an ordered list</em></li>
+<li>This is a regular element in an ordered list</li>
+</ol>
+<ul>
+<li><strong>This is a strong element in an unordered list</strong></li>
+<li><i>This is an italic element in an unordered list</i></li>
+<li><b>This is a bold element in an unordered list</b></li>
+<li><em>This is an emphasized element in an unordered list</em></li>
+<li>This is a regular element in an unordered list</li>
+</ul>
+<blockquote>The block quote element looks like this</blockquote>
+<pre>The pre element looks like this</pre>
+<code>The code element looks like this</code>
+<br/>
+<span>The span element looks like this</span>
+<br/>
+<a href="#">The anchor element looks like this</a>
+<br/>
+<br/>
+<div style="float:left;margin:20px;width:200px;">Text inside a div that is 200 pixels wide looks like this.  Text inside a div that is 200 pixels wide looks like this.  Text inside a div that is 200 pixels wide looks like this.  Text inside a div that is 200 pixels wide looks like this.  Text inside a div that is 200 pixels wide looks like this.  Text inside a div that is 200 pixels wide looks like this.  Text inside a div that is 200 pixels wide looks like this.  Text inside a div that is 200 pixels wide looks like this.  Text inside a div that is 200 pixels wide looks like this.  Text inside a div that is 200 pixels wide looks like this.</div>
+<div style="float:left;margin:20px;width:400px;">Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.  Text inside a div that is 400 pixels wide looks like this.</div>
+<div style="float:left;margin:20px;width:600px;">Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.  Text inside a div that is 600 pixels wide looks like this.</div><style>#container {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  background-color: #ddd;
+  border: 1px solid gray;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  height: 100%;
+}
+
+#list {
+  height: 100%;
+  width: 20%;
+  clear: left;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  background-color: #e6dcaf;
+  background-image: url('../img/featured_transparent_fade.png');
+  background-size: 100%;
+}
+
+#rightSide {
+  float: right;
+  height: 100%;
+  width: 80%;
+  background-color: #d8d6e0;
+  background-image: url('../img/background-fade.gif');
+  background-size: 100%;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+}
+
+#bulletin {
+  background-image: url('../img/bulletin.jpg');
+  background-repeat: repeat;
+  background-size: 100%;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  height: 65%;
+}
+
+#taskInfo {
+  background-color: transparent;
+  overflow-y: auto; 
+  height: 35%;
+}
+
+h2 {
+  text-align: center;
+}
+
+button.newBucket {
+  display: block;
+  width: 65%;
+  height: 30px;
+  margin: 0px auto;
+}
+
+#bucketName {
+  text-align: center;
+}
+
+#notesBox{
+	float: left;
+	width: 70%;
+}
+
+#extras {
+	float:right;
+	font-size:10pt;
+	margin:10px;
+}
+
+.dueOptBox {
+	border: 2px ridge gray;
+}
+
+.sticky {
+  width: 100px;
+  height: 128px;
+  position: absolute;
+  background-image: url('../img/sticky.gif');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  padding-left: 25px;
+  padding-top: 28px;
+  padding-right: 20px;
+  cursor: pointer;
+}
+
+.collabsBox {
+	border: 5px solid gray;
+}
+
+#accordian {
+}
+
+textarea {
+  border: none;
+  width: 80%;
+  height: 1.6em;
+  resize: none;
+  cursor: text;
+}
+
+textarea:focus {
+  outline: none;
+}
+
+textarea.new {
+  color: #aaa;
+  background-color: trasparent;  
+  display:inline-block;
+}
+
+textarea.real {
+  color: black;
+  display:inline-block;
+}
+
+textarea.note {
+  height: 2em;
+  border-bottom: dashed 1px;
+  border-color:-moz-use-text-color;
+}
+
+textarea.stickyNote {
+  background: transparent;
+  height: inherit;
+  width: inherit;
+}
+
+button.disabled {
+  visibility: hidden;
+}
+
+.hidden {
+  visibility:hidden;
+}
+
+.hiddenFloat {
+  display: none;
+  float: left;
+}
+
+.bucket {
+  position: auto;
+}
+
+.noteButton {
+  float: right;
+  
+}
+
+.clear {
+  clear: both;
+  line-height: 0px;
+}
+</style></html>
