@@ -201,16 +201,19 @@ function addTaskToInfo(bucket, task, name) {
                            + "id='b"+bucket+"t"+task+"n1'"
                            + "onfocus=\"noteFocus('"+bucket+"', '"+task+"', '1')\" "
                            + "onblur=\"noteBlur('"+bucket+"', '"+task+"', '1')\""
-                           + "onkeypress=\"ifEnter('#b"+bucket+"t"+task+"n1', event)\">New Note</textarea><br></div>";
+                           + "onkeypress=\"ifEnter('#b"+bucket+"t"+task+"n1', event)\">New Note</textarea><br>"
+						   +"<div class='divider'></div></div>";
 	
 	var collabs = "<div id='b" + bucket + "t"+task+"c' class='hiddenFloat'>"
-					+ "<h4 style='margin: 10px'>Collaborators</h4>"
+					+ "<div style='margin: 10px'><b>Collaborators</b>"
+					+ "<button type='button' style='float:right' "
+					+ "onclick='addCollaborator("+bucket+","+task+")'>Add</button></div>"
 					+ "<div id='b"+bucket+"t"+task+"collabs' class='collabsBox'>Becky</div></div>";
 	var due = "<div id='b" + bucket + "t"+task+"d' class='hiddenFloat dueOptBox'>"
 				+ "<h4 style='margin: 10px'>Due Date Options</h4>"
 				+ "<div>Due Date: "
-					+ "<textbox name='due' rows='1'>Enter the due date here.</textbox>"
-				+ "</div> <div>Remind me <textbox name='remind'></textbox> days in advance.</div> </div>";
+					+ "<input type='text' name='due' rows='1'></input>"
+				+ "</div> <div>Remind me <input type='text' name='remind' size='1'></input> days in advance.</div> </div>";
 	
     $("#notesBox").append(notes);
 	$("#collabsBar").append(collabs);
@@ -218,6 +221,9 @@ function addTaskToInfo(bucket, task, name) {
 
 }
 
+function addCollaborator(bucket, task) {
+	$('#b'+bucket+"t"+task+"collabs").append("<br> Hi");
+}
 function addBucketToInfo(bucket, name) {
   var notes = "<div id='b"+bucket+"t0n' class='hiddenFloat'>"
               + "<h3 id='b"+bucket+"t0name' style='margin: 10px'> Information about " + name + "</h3>"
@@ -230,7 +236,8 @@ function addBucketToInfo(bucket, name) {
                            + "id='b"+bucket+"t0n1'"
                            + "onfocus=\"noteFocus('"+bucket+"', '0', '1')\" "
                            + "onblur=\"noteBlur('"+bucket+"', '0', '1')\" "
-                           + "onkeypress=\"ifEnter('#b"+bucket+"t0n1', event)\">New Note</textarea><br></div>";
+                           + "onkeypress=\"ifEnter('#b"+bucket+"t0n1', event)\">New Note</textarea><br>"
+				+ "<div class='divider'></div></div>";
 	var collabs = "<div id='b" + bucket + "t0c' class='hiddenFloat'>"
 					+ "<h3 style='margin: 10px'>Collaborators</h3>"
 					+ "<div id='b"+bucket+"t0collabs' class='collabsBox'>Becky</div></div>";
