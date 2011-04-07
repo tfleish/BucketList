@@ -27,33 +27,13 @@
 	<body>
 	  <div id="container">
   
-    	<div id="rightSide">
-      	<div id="taskInfo">
-        
-		      <div id="welcome" style="margin: 10px">
-					<img src="img/nobucketLogo.gif" style="height:80%"></img>
-		      </div>
-
-          <div id="notesBox"></div>
-          <div id="extras">
-            <div id="dueOptions"></div>
-            <div id="collabsBar"></div>	
-          </div>
-        </div> <!-- END taskInfo -->
-
-      	<div id="bulletin">
-      	</div> <!-- END bulletin -->
-   
-      </div> <!-- END rightSide -->
-      
-      
-    	<div id="list">
+    	<div id="top">
+    	 <div id="list">
     	  <div style="padding: 5px"> Tamara Fleisher</div>
         <img src="img/logo.gif" id="logo"></img>
         
         <div id="accordion" style="font-size:62.5%;">               
-          <div class="bucketGroup">
-          </div> <!-- END bucketGroup -->   
+          <div class="bucketGroup"></div> <!-- END bucketGroup -->   
         </div> <!-- END accordion -->
 
         <br>
@@ -65,7 +45,24 @@
                     onblur="addBucket()"
                     onkeypress="ifEnter('#name', event)"></textarea><br>
         </div>
-    	</div> <!-- END list -->
+      </div> <!-- END list -->
+      <div id="taskInfo">
+		      <div id="welcome" style="margin: 10px">
+					<img src="img/nobucketLogo.gif"></img>
+		      </div>
+
+          <div id="notesBox"></div>
+          <div id="extras">
+            <div id="dueOptions"></div>
+            <div id="collabsBar"></div>	
+          </div>
+        </div> <!-- END taskInfo -->
+        <div class="clear"></div>
+      </div> <!-- END top -->
+      <div class="clear"></div>
+      <div id="bulletin"></div> <!-- END bulletin -->
+   
+      
     	
     	<div class="clear"></div>
     
