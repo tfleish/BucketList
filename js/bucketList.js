@@ -1,5 +1,6 @@
-$(document).ready(function(){
-	$(".sticky").draggable( {containment: "#bulletin"} );
+$(document).ready(function() {
+	$(".draggable").draggable( {containment: "#bulletin"} );
+	$(".resizable").resizable();
   setAccordion();
  });
 
@@ -131,9 +132,10 @@ function addSticky(bucket, task, note) {
   $(buttonId).attr("onclick", "");
   $(buttonId).css("opacity", "0.3");
   $(buttonId).css("filter", "alpha(opacity=30)");
-  var note = "<div class='sticky' id='"+id+"'><textarea class='stickyNote'>"+$(noteId).val()+"</textarea></div>";
+  var note = "<div class='sticky draggable resizable' id='"+id+"'><textarea class='stickyNote'>"+$(noteId).val()+"</textarea></div>";
   $("#bulletin").append(note);
-  $(".sticky").draggable( {containment: "#bulletin"} );
+  $(".draggable").draggable( {containment: "#bulletin"} );
+	$(".resizable").resizable();
 }
 
 function stickyType(Sid, Nid) {
