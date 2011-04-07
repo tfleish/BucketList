@@ -1,10 +1,11 @@
 var http = require('http');
-var sys = require('sys');
-var fs = require('fs');
 
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  var rs = fs.createReadStream('index.html');
-  sys.pump(rs, response);
+var s = http.createServer(function(req, res) {
+  res.writeHead(200, { 'content-type': 'text/plain' });
+  res.write("Hello\n");
+  setTimeout(function() {
+    res.end("tamara\n");
+  }, 2000);
+});
 
-}).listen(9316);
+s.listen(8080);
