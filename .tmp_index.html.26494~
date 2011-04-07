@@ -1,0 +1,120 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<title>BucketList</title>
+		
+		<link rel="stylesheet" href="css/bucketList.css" type="text/css">
+		
+		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+		
+		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.core.js"></script>
+ 		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.widget.js"></script>
+ 		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.mouse.js"></script>
+		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.draggable.js"></script>
+ 		<script type="text/javascript" src="3rdparty/jquery_1.4.2/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="3rdparty/jquery_1.4.2/jquery_libraries/jquery-ui-1.8.5.custom.min.js"></script>
+		
+		<script type="text/javascript" src="js/bucketList.js"></script>
+		
+		<script type="text/javascript" language="JavaScript">
+		  var currentView = "welcome";
+		</script>
+	</head>
+	
+	
+	<body>
+	  <div id="container">
+  
+    	<div id="rightSide">
+      	
+      	    <div id="taskInfo">
+        
+		      <div id="welcome" style="margin: 10px">
+					<img src="img/nobucketLogo.gif" style="height:80%"></img>
+		      </div>
+			  <div id="notesBox"></div>
+		       <!--    
+          <div id="b1t0n" class="hiddenFloat">
+            <h3 id="b1t0name"> Information about 6.033</h3>
+            
+            <button type="button" id="b1t0i1" class="stickyButton hidden" onclick="addSticky('1', '0', '1')"></button>
+            <textarea class="new note" 
+                      id="b1t0n1"
+                      onfocus="noteFocus('1', '0', '1')" 
+                      onblur="noteBlur('1', '0', '1')"
+                      onkeypress="ifEnter('#b1t0n1', event)"> New Note</textarea><br>
+          </div> 
+          
+          <div id="b1t1n" class="hiddenFloat">
+            <h3 id="b1t1name"> Information about DP1</h3>
+            
+            <button type="button" id="b1t1i1" class="stickyButton hidden" onclick="addSticky('1', '1', '1')"></button>
+            <textarea class="new note" 
+                      id="b1t1n1"
+                      onfocus="noteFocus('1', '1', '1')" 
+                      onblur="noteBlur('1', '1', '1')"
+                      onkeypress="ifEnter('#b1t1n1', event)"> New Note</textarea><br>
+          </div> -->
+            <div id="extras">
+            	<div id="dueOptions">
+            	</div>
+            	<div id="collabsBar">
+               	</div>	
+			</div>
+			
+        </div> <!-- END taskInfo -->
+
+      	<div id="bulletin">
+      	</div> <!-- END bulletin -->
+   
+      </div> <!-- END rightSide -->
+      
+      
+    	<div id="list">
+    	  Tamara Fleisher
+        <img src="img/logo.gif" id="logo"></img>
+        
+        <div id="accordion" style="font-size:62.5%;">     
+          
+          <div class="bucketGroup">
+            <!-- 
+            <h3><a href="#" id="b1name" onclick="setInfo('1', '0')">6.033</a></h3>
+            <div id="b1" class="bucket"> 
+              <input type="checkbox" id="b1c1">
+              <textarea class="task" 
+                        id="b1t1" 
+                        onfocus="taskFocus('1', '1')" 
+                        onblur="taskBlur('1', '1')"
+                        onkeypress="ifEnter('#b1t1', event)" 
+                        onkeyup="taskType('1', '1')">DP1</textarea><br>
+              
+              <input type="checkbox" class="hidden" id="b1c2">
+              <textarea class="new" 
+                        id="b1t2" 
+                        onfocus="taskFocus('2', '1')" 
+                        onblur="taskBlur('2', '1')" 
+                        onkeypress="ifEnter('#b1t2', event)"
+                        onkeyup="taskType('2', '1')">New Task</textarea><br>
+            </div> <!-- END  bucket -- >
+             -->
+          </div> <!-- END bucketGroup -->   
+        </div> <!-- END accordion -->
+        
+        <br>
+        <button type="button" class="newBucket" onclick="bucketName()">New Bucket</button><br>
+        <div id="bucketName" class="hidden">
+          Bucket Name:<br>
+          <textarea id="name" 
+                    onblur="addBucket()"
+                    onkeypress="ifEnter('#name', event)"></textarea><br>
+        </div>
+    	</div> <!-- END list -->
+    	
+    	<div class="clear"></div>
+    
+    </div> <!-- END container -->
+  </body>
+
+
+</html>

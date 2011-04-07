@@ -31,11 +31,14 @@
       	<div id="taskInfo">
         
 		      <div id="welcome" style="margin: 10px">
-		            Welcome to BucketList!
+					<img src="img/nobucketLogo.gif" style="height:80%"></img>
 		      </div>
 
-          <div id="collabsBar" class="hiddenFloat">	</div>
-			
+          <div id="notesBox"></div>
+          <div id="extras">
+            <div id="dueOptions"></div>
+            <div id="collabsBar"></div>	
+          </div>
         </div> <!-- END taskInfo -->
 
       	<div id="bulletin">
@@ -45,15 +48,17 @@
       
       
     	<div id="list">
-    	  Tamara Fleisher
-        <h2>BucketList</h2>
+    	  <div style="padding: 5px"> Tamara Fleisher</div>
+        <img src="img/logo.gif" id="logo"></img>
         
         <div id="accordion" style="font-size:62.5%;">               
           <div class="bucketGroup">
           </div> <!-- END bucketGroup -->   
         </div> <!-- END accordion -->
 
-        <button type="button" class="newBucket" onclick="bucketName()">New Bucket</button><br>
+        <br>
+        <button type="button" class="newBucket" onclick="bucketName()" alt="Click to create a new bucket.">New Bucket</button><br>
+
         <div id="bucketName" class="hidden">
           Bucket Name:<br>
           <textarea id="name" 
