@@ -1,0 +1,95 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<title>BucketList</title>
+		
+		<link rel="stylesheet" href="css/newbucketList.css" type="text/css">
+				
+		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+		
+		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.core.js"></script>
+ 		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.widget.js"></script>
+ 		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.mouse.js"></script>
+		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.draggable.js"></script>
+		
+		<script type="text/javascript" src="js/newbucketList.js"></script>
+		
+		<script type="text/javascript" language="JavaScript">
+			var nBuckets = 0;
+			var bucketsTasksNotes = [[[]]];
+		</script>
+	</head>
+	
+	
+  <body>
+    <div id="container">
+    	<div id="dropDownBar">
+    	  
+				<div id="nameDropDown">
+    		  <input type="button" id="nameButton" value = "Alice Packer" class="menu_class">
+							<ul name = "nameMenu" class="the_menu menu1">
+								<li>My Account</li>
+								<li>Settings</li>
+							</ul>
+					</input>
+    	  </div>
+				<div id="rightSideDropDowns">
+					<div id="alertDropDown">
+					  <input type="button" id="alertButton" value = "My Alerts" class="menu_class">
+							<ul name = "alertMenu" class="the_menu menu2">
+								<li>My First Alert</li>
+								<li>My Second Alert</li>
+							</ul>
+						</input>
+				  </div>
+	   	    
+					 <div id="myTasksDropDown">
+	    	   	<input type="button" id="tasksButton" value = "My Tasks" class="menu_class">
+							<ul id = "tasksMenu" class="the_menu menu3">
+								<li><textarea id="b0" class='new bucket' onfocus="bucketFocus(nBuckets)" onblur="bucketBlur(nBuckets)" onkeypress="ifEnter('#b0', event)">New Bucket</textarea></li>
+								<li onclick="addBucketToPaper('0','My First Bucket')">My First Bucket</li>
+							</ul>
+						</input>
+	      	</div>
+				</div>
+			</div>
+
+		<div id="paperHolder" class="draggable">
+			<div id="textHolder">
+				<div id="leftBox" style="width: 65%; float: left;">
+					<div id="topLeftBox" style="height: 9%; border-bottom: 1px solid black;">
+						<div width=20 style="float: left;">
+							 <img src="img/bucket.gif" id="bucketIcon" class="icon"></img>
+						</div>
+						<div>
+							<h5 id="paperTitle" style="position: relative;"></h5>
+						</div>
+					</div>
+					<div id="bottomLeftBox" style="height: 70%; border-right: 1px solid black;">
+					</div>
+				</div>
+				<div id="rightBox" style="width: 35%; float: right;">
+					<div id="topRightBox" style="height: 9%; border-bottom: 1px solid black;">
+						<div>
+					 		<h5 id="collabsTitle" style="float: left;"><b>Collaborators</b></h5>
+						</div>
+						<div>
+					 		<input type="button" id="addCollabButton" value="+" style="width: 20%; float: right; padding-top: 0px; padding-bottom: 0px;"></input>
+						</div>
+					</div>
+					<div id="bottomRightBox" style="height: 70%">
+					</div>
+				</div>
+			</div>
+		</div>
+    	</div>
+
+    
+    </div> <!-- END container -->
+  </body>
+
+
+</html>

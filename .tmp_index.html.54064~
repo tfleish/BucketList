@@ -1,0 +1,73 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<title>BucketList</title>
+		
+		<link rel="stylesheet" href="css/bucketList.css" type="text/css">
+		
+		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+		
+		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.core.js"></script>
+ 		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.widget.js"></script>
+ 		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.mouse.js"></script>
+		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.draggable.js"></script>
+		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.resizable.js"></script>
+ 		<script type="text/javascript" src="3rdparty/jquery_1.4.2/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="3rdparty/jquery_1.4.2/jquery_libraries/jquery-ui-1.8.5.custom.min.js"></script>
+		
+		<script type="text/javascript" src="js/bucketList.js"></script>
+		
+		<script type="text/javascript" language="JavaScript">
+		  var currentView = "welcome";
+		</script>
+	</head>
+	
+	
+	<body>
+	  <div id="container">
+  
+    	<div id="top">
+    	 <div id="list">
+    	  <div style="padding: 5px"> Tamara Fleisher</div>
+        <img src="img/logo.gif" id="logo"></img>
+        
+        <div id="accordion" style="font-size:62.5%;">               
+          <div class="bucketGroup"></div> <!-- END bucketGroup -->   
+        </div> <!-- END accordion -->
+
+        <br>
+        <button type="button" class="newBucket" onclick="bucketName()" alt="Click to create a new bucket.">New Bucket</button><br>
+
+        <div id="bucketName" class="hidden">
+          Bucket Name:<br>
+          <textarea id="name" 
+                    onblur="addBucket()"
+                    onkeypress="ifEnter('#name', event)"></textarea><br>
+        </div>
+      </div> <!-- END list -->
+      <div id="taskInfo">
+		      <div id="welcome" style="margin: 10px">
+					<img src="img/nobucketLogo.gif"></img>
+		      </div>
+
+          <div id="notesBox"></div>
+          <div id="extras">
+            <div id="dueOptions"></div>
+            <div id="collabsBar"></div>	
+          </div>
+        </div> <!-- END taskInfo -->
+        <div class="clear"></div>
+      </div> <!-- END top -->
+      <div class="clear"></div>
+      <div id="bulletin"></div> <!-- END bulletin -->
+   
+      
+    	
+    	<div class="clear"></div>
+    
+    </div> <!-- END container -->
+  </body>
+
+
+</html>

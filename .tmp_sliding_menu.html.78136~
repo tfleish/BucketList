@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Sliding Menu Tutorial | HV-DESIGNS.CO.UK</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="3rdparty/jquery_1.4.2/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="js/slider.js"></script>
+
+</head>
+
+<body>
+<div id="container">
+<div id="header">
+</div>
+
+<div id="button">
+<img src="images/button.png" width="184" height="32" class="menu_class" />
+<ul class="the_menu">
+<li><a href="#">A Website #1</a></li>
+<li><a href="#">A Website #2</a></li>
+<li><a href="#">A Link #1</a></li>
+<li><a href="#">A Link #2</a></li>
+<li><a href="#">A Website #3</a></li>
+<li><a href="#">A Website #4</a></li>
+<li><a href="#">A Link #3</a></li>
+<li><a href="#">A Link #4</a></li>
+</ul>
+</div>
+
+</div>
+</body>
+</html>

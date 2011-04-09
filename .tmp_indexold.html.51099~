@@ -1,0 +1,110 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<title>BucketList</title>
+		
+		<link rel="stylesheet" href="css/bucketList.css" type="text/css">
+		
+		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+		
+		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.core.js"></script>
+ 		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.widget.js"></script>
+ 		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.mouse.js"></script>
+		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.draggable.js"></script>
+ 		<!--<script type="text/javascript" src="3rdparty/jquery_1.4.2/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="3rdparty/jquery_1.4.2/jquery_libraries/jquery-ui-1.8.5.custom.min.js"></script>-->
+		
+		<script type="text/javascript" src="js/bucketList.js"></script>
+		
+		<script type="text/javascript" language="JavaScript">
+		  var currentView = "welcome";
+		  $(".datepicker").fuckjquery();
+		</script>
+		
+
+	</head>
+	
+	
+	<body>
+	  <div id="container">
+  
+    	<div id="rightSide">
+      	
+      	    <div id="taskInfo">
+        
+		      <div id="welcome" style="margin: 10px">
+					<div id="welcomeLogo"><img src="img/nobucketLogo.gif" id="welcomePic"></img></div>
+					<div id="flavorText"> BucketList is a shared task-management application that allows you to easily create group to-do lists.
+					<br><br> Once you have an account, you can create "buckets" - categories for your tasks. 
+					Then you can share these buckets with your friends, and assign different tasks to different
+					groups of people.  You can als write and share notes about each task, to make sure you and your
+					group are on the same page. Now that you know what BucketList does, make an account and get started!</div>
+		      </div>
+			  <div id="notesBox"></div>
+		   
+            <div id="extras">
+            	
+            	<div id="dueOptions">
+            	</div>
+            	<div id="collabsBar">
+               	</div>	
+			</div>
+			
+        </div> <!-- END taskInfo -->
+
+      	<div id="bulletin">
+      	</div> <!-- END bulletin -->
+   
+      </div> <!-- END rightSide -->
+      
+      
+    	<div id="list">
+    	  <div style="padding: 5px"> Tamara Fleisher</div>
+        <img src="img/logo.gif" id="logo"></img>
+        
+        <div id="accordion" style="font-size:62.5%;">     
+          
+          <div class="bucketGroup">
+            <!-- 
+            <h3><a href="#" id="b1name" onclick="setInfo('1', '0')">6.033</a></h3>
+            <div id="b1" class="bucket"> 
+              <input type="checkbox" id="b1c1">
+              <textarea class="task" 
+                        id="b1t1" 
+                        onfocus="taskFocus('1', '1')" 
+                        onblur="taskBlur('1', '1')"
+                        onkeypress="ifEnter('#b1t1', event)" 
+                        onkeyup="taskType('1', '1')">DP1</textarea><br>
+              
+              <input type="checkbox" class="hidden" id="b1c2">
+              <textarea class="new" 
+                        id="b1t2" 
+                        onfocus="taskFocus('2', '1')" 
+                        onblur="taskBlur('2', '1')" 
+                        onkeypress="ifEnter('#b1t2', event)"
+                        onkeyup="taskType('2', '1')">New Task</textarea><br>
+            </div> <!-- END  bucket -- >
+             -->
+          </div> <!-- END bucketGroup -->   
+        </div> <!-- END accordion -->
+        
+        <br>
+        <button type="button" class="newBucket" onclick="bucketName()" alt="Click to create a new bucket.">New Bucket</button><br>
+        <div id="bucketName" class="hidden">
+          Bucket Name:<br>
+          <textarea id="name" 
+                    onblur="addBucket()"
+                    onkeypress="ifEnter('#name', event)"></textarea><br>
+        </div>
+    	</div> <!-- END list -->
+    	
+    	<div class="clear"></div>
+    
+    </div> <!-- END container -->
+  </body>
+
+
+</html>
