@@ -4,4 +4,5 @@ var Task = function(name, bucket) {
 	this.notes = [];
 	this.dueDate = null;
 	this.collabs = [];
+	this.done = false;
 }
