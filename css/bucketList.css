@@ -13,7 +13,7 @@
 }
 
 #list {
-  height: 50%;
+  height: 30%;
   width: 19%;
   -moz-border-radius: 15px;
   border-radius: 15px;
@@ -49,7 +49,7 @@
   -moz-border-radius: 15px;
   border-radius: 15px;
   border: 1px solid black;
-  height: 50%;
+  height: 70%;
 }
 
 #taskInfo {
@@ -61,7 +61,7 @@
   border: 1px solid black;
   overflow-y: auto; 
   float: right;
-  height: 50%;
+  height: 30%;
   width: 80%;
 }
 

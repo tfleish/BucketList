@@ -21,7 +21,9 @@ $(document).ready(function() {
 		$('ul.menu4').slideToggle('fast');
 	});
 	
- });
+	$( "#accordion" ).accordion();
+	
+});
  
  
 // This function is called whenever we open a Bucket View on a paper

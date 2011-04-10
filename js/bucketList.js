@@ -2,7 +2,7 @@ $(document).ready(function() {
 	$(".draggable").draggable( {containment: "#bulletin"} );
 	$(".resizable").resizable();
   setAccordion();
- });
+});
 
 
 // This function sets the taskInfo pannel to contain the appropriate information

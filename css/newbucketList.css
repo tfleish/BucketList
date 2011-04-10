@@ -28,8 +28,11 @@
 	float: right;
 }
 
-#addCollabButton {
-	display: inline-block;
+button#addCollabButton {
+	display: block;
+  width: 30px;
+  height: 30px;
+  margin: 0px auto;
 }
 
 #paperHolder {
