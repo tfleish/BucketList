@@ -2,6 +2,7 @@
  * @author Becky
  */
 $(document).ready(function() {
+	
 	$(".draggable").draggable( {containment: "#container"} );
 	
 	//Set drop downs
@@ -21,21 +22,41 @@ $(document).ready(function() {
 		$('ul.menu4').slideToggle('fast');
 	});
 	
+	$('.alertMenus').click(function() {
+		$('ul.menu5').slideToggle('fast');
+	})
+	
 	$( "#accordion" ).accordion();
 	
 });
  
+
+function enterBucketList() {
+	if($('#nameEntry').val()!="") {
+		$('#nameButton').attr("value", $('#nameEntry').val());
+	}
+	$('#welcomeHolder').addClass('hidden');
+	$('#accountCreate').addClass('hidden');
+	$('#bottomBar').removeClass('hidden');
+	$('#dropDownBar').removeClass('hidden');
+	$('#enterScreen').removeClass('hidden');
+}
+
+function createAccount() {
+	$('#welcomeHolder').addClass('hidden');
+	$('#accountCreate').removeClass('hidden');
+}
  
 // This function is called whenever we open a Bucket View on a paper
 // Takes in the organizer index of a Bucket object.
 function addBucketToPaper(bucket) {
+
 	var bucketObj = organizer[parseInt(bucket)]; // get Bucket object
 	currentView = bucketObj;
 	
 	var name = bucketObj.name;
-	$("#paperTitle").text(name); // Set the title of the paper
-	$('#welcomeHolder').addClass('hidden');
-	$('#paperHolder').removeClass('hidden');
+	$("#paperTitle").html(name); // Set the title of the paper
+	$('#enterScreen').addClass('hidden');
 	$('#textHolder').removeClass('hidden'); // Make the paper appear, if it is currently invisible
 	$("#bucketIcon").removeClass('hidden'); // Set icon in corner (will be different for buckets/tasks)
 	$("#bucketIcon").attr('src', "img/bucket.gif")
@@ -47,8 +68,8 @@ function addBucketToPaper(bucket) {
 	//id of taskbox is b(bucketNumber)taskBox
 	//we add just the one New Task line
 	var notes = "<div id='b"+bucket+"t' class='noteBox'>"
-							+ "<h5 style='float:left'>Tasks</h5>"
-							+ "<h5 style='float:right; padding-right:5px'>Due</h5>"
+							+ "<h4 style='float:left'>Tasks</h4>"
+							+ "<h4 style='float:right; padding-right:5px'>Due</h4>"
               + "<textarea class='new task'"
                            + "id='b"+bucket+"taskBox'"
                            + "onfocus=\"taskFocus('"+bucket+"')\" "
@@ -70,7 +91,7 @@ function addBucketToPaper(bucket) {
 function toggleBox() {
 	if($("#bucketIcon").attr('src')=="img/checkbox-empty.png"){
 		$("#bucketIcon").attr('src', "img/checkbox-full.png")
-	} else{
+	} else if($("#bucketIcon").attr('src')=="img/checkbox-full.png"){
 		$("#bucketIcon").attr('src', "img/checkbox-empty.png");
 	}
 }
@@ -79,8 +100,16 @@ function toggleBox() {
 //Takes in the number of the bucket and the number of the task.
 function addTaskToPaper(b, t) {
 	var task = organizer[b].tasks[t]; // Get task from organizer
+	name = task.name;
 	currentView = task;
-	$("#paperTitle").text(task.name);
+	
+	$("#paperTitle").text(name); // Set the title of the paper
+	$('#welcomeHolder').addClass('hidden');
+	$('#paperHolder').removeClass('hidden');
+	$('#textHolder').removeClass('hidden'); // Make the paper appear, if it is currently invisible
+	$("#bucketIcon").removeClass('hidden'); // Set icon in corner (will be different for buckets/tasks)
+	
+	$("#bucketIcon").attr('src', "img/checkbox-empty.png");
 
 	var collabs=task.collabs;
 	
@@ -88,7 +117,7 @@ function addTaskToPaper(b, t) {
 	//id of outer div is b(bucketNum)t(taskNum)n
 	//id of noteBox is b(bucketNum)t(taskNum)noteBox
 	var notes = "<div id='b"+b+"t"+t+"n' class='noteBox'>"
-							+ "<h5>Notes</h5>"
+							+ "<h4>Notes</h4>"
               + "<textarea class='new note'"
                            + "id='b"+b+"t"+t+"noteBox'"
                            + "onfocus=\"noteFocus('"+b+"','"+t+"')\" "
@@ -208,22 +237,27 @@ function taskBlur(bucket) {
                            + "onclick=\"addTaskSticky('"+bucket+"', '"+String(currentTaskNum)+"')\"></img>";
 													 
 		//create a new line of text on the list of tasks with id b(bucketNum)t(taskNum)
-    var newText = "<textarea class='note' "
+		rows = Math.ceil(name.length/16);
+    	var newText = "<textarea class='task fixed' "
                              + "id='" + currentTask +"'"
-														 +"onclick='addTaskToPaper("+bucket+","+String(currentTaskNum)+")'>"
-                             +name+"</textarea><br>";
+							 +"onclick='addTaskToPaper("+bucket+","+String(currentTaskNum)+")'"
+							 +"rows='"+String(rows)+"' "
+							 +"style='float:left;'>"
+                             +name+"</textarea>"
+                             +"<input type='textbox' style='width: 7em; float:right;' class='date' id='datepicker"+currentTask+"'><br>";
+		
+		$( ".date" ).datepicker();
 		
 		//reset taskbox
 		$(taskbox).text('New Task');
 		$(taskbox).css('color', '#aaa');
 		$(taskbox).addClass('new');
 		$(taskbox).onkeypress="ifEnter('#b"+bucket+"taskBox, event)";
-    $('#b'+bucket+'t').append(newIcon+newText);
+    $('#b'+bucket+'t').append("<div style='float: left'>"+newIcon+newText+"</div>");
 
 	}
 }
 
-//called when a note is focused in TaskView
 function noteFocus(bucket, task) {
   var id = '#b'+bucket+'t'+task+'noteBox';
   if ($(id).hasClass('new')) {
@@ -260,7 +294,11 @@ function noteBlur(bucket, task) {
 				//create a new line of text on the list of tasks with id b(bucketNum)t(taskNum)
 				var newText = "<textarea class='note' " 
 							+"id='"+currentNote +"'" +">" 
-							+name+"</textarea><br>";
+							+name+"</textarea>"
+							+"<img src='img/alert_icon.gif' class='menu_class alertMenus' style='float: right; width:7%; height:auto;'>"
+							+"<ul class='the_menu menu5' style='float: right;'>"
+							+ "<li><textarea class='new collab' onfocus='collabFocus()'>Enter name</textarea></li></ul>"
+							+"</input><br>";
 				
 				//reset taskbox
 				$(notebox).text('New Note');
@@ -272,27 +310,86 @@ function noteBlur(bucket, task) {
 }
 
 function addSticky(bucket, task, note) {
+  var pos = getRandomPosition()
   var id = 'b'+bucket+'t'+task+'n'+note+'s';
   var noteId = '#b'+bucket+'t'+task+'n'+note;
   var buttonId = '#b'+bucket+'t'+task+'n'+note+'i';
   $(buttonId).attr("onclick", "");
   $(buttonId).css("opacity", "0.3");
   $(buttonId).css("filter", "alpha(opacity=30)");
-  var note = "<div class='sticky draggable resizable' id='"+id+"'><textarea class='stickyNote'>"+$(noteId).val()+"</textarea></div>";
+  var note = "<div class='sticky draggable resizable' id='"+id+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\"><div class='stickyNote'>"+$(noteId).val()+"</div><div class='xbutton' onclick=\"closeSticky('"+id+"', '"+bucket+"', '"+task+"', '"+note+"')\" style='float: right; position: absolute; top: 2px; right:2px;'>x</div></div>";
+  $('#'+id).removeClass('hidden');
   $("#container").append(note);
   $(".draggable").draggable( {containment: "#container"} );
 }
 
+function closeSticky(id, bucket, task, note) {
+	$('#'+id).addClass('hidden');
+	var buttonId = '#b'+bucket+'t'+task+'n'+note+'i';
+	var clickFn = "addSticky('"+bucket+"', '"+task+"', '"+note+"')"
+	$(buttonId).attr("onclick", clickFn);
+  	$(buttonId).css("opacity", "1");
+  	$(buttonId).css("filter", "alpha(opacity=100)");
+}
+
 function addTaskSticky(bucket, task) {
+  var pos = getRandomPosition()
   var id = 'b'+bucket+'t'+task+'s';
-	var taskID = '#b'+bucket+'t'+task;
+  var taskID = '#b'+bucket+'t'+task;
   var buttonId = '#b'+bucket+'t'+task+'i';
   $(buttonId).attr("onclick", "");
   $(buttonId).css("opacity", "0.3");
   $(buttonId).css("filter", "alpha(opacity=30)");
-  var note = "<div class='taskSticky draggable resizable' id='"+id+"'><textarea class='stickyNote'>"+$(taskID).val()+"</textarea></div>";
+  var note = "<div class='taskSticky draggable resizable' id='"+id+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\"><div class='stickyNote'>"+$(taskID).val()+"</div><div class='xbutton' onclick=\"closeTaskSticky('"+id+"', '"+bucket+"', '"+task+"')\" style='float: right; position: absolute; top: 2px; right:2px;'>x</div></div>";
+  $('#'+id).removeClass('hidden');
   $("#container").append(note);
   $(".draggable").draggable( {containment: "#container"} );
+}
+
+function closeTaskSticky(id, bucket, task) {
+	$('#'+id).addClass('hidden');
+	var buttonId = '#b'+bucket+'t'+task+'i';
+	var clickFn = "addTaskSticky('"+bucket+"', '"+task+"')"
+	$(buttonId).attr("onclick", clickFn);
+  	$(buttonId).css("opacity", "1");
+  	$(buttonId).css("filter", "alpha(opacity=100)");
+}
+
+function getRandomPosition() {
+	var position = $('#paperHolder').position()
+	var paperTop = position.top;
+	var paperBottom = $('#paperHolder').height() + position.top;
+	var paperLeft = position.left;
+	var paperRight = $('#paperHolder').width() + position.left;
+	
+	var screenWidth = window.innerWidth;
+	var screenHeight = window.innerHeight;
+	
+	var stickyWidth = 75//$('.sticky').width();
+	var stickyHeight = 96//$('.sticky').height();
+	
+	function getRandomHeight() {
+		var ht=Math.floor(Math.random()*screenHeight);
+		if ((ht + stickyHeight > screenHeight)) {
+			return getRandomHeight();
+		} else {
+			return ht;
+		}
+	}
+
+	ht = getRandomHeight();
+	
+	function getRandomWidth() {
+		var wid=Math.floor(Math.random()*screenWidth);
+		if ((wid + stickyWidth > screenWidth) || ((paperLeft<wid + stickyWidth) && (wid + stickyWidth<paperRight) && (paperTop<ht + stickyHeight) && (ht + stickyHeight<paperBottom)) || ((paperLeft<wid) && (wid<paperRight) && (paperTop<ht) && (ht<paperBottom))) {
+			return getRandomWidth();
+		} else {
+			return wid;
+		}
+	}
+	wid = getRandomWidth();
+	
+	return [ht, wid]
 }
 
 function ifEnter(field, event) {

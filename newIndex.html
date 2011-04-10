@@ -5,25 +5,33 @@
 		<title>BucketList</title>
 		
 		<link rel="stylesheet" href="css/newbucketList.css" type="text/css">
+		<link rel="stylesheet" href="http://hackingon.net/files/jquery_datepicker/ui.all.css" type="text/css" media="screen" />
 				
 		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 		
 		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.core.js"></script>
  		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.widget.js"></script>
  		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.mouse.js"></script>
 		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.draggable.js"></script>
-		
+
 		<script type="text/javascript" src="js/newbucketList.js"></script>
 		<script type="text/javascript" src="js/Bucket.js"></script>
 		<script type="text/javascript" src="js/Task.js"></script>
 		<script type="text/javascript" src="js/Note.js"></script>
 		
 		<script type="text/javascript" language="JavaScript">
-			var nBuckets = 1;
+			var nBuckets = 2;
 			var firstBucket = new Bucket("My First Bucket", 0);
-			var organizer=[firstBucket];
+			var secondBucket = new Bucket("Another Bucket", 1);
+			var task1 = new Task("Task #1", firstBucket, 0);
+			var task2 = new Task("Task #2", firstBucket, 1);
+			var task3 = new Task("Task #3", secondBucket, 0);
+			var task4 = new Task("Task #4", secondBucket, 1);
+			firstBucket.tasks = [task1, task2];
+			secondBucket.tasks = [task3, task4];
+			var organizer=[firstBucket, secondBucket];
 			var currentView=null;
 		</script>
 	</head>
@@ -31,63 +39,85 @@
 	
   <body>
     <div id="container">
-    	<div id="dropDownBar">
-    	  
-				<div id="nameDropDown">
-    		  <input type="button" id="nameButton" value = "Alice Packer" class="menu_class" style="background-color:#bbfb66">
-							<ul name = "nameMenu" class="the_menu menu1">
-								<li>My Account</li>
-								<li>Settings</li>
-							</ul>
+    	<div id="dropDownBar" class='hidden'>
+			<div id="nameDropDown">
+		  		<input type="button" id="nameButton" value = "Alice Packer" class="menu_class" style="background-color:#bbfb66">
+						<ul name = "nameMenu" class="the_menu menu1">
+							<li>My Account</li>
+						</ul>
+				</input>
+	  		</div>
+			<div id="rightSideDropDowns">
+				<div id="alertDropDown">
+				  <input type="button" id="alertButton" value = "My Alerts (3)" class="menu_class" style="background-color: #ffaaed">
+						<ul name = "alertMenu" class="the_menu menu2">
+							<li onclick="addBucketToPaper('0','My First Bucket')"><b>My First Bucket</b></li>
+							<li onclick="addTaskToPaper(1, 0,'Task #3')">Task #3</li>
+						</ul>
 					</input>
-    	  </div>
-				<div id="rightSideDropDowns">
-					<div id="alertDropDown">
-					  <input type="button" id="alertButton" value = "My Alerts" class="menu_class" style="background-color: #ffaaed">
-							<ul name = "alertMenu" class="the_menu menu2">
-								<li>My First Alert</li>
-								<li>My Second Alert</li>
-							</ul>
-						</input>
-				  </div>
-	   	    
-					 <div id="myTasksDropDown">
-	    	   	<input type="button" id="tasksButton" value = "My Tasks" class="menu_class" style="background-color: #fcf589">
-							<ul id = "tasksMenu" class="the_menu menu3">
-								<li><textarea id="bucketInput" class='new bucket' onfocus='bucketFocus(nBuckets)' onblur="bucketBlur(nBuckets)" onkeypress="ifEnter('#bucketInput', event)">New Bucket</textarea></li>
-								<li onclick="addBucketToPaper('0','My First Bucket')">My First Bucket</li>
-							</ul>
-						</input>
-	      	</div>
-				</div>
+			  	</div>
+   	    
+				<div id="myTasksDropDown">
+    	   			<input type="button" id="tasksButton" value = "My Buckets" class="menu_class" style="background-color: #fcf589;">
+						<ul id = "tasksMenu" class="the_menu menu3">
+							<li><textarea id="bucketInput" class='new bucket' onfocus='bucketFocus(nBuckets)' onblur="bucketBlur(nBuckets)" onkeypress="ifEnter('#bucketInput', event)">New Bucket</textarea></li>
+							<li onclick="addBucketToPaper('0','My First Bucket')">My First Bucket</li>
+							<li onclick="addBucketToPaper('1', 'Another Bucket')">Another Bucket</li>
+						</ul>
+					</input>
+      			</div>
 			</div>
-
-		<div id="welcomeHolder" class="draggable" style="top: 150px; left: 150px;">
-			<img src="img/nobucketLogo.gif" style="width: 100%; padding-top: 5%;"></img>
-			<div style="text-align: center; padding: 15px; font-size: 10pt;"> To get started, click in "My Tasks" to create a new Bucket!</div>
 		</div>
 		
-		<div id="paperHolder" class="hidden draggable">	
+		<div id="paperHolder" class="draggable">	
+			<div id="welcomeHolder" class='tempscreen'>
+				<img src="img/nobucketLogo.gif" style="width: 360px; padding-top: 3%;"></img>
+				<div style="text-align: left; padding: 0px; font-size: 10pt;"> 
+					<div>Username: <input type="text"></input></div>
+					<div>Password: <input type="password"></input></div>
+					<div>
+						<button type="button" onclick="enterBucketList()">Log in</button>
+						<button type="button" style='float:right' onclick="createAccount()">Need an account?</button>
+					</div>
+				</div>
+			</div>
+			<div id="enterScreen" class="hidden tempscreen">
+				<img src="img/nobucketLogo.gif" style="width: 360px; padding-top: 3%;"></img>
+				<div style="text-align: center; padding: 0px; font-size: 10pt;"> 
+					Log in was successful.  Time to get to work! See a list of buckets by clicking on "My Buckets."
+				</div>
+			</div>
+			<div id="accountCreate" class='hidden tempscreen'>
+				<div style="padding-top: 0px; font-size: 10pt;"> 
+					<img src="img/nobucketLogo.gif" style="width: 360px; padding-top: 3%;"></img>
+					<div>Name: <input id="nameEntry" type="text"></input></div>
+					<div>Username: <input type="text" style='width:8em'></input></div>
+					<div style='float:left;'>Password: <input type="password" style='width:8em';></input></div>
+					<div style='float: right'>
+						<button type="button" onclick="enterBucketList()">Create account and log in</button>
+					</div>
+				</div>
+			</div>
 			<div id="textHolder" class="hidden">
 				<div id="leftBox" style="width: 65%; float: left;">
-					<div id="topLeftBox" style="height: 9%; border-bottom: 1px solid black;">
-						<div width=20 style="float: left;">
-							 <img id="bucketIcon" class='hidden icon'></img>
+					<div id="topLeftBox" style="height: 10%; border-bottom: 1px solid black;">
+						<div>
+							 <img style="float: left" id="bucketIcon" class='hidden icon' onclick='toggleBox()'></img>
 						</div>
 						<div>
-							<h5 id="paperTitle" style="position: relative;"></h5>
+							<textarea class="h2" id="paperTitle" onkeypress="ifEnter('#paperTitle', event)"></textarea>
 						</div>
 					</div>
 					<div id="bottomLeftBox" style="height: 70%; border-right: 1px solid black;">
 					</div>
 				</div>
 				<div id="rightBox" style="width: 35%; float: right;">
-					<div id="topRightBox" style="height: 9%; border-bottom: 1px solid black;">
+					<div id="topRightBox" style="height: 10%; border-bottom: 1px solid black;">
 						<div>
 					 		<h5 id="collabsTitle" style="float: left;"><b>Collaborators</b></h5>
 						</div>
 						<div>
-					 		<input type="button" class="menu_class" id="addCollabButton" value="+" style="width: 20%; float: right; padding-top: 0px; padding-bottom: 0px;">
+					 		<img src="img/plusButton.png" class="menu_class" id="addCollabButton" style="width: 20%; height: auto; float: right; padding-top: 0px; padding-bottom: 0px;">
 								<ul id = "collabsMenu" class="the_menu menu4" style="float: left;">
 									<li><textarea id="collabInput" class='new collab' onfocus='collabFocus()' onblur="collabBlur()" onkeypress="ifEnter('#collabInput', event)">Enter name</textarea></li>
 								</ul>
@@ -99,8 +129,12 @@
 				</div>
 			</div>
 		</div>
-   </div>
-  </div> <!-- END container -->
+		<div id="bottomBar" style="position:fixed; bottom: 14px; right: 23px;" class='hidden'>
+			<div id="clearButtonDiv" style="float: right;">
+				<input type="button" id="clearCompleted" value = "Clear Completed Tasks" class="menu_class" style="background-color: #23c3ff; width:auto;">
+			</div>
+		</div>
+	</div> <!-- END container -->
   </body>
 
 

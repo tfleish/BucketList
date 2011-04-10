@@ -28,11 +28,12 @@
 	float: right;
 }
 
-button#addCollabButton {
+#addCollabButton {
 	display: block;
   width: 30px;
   height: 30px;
   margin: 0px auto;
+  cursor: pointer;
 }
 
 #paperHolder {
@@ -51,17 +52,17 @@ button#addCollabButton {
 	padding-top: 8%;
 	padding-right: 10px;
 	padding-bottom: 8%;
-	float: top;
+	position: relative;
 }
 
-#welcomeHolder{
-	height: 247px;
-	width: 380px;
-	float: left;
-	background-size: 100%;
-	background-repeat: no-repeat;
-	background-image: url('../img/paper2.png');
+.tempscreen{
+	background-color="transparent";
 	font-size: 11pt;
+	padding-left: 10px;
+	padding-top: 3%;
+	padding-right: 10px;
+	padding-bottom: 8%;
+	position: absolute;
 }
 
 .collabsBox {
@@ -79,13 +80,19 @@ button#addCollabButton {
 
 h5 {
 	font-size: small;
+	margin-top:6px; 
+	margin-bottom:0px;
+}
+
+h4 {
+	font-size: small;
 	margin-top:0px; 
 	margin-bottom:0px;
 }
 
 .icon {
-	height: 15px;
-	width: 15px;
+	height: 22px;
+	width: 22px;
 }
 
 .persona {
@@ -99,6 +106,8 @@ ul, li {
 }
 
 .menu_class {
+	font-family: "Handwriting - Dakota";
+	font-weight: bold;
 	font-size: 10pt;
 	width: 12em;
 	height: 30px;
@@ -120,6 +129,10 @@ ul, li {
 	display:block;
 }
 
+.menu4 li {
+	background-color: #ececec;
+}
+
 .the_menu li:hover {
 	font-weight:bold;
 }
@@ -134,7 +147,7 @@ ul, li {
   padding-left: 10px;
   padding-top: 15px;
   padding-right: 8px;
-  cursor: pointer;
+  cursor: move;
 }
 
 .taskSticky {
@@ -147,9 +160,12 @@ ul, li {
   padding-left: 10px;
   padding-top: 15px;
   padding-right: 8px;
-  cursor: pointer;
+  cursor: move;
 }
 
+.xbutton {
+	cursor: pointer;
+}
 
 .stickyButton{
 	width: 15px;
@@ -159,12 +175,19 @@ ul, li {
 }
 
 textarea {
+	font-family: courier;
 	background: transparent;
   border: none;
-  width: 80%;
-  height: 1.6em;
-  resize: none;
+  width: auto;
+  height: 2em;
   cursor: text;
+}
+
+textarea.h2 {
+	font-family: "Handwriting - Dakota";
+	font-size: large;
+	font-weight: bold;
+	height: 3em;
 }
 
 textarea:focus {
@@ -174,8 +197,6 @@ textarea:focus {
 textarea.new {
   color: #aaa;
   background-color: #ffffff;  
-	opacity: 0.3;
-	filter: alpha(opacity=30);
   display:inline-block;
 }
 
@@ -185,28 +206,34 @@ textarea.real {
 }
 
 textarea.note {
-  height: 2em;
   border-bottom: dashed 1px;
   border-color:-moz-use-text-color;
 }
 
 textarea.bucket {
-	height: 2em;
   border-bottom: dashed 1px;
   border-color:-moz-use-text-color;
+  
 }
 
 textarea.task {
-	height: 2em;
   border-bottom: dashed 1px;
   border-color:-moz-use-text-color;
 }
 
 
-textarea.stickyNote {
+.stickyNote {
   background: transparent;
+  font-size: x-small;
+  font-family: Helvetica;
   height: inherit;
   width: inherit;
+}
+
+.fixed{
+	height: auto;
+	cursor: pointer;
+	width: 55%;
 }
 
 .hidden {
