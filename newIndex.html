@@ -48,7 +48,7 @@
 	  		</div>
 			<div id="rightSideDropDowns">
 				<div id="alertDropDown">
-				  <input type="button" id="alertButton" value = "My Alerts (3)" class="menu_class" style="background-color: #ffaaed">
+				  <input type="button" id="alertButton" value = "My Alerts (1)" class="menu_class" style="background-color: #ffaaed">
 						<ul name = "alertMenu" class="the_menu menu2">
 							<li onclick="addBucketToPaper('0','My First Bucket')"><b>My First Bucket</b></li>
 							<li onclick="addTaskToPaper(1, 0,'Task #3')">Task #3</li>
@@ -64,16 +64,16 @@
 								<div><img id="b0expand" class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion('0')"></img></div>
 								<div onclick="addBucketToPaper('0','My First Bucket')">My First Bucket</div>
 								<div id="b0accordion" class='hidden' style="position:absolute">
-									<input type="checkbox"></input> Task #1 <br>
-									<input type="checkbox"></input> Task #2
+									<input type="checkbox" style='float:left'></input><div onclick="addTaskToPaper(0, 0,'Task #1')"> Task #1</div>
+									<input type="checkbox" style='float:left'></input><div onclick="addTaskToPaper(0, 1,'Task #2')"> Task #2 </div>
 								</div>
 							</li>
 							<li>
 								<img id='b1expand' class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion('1')"></img>
 								<div onclick="addBucketToPaper('1', 'Another Bucket')">Another Bucket</div>
 								<div id="b1accordion" class='hidden' style="position:absolute">
-									<input type="checkbox"></input> Task #1 <br>
-									<input type="checkbox"></input> Task #2
+									<input type="checkbox" style='float:left'></input> <div onclick="addTaskToPaper(1, 0,'Task #3')"> Task #3</div>
+									<input type="checkbox" style='float:left'></input> <div onclick="addTaskToPaper(1, 1,'Task #4')"> Task #4</div>
 								</div>
 							</li>
 						</ul>

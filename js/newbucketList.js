@@ -62,7 +62,6 @@ function toggleAccordion(id) {
 // This function is called whenever we open a Bucket View on a paper
 // Takes in the organizer index of a Bucket object.
 function addBucketToPaper(bucket) {
-
 	var bucketObj = organizer[parseInt(bucket)]; // get Bucket object
 	currentView = bucketObj;
 	
@@ -181,7 +180,7 @@ function bucketBlur(bucket) {
 		organizer[parseInt(bucket)]=bucketObj; // and add it to the organizer
 		var newBucket = "<li>"
 						+"<img id='b"+newBucketNum+"expand' class='expandButton' style='float:left' src='img/plus_green.gif' onclick=\"toggleAccordion('"+newBucketNum+"')\"></img>"
-						+"<div onclick=\"addBucketToPaper('"+newBucketNum+"', '"+name+"')'\">"+name+"</div>"
+						+"<div onclick=\"addBucketToPaper('"+newBucketNum+"')\">"+name+"</div>"
 						+"<div id='b"+newBucketNum+"accordion' class='hidden' style='position:absolute'>"
 						+"</div>"
 						+"</li>"
@@ -261,6 +260,7 @@ function taskBlur(bucket) {
                            + "id='"+currentTaskIcon+"'"
                            + "class='stickyButton' "
                            + "onclick=\"addTaskSticky('"+bucket+"', '"+String(currentTaskNum)+"')\"></img>";
+        var checkbox = "<input type='checkbox' style='float:left'></input>"
 													 
 		//create a new line of text on the list of tasks with id b(bucketNum)t(taskNum)
 		rows = Math.ceil(name.length/16);
@@ -279,7 +279,7 @@ function taskBlur(bucket) {
 		$(taskbox).css('color', '#aaa');
 		$(taskbox).addClass('new');
 		$(taskbox).onkeypress="ifEnter('#b"+bucket+"taskBox, event)";
-    $('#b'+bucket+'t').append("<div style='float: left'>"+newIcon+newText+"</div>");
+    $('#b'+bucket+'t').append("<div style='float: left'>"+newIcon+checkbox+newText+"</div>");
 
 	}
 }
