@@ -43,7 +43,7 @@
     	  </div>
 				<div id="rightSideDropDowns">
 					<div id="alertDropDown">
-					  <input type="button" id="alertButton" value = "My Alerts" class="menu_class" style="background-color: #ffaaed">
+					  <input type="button" id="alertButton" value = "My Alerts" class="menu_class" style="background-color: #e83b94">
 							<ul name = "alertMenu" class="the_menu menu2">
 								<li>My First Alert</li>
 								<li>My Second Alert</li>

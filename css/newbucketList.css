@@ -1,5 +1,5 @@
 #container {
-	font-family: Helvetica;
+	font-family: "Handwriting - Dakota";
   background-image: url('../img/bulletin.jpg');
   border: 1px solid gray;
   -moz-border-radius: 15px;
@@ -28,11 +28,15 @@
 	float: right;
 }
 
+#addCollabButton {
+	display: inline-block;
+}
+
 #paperHolder {
 	height: 247px;
 	width: 380px;
 	float: left;
-	backgroud-size: 100%;
+	background-size: 100%;
 	background-repeat: no-repeat;
 	background-image: url('../img/paper2.png');
 }
@@ -51,10 +55,23 @@
 	height: 247px;
 	width: 380px;
 	float: left;
-	backgroud-size: 100%;
+	background-size: 100%;
 	background-repeat: no-repeat;
 	background-image: url('../img/paper2.png');
 	font-size: 11pt;
+}
+
+.collabsBox {
+	border: 1px inset #ececec;
+	height: 94%;
+	padding: 3%;
+}
+
+.noteBox {
+	height: 94%;
+	padding: 3%;
+	border-right: 1px outset #ececec;
+	border-top: 1px inset #ececec;
 }
 
 h5 {
@@ -66,6 +83,10 @@ h5 {
 .icon {
 	height: 15px;
 	width: 15px;
+}
+
+.persona {
+	cursor: pointer;
 }
 
 ul, li {
@@ -85,7 +106,6 @@ ul, li {
 	display:none;
 	width: auto;
 	border: 1px solid #1c1c1c;
-	
 }
 
 .the_menu li {
@@ -99,7 +119,6 @@ ul, li {
 
 .the_menu li:hover {
 	font-weight:bold;
-	color: #F00880;
 }
 
 .sticky {
@@ -130,7 +149,10 @@ ul, li {
 
 
 .stickyButton{
+	width: 15px;
+	height: 15px;
 	cursor: pointer;
+	float: left;
 }
 
 textarea {

@@ -34,8 +34,6 @@ function addBucketToPaper(bucket) {
 	$("#paperTitle").text(name); // Set the title of the paper
 	$('#welcomeHolder').addClass('hidden');
 	$('#paperHolder').removeClass('hidden');
-//	$('#paperHolder').attr('top','150px');
-//	$('#paperHolder').attr('left', '150px');
 	$('#textHolder').removeClass('hidden'); // Make the paper appear, if it is currently invisible
 	$("#bucketIcon").removeClass('hidden'); // Set icon in corner (will be different for buckets/tasks)
 	$("#bucketIcon").attr('src', "img/bucket.gif")
@@ -46,7 +44,7 @@ function addBucketToPaper(bucket) {
 	//id of notes is assigned as b(bucketNumber)t.
 	//id of taskbox is b(bucketNumber)taskBox
 	//we add just the one New Task line
-	var notes = "<div id='b"+bucket+"t' class='hiddenFloat'>"
+	var notes = "<div id='b"+bucket+"t' class='noteBox'>"
 							+ "<h5 style='float:left'>Tasks</h5>"
 							+ "<h5 style='float:right; padding-right:5px'>Due</h5>"
               + "<textarea class='new task'"
@@ -87,7 +85,7 @@ function addTaskToPaper(b, t) {
 	//notes contains the HTML of the notes section.
 	//id of outer div is b(bucketNum)t(taskNum)n
 	//id of noteBox is b(bucketNum)t(taskNum)noteBox
-	var notes = "<div id='b"+b+"t"+t+"n' class='hiddenFloat'>"
+	var notes = "<div id='b"+b+"t"+t+"n' class='noteBox'>"
 							+ "<h5>Notes</h5>"
               + "<textarea class='new note'"
                            + "id='b"+b+"t"+t+"noteBox'"
@@ -166,12 +164,12 @@ function collabBlur(b, t) {
     $(inp).removeClass('new');
 		name = $(inp).val();
 //		organizer[parseInt(bucket)]=bucketObj; // and add it to the organizer
-
-		$(inp).text('Enter name'); // reset input box
-		$(inp).css('color', '#aaa');
-		$(inp).addClass('new');
-		alert('#'+currentView.objName+"collabs");
-    $('#'+currentView.objName+"collabs").append(name+"<br>");
+	var iconText = "<img src='img/personIcon.png' class='icon persona'></img>"
+	
+	$(inp).text('Enter name'); // reset input box
+	$(inp).css('color', '#aaa');
+	$(inp).addClass('new');
+    $('#'+currentView.objName+"collabs").append(iconText+name+"<br>");
   }
 }
 
@@ -218,7 +216,7 @@ function taskBlur(bucket) {
 		$(taskbox).css('color', '#aaa');
 		$(taskbox).addClass('new');
 		$(taskbox).onkeypress="ifEnter('#b"+bucket+"taskBox, event)";
-    $('#bottomLeftBox').append(newIcon+newText);
+    $('#b'+bucket+'t').append(newIcon+newText);
 
 	}
 }
@@ -267,7 +265,7 @@ function noteBlur(bucket, task) {
 				$(notebox).css('color', '#aaa');
 				$(notebox).addClass('new');
 				$(notebox).onkeypress = "ifEnter('#b" + bucket + "t" + task + "noteBox, event)";
-				$('#bottomLeftBox').append(newIcon + newText);
+				$('#b'+bucket+'t'+task+'n').append(newIcon + newText);
 			}
 }
 
