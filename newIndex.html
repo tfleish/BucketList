@@ -61,8 +61,22 @@
     	   			<input type="button" id="tasksButton" value = "My Buckets" class="menu_class" style="background-color: #fcf589;">
 						<ul id = "tasksMenu" class="the_menu menu3">
 							<li><textarea id="bucketInput" class='new bucket' onfocus='bucketFocus(nBuckets)' onblur="bucketBlur(nBuckets)" onkeypress="ifEnter('#bucketInput', event)">New Bucket</textarea></li>
-							<li onclick="addBucketToPaper('0','My First Bucket')">My First Bucket</li>
-							<li onclick="addBucketToPaper('1', 'Another Bucket')">Another Bucket</li>
+							<li>
+								<div><img class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion('0')"></img></div>
+								<div onclick="addBucketToPaper('0','My First Bucket')">My First Bucket</div>
+								<div id="b0accordion" class='hidden' style="position:absolute">
+									<input type="checkbox"></input> Task #1 <br>
+									<input type="checkbox"></input> Task #2
+								</div>
+							</li>
+							<li>
+								<img class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion('1')"></img>
+								<div onclick="addBucketToPaper('1', 'Another Bucket')">Another Bucket</div>
+								<div id="b1accordion" class='hidden' style="position:absolute">
+									<input type="checkbox"></input> Task #1 <br>
+									<input type="checkbox"></input> Task #2
+								</div>
+							</li>
 						</ul>
 					</input>
       			</div>

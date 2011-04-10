@@ -55,6 +55,10 @@
 	position: relative;
 }
 
+.expandButton {
+	cursor: pointer;
+}
+
 .tempscreen{
 	background-color="transparent";
 	font-size: 11pt;
@@ -165,6 +169,20 @@ ul, li {
 
 .xbutton {
 	cursor: pointer;
+	float: right;
+	position: absolute;
+	top: 4px;
+	right: 4px;
+}
+
+.editStickyButton {
+	cursor: pointer;
+	float: right;
+	position: absolute;
+	height: 20px;
+	width: 20px;
+	bottom: 14px;
+	right: 0px;
 }
 
 .stickyButton{
@@ -180,6 +198,7 @@ textarea {
   border: none;
   width: auto;
   height: 2em;
+  resize: none;
   cursor: text;
 }
 

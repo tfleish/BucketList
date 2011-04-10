@@ -46,6 +46,16 @@ function createAccount() {
 	$('#welcomeHolder').addClass('hidden');
 	$('#accountCreate').removeClass('hidden');
 }
+
+function toggleAccordion(id) {
+	if($('#b'+id+'accordion').hasClass('hidden')) {
+		$('#b'+id+'accordion').css('position','relative');
+		$('#b'+id+'accordion').removeClass('hidden');
+	} else {
+		$('#b'+id+'accordion').css('position','absolute');
+		$('#b'+id+'accordion').addClass('hidden');
+	}
+}
  
 // This function is called whenever we open a Bucket View on a paper
 // Takes in the organizer index of a Bucket object.
@@ -163,7 +173,14 @@ function bucketBlur(bucket) {
 		name = $(inp).val();
 		var bucketObj = new Bucket(name, newBucketNum); // create a new Bucket object
 		organizer[parseInt(bucket)]=bucketObj; // and add it to the organizer
-		var newBucket = "<li onclick='addBucketToPaper("+String(newBucketNum)+",\""+name+"\")'>"+name+"</li>"; // append to dropdown list
+		var newBucket = "<li>"
+						+"<img class='expandButton' style='float:left' src='img/plus_green.gif' onclick=\"toggleAccordion('"+newBucketNum+"')\"></img>"
+						+"<div onclick=\"addBucketToPaper('"+newBucketNum+"', '"+name+"')'\">"+name+"</div>"
+						+"<div id='b"+newBucketNum+"accordion' class='hidden' style='position:absolute'>"
+						+"</div>"
+						+"</li>"
+		
+		"<li onclick='addBucketToPaper("+String(newBucketNum)+",\""+name+"\")'>"+name+"</li>"; // append to dropdown list
 		$(inp).text('New Bucket'); // reset input box
 		$(inp).css('color', '#aaa');
 		$(inp).addClass('new');
@@ -317,7 +334,10 @@ function addSticky(bucket, task, note) {
   $(buttonId).attr("onclick", "");
   $(buttonId).css("opacity", "0.3");
   $(buttonId).css("filter", "alpha(opacity=30)");
-  var note = "<div class='sticky draggable resizable' id='"+id+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\"><div class='stickyNote'>"+$(noteId).val()+"</div><div class='xbutton' onclick=\"closeSticky('"+id+"', '"+bucket+"', '"+task+"', '"+note+"')\" style='float: right; position: absolute; top: 2px; right:2px;'>x</div></div>";
+  var note = "<div class='sticky draggable' id='"+id+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
+  			+"<div class='stickyNote'>"+$(noteId).val()+"</div>"
+  			+"<div><img class='editStickyButton' src='img/EditObjectButton.png'></img>"
+  			+"<div class='xbutton' onclick=\"closeSticky('"+id+"','"+bucket+"','"+task+"','"+note+"')\">x</div></div>";
   $('#'+id).removeClass('hidden');
   $("#container").append(note);
   $(".draggable").draggable( {containment: "#container"} );
@@ -340,7 +360,10 @@ function addTaskSticky(bucket, task) {
   $(buttonId).attr("onclick", "");
   $(buttonId).css("opacity", "0.3");
   $(buttonId).css("filter", "alpha(opacity=30)");
-  var note = "<div class='taskSticky draggable resizable' id='"+id+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\"><div class='stickyNote'>"+$(taskID).val()+"</div><div class='xbutton' onclick=\"closeTaskSticky('"+id+"', '"+bucket+"', '"+task+"')\" style='float: right; position: absolute; top: 2px; right:2px;'>x</div></div>";
+  var note = "<div class='taskSticky draggable' id='"+id+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
+  			+"<div class='stickyNote'>"+$(taskID).val()+"</div>"
+  			+"<div><img class='editStickyButton' src='img/EditObjectButton.png'></img>"
+  			+"<div class='xbutton' onclick=\"closeTaskSticky('"+id+"','"+bucket+"','"+task+"')\">x</div></div>";
   $('#'+id).removeClass('hidden');
   $("#container").append(note);
   $(".draggable").draggable( {containment: "#container"} );
