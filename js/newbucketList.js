@@ -49,9 +49,11 @@ function createAccount() {
 
 function toggleAccordion(id) {
 	if($('#b'+id+'accordion').hasClass('hidden')) {
+		$('#b'+id+'expand').attr('src', 'img/red-minus.png')
 		$('#b'+id+'accordion').css('position','relative');
 		$('#b'+id+'accordion').removeClass('hidden');
 	} else {
+		$('#b'+id+'expand').attr('src', 'img/plus_green.gif')	
 		$('#b'+id+'accordion').css('position','absolute');
 		$('#b'+id+'accordion').addClass('hidden');
 	}
@@ -78,13 +80,14 @@ function addBucketToPaper(bucket) {
 	//id of taskbox is b(bucketNumber)taskBox
 	//we add just the one New Task line
 	var notes = "<div id='b"+bucket+"t' class='noteBox'>"
-							+ "<h4 style='float:left'>Tasks</h4>"
-							+ "<h4 style='float:right; padding-right:5px'>Due</h4>"
-              + "<textarea class='new task'"
+							+ "<h4>Tasks</h4>"
+              + "<textarea class='new task' "
+              				+"style='float:left'"
                            + "id='b"+bucket+"taskBox'"
                            + "onfocus=\"taskFocus('"+bucket+"')\" "
                            + "onblur=\"taskBlur('"+bucket+"')\" "
-                           + "onkeypress=\"ifEnter('#b"+bucket+"taskBox', event)\">New Task</textarea><br>"
+                           + "onkeypress=\"ifEnter('#b"+bucket+"taskBox', event)\">New Task</textarea>"
+                + "<h4 id='dueLabel' class='hidden' style='float:right; padding-right:5px'>Due</h4>"
 				+ "<div class='divider'></div></div>";
 				
 	//id of overall div is b(bucketNumber)c
@@ -114,7 +117,7 @@ function addTaskToPaper(b, t) {
 	currentView = task;
 	
 	$("#paperTitle").text(name); // Set the title of the paper
-	$('#welcomeHolder').addClass('hidden');
+	$('#enterScreen').addClass('hidden');
 	$('#paperHolder').removeClass('hidden');
 	$('#textHolder').removeClass('hidden'); // Make the paper appear, if it is currently invisible
 	$("#bucketIcon").removeClass('hidden'); // Set icon in corner (will be different for buckets/tasks)
@@ -127,7 +130,10 @@ function addTaskToPaper(b, t) {
 	//id of outer div is b(bucketNum)t(taskNum)n
 	//id of noteBox is b(bucketNum)t(taskNum)noteBox
 	var notes = "<div id='b"+b+"t"+t+"n' class='noteBox'>"
-							+ "<h4>Notes</h4>"
+							+ "<div><h4 style='float: left;'>Notes</h4>"
+							+ "<div style='float:right'><img src='img/alarmclock.png' style='float:left; width:20px; height:auto;'></img>"
+							+ "<input type='textbox' style='width: 7em; float:right;' class='date'></input>"
+							+ "</div></div>"
               + "<textarea class='new note'"
                            + "id='b"+b+"t"+t+"noteBox'"
                            + "onfocus=\"noteFocus('"+b+"','"+t+"')\" "
@@ -139,7 +145,7 @@ function addTaskToPaper(b, t) {
 	//id of collabs box is b(bucketNum)t(taskNum)collabs
 	var collabs = "<div id='b"+b+"t"+t+"c' class='hiddenFloat'>"
 					+ "<div id='b"+b+"t"+t+"collabs' class='collabsBox'></div></div>";
-
+	$( ".date" ).datepicker();
   $("#bottomLeftBox").html(notes);
   $("#bottomRightBox").html(collabs);
 
@@ -174,7 +180,7 @@ function bucketBlur(bucket) {
 		var bucketObj = new Bucket(name, newBucketNum); // create a new Bucket object
 		organizer[parseInt(bucket)]=bucketObj; // and add it to the organizer
 		var newBucket = "<li>"
-						+"<img class='expandButton' style='float:left' src='img/plus_green.gif' onclick=\"toggleAccordion('"+newBucketNum+"')\"></img>"
+						+"<img id='b"+newBucketNum+"expand' class='expandButton' style='float:left' src='img/plus_green.gif' onclick=\"toggleAccordion('"+newBucketNum+"')\"></img>"
 						+"<div onclick=\"addBucketToPaper('"+newBucketNum+"', '"+name+"')'\">"+name+"</div>"
 						+"<div id='b"+newBucketNum+"accordion' class='hidden' style='position:absolute'>"
 						+"</div>"
@@ -214,10 +220,12 @@ function collabBlur(b, t) {
 //		organizer[parseInt(bucket)]=bucketObj; // and add it to the organizer
 	var iconText = "<img src='img/personIcon.png' class='icon persona'></img>"
 	
+	var xbutton = "<div class='xbutton' style='color:#808080'>x</div>"
+	
 	$(inp).text('Enter name'); // reset input box
 	$(inp).css('color', '#aaa');
 	$(inp).addClass('new');
-    $('#'+currentView.objName+"collabs").append(iconText+name+"<br>");
+    $('#'+currentView.objName+"collabs").append("<div>"+iconText+name+xbutton+"</div>");
   }
 }
 
@@ -237,6 +245,7 @@ function taskBlur(bucket) {
 	var currentTask = 'b'+bucket+'t'+currentTaskNum;
 	var currentTaskIcon = 'b'+bucket+'t'+currentTaskNum+'i';
 	
+	$('#dueLabel').removeClass('hidden')
 	if($(taskbox).val() == '' && $(taskbox).hasClass('new')) { // if the text is empty, don't actually create new task.
 		$(taskbox).text('New Task');
 		$(taskbox).css('color', '#aaa');

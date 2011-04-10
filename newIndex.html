@@ -5,7 +5,6 @@
 		<title>BucketList</title>
 		
 		<link rel="stylesheet" href="css/newbucketList.css" type="text/css">
-		<link rel="stylesheet" href="http://hackingon.net/files/jquery_datepicker/ui.all.css" type="text/css" media="screen" />
 				
 		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
     	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
@@ -62,7 +61,7 @@
 						<ul id = "tasksMenu" class="the_menu menu3">
 							<li><textarea id="bucketInput" class='new bucket' onfocus='bucketFocus(nBuckets)' onblur="bucketBlur(nBuckets)" onkeypress="ifEnter('#bucketInput', event)">New Bucket</textarea></li>
 							<li>
-								<div><img class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion('0')"></img></div>
+								<div><img id="b0expand" class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion('0')"></img></div>
 								<div onclick="addBucketToPaper('0','My First Bucket')">My First Bucket</div>
 								<div id="b0accordion" class='hidden' style="position:absolute">
 									<input type="checkbox"></input> Task #1 <br>
@@ -70,7 +69,7 @@
 								</div>
 							</li>
 							<li>
-								<img class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion('1')"></img>
+								<img id='b1expand' class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion('1')"></img>
 								<div onclick="addBucketToPaper('1', 'Another Bucket')">Another Bucket</div>
 								<div id="b1accordion" class='hidden' style="position:absolute">
 									<input type="checkbox"></input> Task #1 <br>

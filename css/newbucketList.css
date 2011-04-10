@@ -170,9 +170,6 @@ ul, li {
 .xbutton {
 	cursor: pointer;
 	float: right;
-	position: absolute;
-	top: 4px;
-	right: 4px;
 }
 
 .editStickyButton {
