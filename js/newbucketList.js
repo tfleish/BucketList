@@ -17,6 +17,10 @@ $(document).ready(function() {
 		$('ul.menu3').slideToggle('fast');
 	});
 	
+	$('#addCollabButton').click(function() {
+		$('ul.menu4').slideToggle('fast');
+	});
+	
  });
  
  
@@ -24,9 +28,15 @@ $(document).ready(function() {
 // Takes in the organizer index of a Bucket object.
 function addBucketToPaper(bucket) {
 	var bucketObj = organizer[parseInt(bucket)]; // get Bucket object
+	currentView = bucketObj;
+	
 	var name = bucketObj.name;
 	$("#paperTitle").text(name); // Set the title of the paper
-	$('#paperHolder').removeClass('hidden'); // Make the paper appear, if it is currently invisible
+	$('#welcomeHolder').addClass('hidden');
+	$('#paperHolder').removeClass('hidden');
+//	$('#paperHolder').attr('top','150px');
+//	$('#paperHolder').attr('left', '150px');
+	$('#textHolder').removeClass('hidden'); // Make the paper appear, if it is currently invisible
 	$("#bucketIcon").removeClass('hidden'); // Set icon in corner (will be different for buckets/tasks)
 	$("#bucketIcon").attr('src', "img/bucket.gif")
 
@@ -69,6 +79,7 @@ function toggleBox() {
 //Takes in the number of the bucket and the number of the task.
 function addTaskToPaper(b, t) {
 	var task = organizer[b].tasks[t]; // Get task from organizer
+	currentView = task;
 	$("#paperTitle").text(task.name);
 
 	var collabs=task.collabs;
@@ -88,7 +99,7 @@ function addTaskToPaper(b, t) {
 	//id of outer div is b(bucketNum)t(taskNum)c
 	//id of collabs box is b(bucketNum)t(taskNum)collabs
 	var collabs = "<div id='b"+b+"t"+t+"c' class='hiddenFloat'>"
-					+ "<div id='b"+b+"t"+t+"collabs' class='collabsBox'>"+collabs[(b%2)]+"</div></div>";
+					+ "<div id='b"+b+"t"+t+"collabs' class='collabsBox'></div></div>";
 
   $("#bottomLeftBox").html(notes);
   $("#bottomRightBox").html(collabs);
@@ -121,7 +132,7 @@ function bucketBlur(bucket) {
 		nBuckets = nBuckets+1;
     $(inp).removeClass('new');
 		name = $(inp).val();
-		var bucketObj = new Bucket(name); // create a new Bucket object
+		var bucketObj = new Bucket(name, newBucketNum); // create a new Bucket object
 		organizer[parseInt(bucket)]=bucketObj; // and add it to the organizer
 		var newBucket = "<li onclick='addBucketToPaper("+String(newBucketNum)+",\""+name+"\")'>"+name+"</li>"; // append to dropdown list
 		$(inp).text('New Bucket'); // reset input box
@@ -129,6 +140,38 @@ function bucketBlur(bucket) {
 		$(inp).addClass('new');
 		$(inp).onkeypress="ifEnter("+newBucketID+", event)";
     $('#tasksMenu').append(newBucket);
+  }
+}
+
+//This function focuses the newBucket section of the mytasks dropdown.  changes color.
+function collabFocus() {
+	var id = '#collabInput';
+  if ($(id).hasClass('new')) {
+    $(id).text('');
+    $(id).css('color', 'black');
+  }
+}
+
+//This function is called whenever the newBucket section of the mytasks dropdown is blurred.
+//it creates a new bucket on the dropdown.
+function collabBlur(b, t) {
+	var inp = '#collabInput';
+	
+	//If the bucket has no text still, don't create a new bucket out of it.
+  if ($(inp).val() == '' && $(inp).hasClass('new')) {
+    $(inp).text('Enter name');
+    $(inp).css('color', '#aaa');
+  } //else, create new bucket
+  else if ($(inp).hasClass('new')) {
+    $(inp).removeClass('new');
+		name = $(inp).val();
+//		organizer[parseInt(bucket)]=bucketObj; // and add it to the organizer
+
+		$(inp).text('Enter name'); // reset input box
+		$(inp).css('color', '#aaa');
+		$(inp).addClass('new');
+		alert('#'+currentView.objName+"collabs");
+    $('#'+currentView.objName+"collabs").append(name+"<br>");
   }
 }
 
@@ -155,11 +198,11 @@ function taskBlur(bucket) {
 	else if ($(taskbox).hasClass('new')) {
 		$(taskbox).removeClass('new');		
 		name = $(taskbox).val();
-		var taskObj = new Task(name, organizer[parseInt(bucket)]);
+		var taskObj = new Task(name, organizer[parseInt(bucket)], currentTaskNum);
 		organizer[parseInt(bucket)].tasks[currentTaskNum]=taskObj; // add to organizer
 		
 		//new sticky icon with id b(bucketNum)t(taskNum)i
-		var newIcon = "<img src=\"img/addStickyIcon.gif\""
+		var newIcon = "<img src=\"img/addStickyIconGreen copy.gif\""
                            + "id='"+currentTaskIcon+"'"
                            + "class='stickyButton' "
                            + "onclick=\"addTaskSticky('"+bucket+"', '"+String(currentTaskNum)+"')\"></img>";
@@ -210,7 +253,7 @@ function noteBlur(bucket, task) {
 				inTask.notes[currentNoteNum] = noteObj; // add to organizer
 				//new sticky icon with id b(bucketNum)t(taskNum)i
 				var newIcon = "<img src=\"img/addStickyIcon.gif\""
-							+ "id='" + currentNote + "'" 
+							+ "id='" + currentNoteIcon + "'" 
 							+ "class='stickyButton' " 
 							+ "onclick=\"addSticky('"+bucket+"','"+task+"','"+String(currentNoteNum) +"')\"></img>";
 				
@@ -231,7 +274,7 @@ function noteBlur(bucket, task) {
 function addSticky(bucket, task, note) {
   var id = 'b'+bucket+'t'+task+'n'+note+'s';
   var noteId = '#b'+bucket+'t'+task+'n'+note;
-  var buttonId = '#b'+bucket+'t'+task+'i'+note;
+  var buttonId = '#b'+bucket+'t'+task+'n'+note+'i';
   $(buttonId).attr("onclick", "");
   $(buttonId).css("opacity", "0.3");
   $(buttonId).css("filter", "alpha(opacity=30)");
@@ -247,41 +290,10 @@ function addTaskSticky(bucket, task) {
   $(buttonId).attr("onclick", "");
   $(buttonId).css("opacity", "0.3");
   $(buttonId).css("filter", "alpha(opacity=30)");
-  var note = "<div class='sticky draggable resizable' id='"+id+"'><textarea class='stickyNote'>"+$(taskID).val()+"</textarea></div>";
+  var note = "<div class='taskSticky draggable resizable' id='"+id+"'><textarea class='stickyNote'>"+$(taskID).val()+"</textarea></div>";
   $("#container").append(note);
   $(".draggable").draggable( {containment: "#container"} );
 }
-
-function addTaskToInfo(bucket, task, name) {
-  var notes = "<div id='b"+bucket+"t"+task+"n' class='hiddenFloat'>"
-              + "<h3 id='b"+bucket+"t"+task+"name' style='margin: 10px'> Information about " + name + "</h3>"
-              + "<img src=\"img/addStickyIcon.gif\" "
-                         + "id='b"+bucket+"t"+task+"i1' "
-                         + "class='stickyButton hidden' "
-                         + "onclick=\"addSticky('"+bucket+"', '"+task+"', '1')\"></img>"
-              
-              + "<textarea class='new note'"
-                           + "id='b"+bucket+"t"+task+"n1'"
-                           + "onfocus=\"noteFocus('"+bucket+"', '"+task+"', '1')\" "
-                           + "onblur=\"noteBlur('"+bucket+"', '"+task+"', '1')\""
-                           + "onkeypress=\"ifEnter('#b"+bucket+"t"+task+"n1', event)\">New Note</textarea><br>"
-						   +"<div class='divider'></div></div>";
-	
-	var collabs = "<div id='b" + bucket + "t"+task+"c' class='hiddenFloat'>"
-					+ "<div style='margin: 10px'><b>Collaborators</b>"
-					+ "<button type='button' style='float:right' "
-					+ "onclick='addCollaborator("+bucket+","+task+")'>Add</button></div>"
-					+ "<div id='b"+bucket+"t"+task+"collabs' class='collabsBox'>Becky</div></div>";
-	var due = "<div id='b" + bucket + "t"+task+"d' class='hiddenFloat dueOptBox'>"
-				+ "<h4 style='margin: 10px'>Due Date Options</h4>"
-				+ "<div>Due Date: "
-					+ "<input type='text' name='due' rows='1'></input>"
-				+ "</div> <div>Remind me <input type='text' name='remind' size='1'></input> days in advance.</div> </div>";
-	
-  $("#notesBox").append(notes);
-	$("#collabsBar").append(collabs);
-  $("#dueOptions").append(due);
-} 
 
 function ifEnter(field, event) {
   var theCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
