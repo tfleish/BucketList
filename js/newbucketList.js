@@ -219,7 +219,7 @@ function collabBlur(b, t) {
 //		organizer[parseInt(bucket)]=bucketObj; // and add it to the organizer
 	var iconText = "<img src='img/personIcon.png' class='icon persona'></img>"
 	
-	var xbutton = "<div class='xbutton' style='color:#808080'>x</div>"
+	var xbutton = "<div style='color:#808080; cursor: pointer; float: right;'>x</div>"
 	
 	$(inp).text('Enter name'); // reset input box
 	$(inp).css('color', '#aaa');
