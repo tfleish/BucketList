@@ -22,6 +22,10 @@
 		<script type="text/javascript" src="js/Note.js"></script>
 		
 		<script type="text/javascript" language="JavaScript">
+		
+			var visiblePapers = ["paperHolder"];
+			var totalPapers = ["paperHolder"];
+			
 			var nBuckets = 2;
 			var firstBucket = new Bucket("My First Bucket", 0);
 			var secondBucket = new Bucket("Another Bucket", 1);
@@ -43,7 +47,8 @@
 			<div id="nameDropDown">
 		  		<input type="button" id="nameButton" value = "Alice Packer" class="menu_class" style="background-color:#bbfb66">
 						<ul name = "nameMenu" class="the_menu menu1">
-							<li>My Account</li>
+							<li onclick='accountScreen()'>My Account</li>
+							<li onclick='logout()'>Log Out</li>
 						</ul>
 				</input>
 	  		</div>
@@ -51,8 +56,8 @@
 				<div id="alertDropDown">
 				  <input type="button" id="alertButton" value = "My Alerts (1)" class="menu_class" style="background-color: #ffaaed">
 						<ul name = "alertMenu" class="the_menu menu2">
-							<li onclick="addBucketToPaper('0','My First Bucket')"><b>My First Bucket</b></li>
-							<li onclick="addTaskToPaper(1, 0,'Task #3')">Task #3</li>
+							<li onclick="addBucketToPaper(0)"><b>My First Bucket</b></li>
+							<li onclick="addTaskToPaper(1, 0)">Task #3</li>
 						</ul>
 					</input>
 			  	</div>
@@ -60,21 +65,21 @@
 				<div id="myTasksDropDown">
     	   			<input type="button" id="tasksButton" value = "My Buckets" class="menu_class" style="background-color: #fcf589;">
 						<ul id = "tasksMenu" class="the_menu menu3">
-							<li><textarea id="bucketInput" class='new bucket' onfocus='bucketFocus(nBuckets)' onblur="bucketBlur(nBuckets)" onkeypress="ifEnter('#bucketInput', event)">New Bucket</textarea></li>
+							<li><textarea id="bucketInput" class='new bucket' onfocus='bucketFocus(nBuckets)' onblur="bucketBlur(nBuckets)" onkeyup="ifEnter('#bucketInput', event)">New Bucket</textarea></li>
 							<li>
-								<div><img id="b0expand" class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion('0')"></img></div>
-								<div onclick="addBucketToPaper('0','My First Bucket')">My First Bucket</div>
+								<div><img id="b0expand" class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion(0)"></img></div>
+								<div onclick="addBucketToPaper(0)">My First Bucket</div>
 								<div id="b0accordion" class='hidden' style="position:absolute">
-									<input type="checkbox" style='float:left'></input><div onclick="addTaskToPaper(0, 0,'Task #1')"> Task #1</div>
-									<input type="checkbox" style='float:left'></input><div onclick="addTaskToPaper(0, 1,'Task #2')"> Task #2 </div>
+									<input type="checkbox" style='float:left'></input><div onclick="addTaskToPaper(0, 0)"> Task #1</div>
+									<input type="checkbox" style='float:left'></input><div onclick="addTaskToPaper(0, 1)"> Task #2 </div>
 								</div>
 							</li>
 							<li>
-								<img id='b1expand' class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion('1')"></img>
-								<div onclick="addBucketToPaper('1', 'Another Bucket')">Another Bucket</div>
+								<img id='b1expand' class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion(1)"></img>
+								<div onclick="addBucketToPaper(1)">Another Bucket</div>
 								<div id="b1accordion" class='hidden' style="position:absolute">
-									<input type="checkbox" style='float:left'></input> <div onclick="addTaskToPaper(1, 0,'Task #3')"> Task #3</div>
-									<input type="checkbox" style='float:left'></input> <div onclick="addTaskToPaper(1, 1,'Task #4')"> Task #4</div>
+									<input type="checkbox" style='float:left'></input> <div onclick="addTaskToPaper(1, 0)"> Task #3</div>
+									<input type="checkbox" style='float:left'></input> <div onclick="addTaskToPaper(1, 1)"> Task #4</div>
 								</div>
 							</li>
 						</ul>
@@ -83,12 +88,12 @@
 			</div>
 		</div>
 		
-		<div id="paperHolder" class="draggable">	
+		<div id="paperHolder" class="draggable paper">	
 			<div id="welcomeHolder" class='tempscreen'>
 				<img src="img/nobucketLogo.gif" style="width: 360px; padding-top: 3%;"></img>
 				<div style="text-align: left; padding: 0px; font-size: 10pt;"> 
-					<div>Username: <input type="text"></input></div>
-					<div>Password: <input type="password"></input></div>
+					<div>Username: <input id="usernameEnter" type="text"></input></div>
+					<div>Password: <input id="passwordEnter" type="password"></input></div>
 					<div>
 						<button type="button" onclick="enterBucketList()">Log in</button>
 						<button type="button" style='float:right' onclick="createAccount()">Need an account?</button>
@@ -97,6 +102,7 @@
 			</div>
 			<div id="enterScreen" class="hidden tempscreen">
 				<img src="img/nobucketLogo.gif" style="width: 360px; padding-top: 3%;"></img>
+				<div class='xbuttonPaper' onclick="closePaper('enterScreen')">x</div>
 				<div style="text-align: center; padding: 0px; font-size: 10pt;"> 
 					Log in was successful.  Time to get to work! See a list of buckets by clicking on "My Buckets."
 				</div>
@@ -119,7 +125,7 @@
 							 <img style="float: left" id="bucketIcon" class='hidden icon' onclick='toggleBox()'></img>
 						</div>
 						<div>
-							<textarea class="h2" id="paperTitle" onkeypress="ifEnter('#paperTitle', event)"></textarea>
+							<textarea class="h2" id="paperTitle" onkeyup="ifEnter('#paperTitle', event)"></textarea>
 						</div>
 					</div>
 					<div id="bottomLeftBox" style="height: 70%; border-right: 1px solid black;">
@@ -133,7 +139,7 @@
 						<div>
 					 		<img src="img/plusButton.png" class="menu_class" id="addCollabButton" style="width: 20%; height: auto; float: right; padding-top: 0px; padding-bottom: 0px;">
 								<ul id = "collabsMenu" class="the_menu menu4" style="float: left;">
-									<li><textarea id="collabInput" class='new collab' onfocus='collabFocus()' onblur="collabBlur()" onkeypress="ifEnter('#collabInput', event)">Enter name</textarea></li>
+									<li><textarea id="collabInput" class='new collab' onfocus='collabFocus()' onblur="collabBlur(0, 0)" onkeyup="ifEnter('#collabInput', event)">Enter name</textarea></li>
 								</ul>
 							</input>
 						</div>
@@ -147,6 +153,9 @@
 			<div id="clearButtonDiv" style="float: right;">
 				<input type="button" id="clearCompleted" value = "Clear Completed Tasks" class="menu_class" style="background-color: #23c3ff; width:auto;">
 			</div>
+		</div>
+		<div id="helpButtonDiv" style="float: left">
+			<img id="helpButton" onclick='help()' src="img/helpbutton.png"></img>
 		</div>
 	</div> <!-- END container -->
   </body>

@@ -36,13 +36,8 @@
   cursor: pointer;
 }
 
-#paperHolder {
-	height: 247px;
-	width: 380px;
-	float: left;
-	background-size: 100%;
-	background-repeat: no-repeat;
-	background-image: url('../img/paper2.png');
+#bottomLeftBox{
+	overflow-y: scroll;
 }
 
 #textHolder{
@@ -53,6 +48,16 @@
 	padding-right: 10px;
 	padding-bottom: 8%;
 	position: relative;
+}
+
+#helpButton{
+	height: 30px;
+	width: auto;
+	position: fixed;
+	left: 10px;
+	bottom: 14px;
+	cursor: pointer;
+	
 }
 
 .expandButton {
@@ -76,7 +81,7 @@
 }
 
 .noteBox {
-	height: 94%;
+	height: 92%;
 	padding: 3%;
 	border-right: 1px outset #ececec;
 	border-top: 1px inset #ececec;
@@ -109,11 +114,15 @@ ul, li {
 	list-style:none;
 }
 
+.collab{
+	width: 11em;
+}
+
 .menu_class {
 	font-family: "Handwriting - Dakota";
 	font-weight: bold;
 	font-size: 10pt;
-	width: 12em;
+	width: 13em;
 	height: 30px;
 }
 
@@ -139,6 +148,7 @@ ul, li {
 
 .the_menu li:hover {
 	font-weight:bold;
+	cursor: pointer;
 }
 
 .sticky {
@@ -167,12 +177,31 @@ ul, li {
   cursor: move;
 }
 
+.paper {
+	height: 247px;
+	width: 380px;
+	float: left;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-image: url('../img/paper2.png');
+	cursor: move;
+}
+
 .xbutton {
 	cursor: pointer;
 	float: right;
 	position: absolute;
 	top: 4px;
 	right: 4px;
+}
+
+.xbuttonPaper {
+	cursor: pointer;
+	float: right;
+	position: absolute;
+	font-size: large;
+	top: 8px;
+	right: 8px;
 }
 
 .editStickyButton {
@@ -252,7 +281,7 @@ textarea.task {
 .fixed{
 	height: auto;
 	cursor: pointer;
-	width: 50%;
+	width: 45%;
 }
 
 .hidden {

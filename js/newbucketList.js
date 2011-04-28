@@ -8,7 +8,7 @@ $(document).ready(function() {
 	//Set drop downs
 	$('#nameButton').click(function () {
 		$('ul.menu1').slideToggle('fast');
-  });
+  	});
 	
 	$('#alertButton').click(function () {
 		$('ul.menu2').slideToggle('fast');
@@ -32,9 +32,15 @@ $(document).ready(function() {
  
 
 function enterBucketList() {
+
 	if($('#nameEntry').val()!="") {
 		$('#nameButton').attr("value", $('#nameEntry').val());
 	}
+	
+	$('#nameEntry').val("");
+	$('#usernameEnter').val("");
+	$('#passwordEnter').val("");
+	
 	$('#welcomeHolder').addClass('hidden');
 	$('#accountCreate').addClass('hidden');
 	$('#bottomBar').removeClass('hidden');
@@ -62,7 +68,7 @@ function toggleAccordion(id) {
 // This function is called whenever we open a Bucket View on a paper
 // Takes in the organizer index of a Bucket object.
 function addBucketToPaper(bucket) {
-	var bucketObj = organizer[parseInt(bucket)]; // get Bucket object
+	var bucketObj = organizer[bucket]; // get Bucket object
 	currentView = bucketObj;
 	
 	var name = bucketObj.name;
@@ -85,17 +91,17 @@ function addBucketToPaper(bucket) {
                            + "id='b"+bucket+"taskBox'"
                            + "onfocus=\"taskFocus('"+bucket+"')\" "
                            + "onblur=\"taskBlur('"+bucket+"')\" "
-                           + "onkeypress=\"ifEnter('#b"+bucket+"taskBox', event)\">New Task</textarea>"
+                           + "onkeyup=\"ifEnter('#b"+bucket+"taskBox', event)\">New Task</textarea>"
                 + "<h4 id='dueLabel' class='hidden' style='float:right; padding-right:5px'>Due</h4>"
 				+ "<div class='divider'></div></div>";
 				
 	//id of overall div is b(bucketNumber)c
 	//id of section holding collabs is b(bucketNumber)collabs
-	var collabs = "<div id='b" + bucket + "c' class='hiddenFloat'>"
+	var collabsList = "<div id='b" + bucket + "c' class='hiddenFloat'>"
 					+ "<div id='b"+bucket+"collabs' class='collabsBox'>"+String(collabs)+"</div></div>";
 
   $("#bottomLeftBox").html(notes);
-  $("#bottomRightBox").html(collabs);
+  $("#bottomRightBox").html(collabsList);
 
 }
 
@@ -137,7 +143,7 @@ function addTaskToPaper(b, t) {
                            + "id='b"+b+"t"+t+"noteBox'"
                            + "onfocus=\"noteFocus('"+b+"','"+t+"')\" "
                            + "onblur=\"noteBlur('"+b+"','"+t+"')\" "
-                           + "onkeypress=\"ifEnter('#b"+b+"t"+t+"noteBox', event)\">New Note</textarea><br>"
+                           + "onkeyup=\"ifEnter('#b"+b+"t"+t+"noteBox', event)\">New Note</textarea><br>"
 				+ "<div class='divider'></div></div>";
 				
 	//id of outer div is b(bucketNum)t(taskNum)c
@@ -180,16 +186,16 @@ function bucketBlur(bucket) {
 		organizer[parseInt(bucket)]=bucketObj; // and add it to the organizer
 		var newBucket = "<li>"
 						+"<img id='b"+newBucketNum+"expand' class='expandButton' style='float:left' src='img/plus_green.gif' onclick=\"toggleAccordion('"+newBucketNum+"')\"></img>"
-						+"<div onclick=\"addBucketToPaper('"+newBucketNum+"')\">"+name+"</div>"
+						+"<div onclick=\"addBucketToPaper("+newBucketNum+")\">"+name+"</div>"
 						+"<div id='b"+newBucketNum+"accordion' class='hidden' style='position:absolute'>"
 						+"</div>"
 						+"</li>"
 		
-		"<li onclick='addBucketToPaper("+String(newBucketNum)+",\""+name+"\")'>"+name+"</li>"; // append to dropdown list
+		"<li onclick='addBucketToPaper("+newBucketNum+")'>"+name+"</li>"; // append to dropdown list
 		$(inp).text('New Bucket'); // reset input box
 		$(inp).css('color', '#aaa');
 		$(inp).addClass('new');
-		$(inp).onkeypress="ifEnter("+newBucketID+", event)";
+		$(inp).onkeyup="ifEnter("+newBucketID+", event)";
     $('#tasksMenu').append(newBucket);
   }
 }
@@ -207,25 +213,55 @@ function collabFocus() {
 //it creates a new bucket on the dropdown.
 function collabBlur(b, t) {
 	var inp = '#collabInput';
-	
-	//If the bucket has no text still, don't create a new bucket out of it.
-  if ($(inp).val() == '' && $(inp).hasClass('new')) {
-    $(inp).text('Enter name');
-    $(inp).css('color', '#aaa');
-  } //else, create new bucket
-  else if ($(inp).hasClass('new')) {
-    $(inp).removeClass('new');
+
+	if ($(inp).val() == '' && $(inp).hasClass('new')) {
+    	$(inp).text('Enter name');
+    	$(inp).css('color', '#aaa');
+	} 
+	else if (t == "-1") {//set t to -1 if it's a bucket
 		name = $(inp).val();
-//		organizer[parseInt(bucket)]=bucketObj; // and add it to the organizer
+		addCollabToBucket(b, name);
+    	//$(inp).removeClass('new');
+		//name = $(inp).val();
+		//var iconText = "<img src='img/personIcon.png' class='icon persona'></img>"
+		//var xbutton = "<div style='color:#808080; cursor: pointer; float: right;'>x</div>"
+	
+		//$(inp).text('Enter name'); // reset input box
+		//$(inp).css('color', '#aaa');
+		//$(inp).addClass('new');
+    	//$('#'+currentView.objName+"collabs").append("<div>"+iconText+name+xbutton+"</div>");
+    } else{ // it's a task
+    	name = $(inp).val();
+		addCollabToTask(b, t, name);
+    }
+}
+
+function addCollabToBucket(bucketNo, collabName) {
+	bucket = organizer[parseInt(bucketNo)];
+	var collabNo = bucket.collabs.length;
+	bucket.collabs[collabNo] = collabName;
+	addCollabToPaperView(collabName);
+}
+
+function addCollabToTask(bucketNo, taskNo, collabName) {
+	bucket = organizer[parseInt(bucketNo)];
+	task = bucket.tasks[parseInt(taskNo)];
+	var collabNo = task.collabs.length;
+	task.collabs[collabNo] = collabName;
+	
+	addCollabToPaperView(collabName);
+
+}
+
+function addCollabToPaperView(name) {
+	var inp = '#collabInput';
 	var iconText = "<img src='img/personIcon.png' class='icon persona'></img>"
-	
-	var xbutton = "<div style='color:#808080; cursor: pointer; float: right;'>x</div>"
-	
+	var xbutton = "<div style='color:#808080; float:right; cursor:pointer;'>x</div>"
+
 	$(inp).text('Enter name'); // reset input box
 	$(inp).css('color', '#aaa');
 	$(inp).addClass('new');
-    $('#'+currentView.objName+"collabs").append("<div>"+iconText+name+xbutton+"</div>");
-  }
+   	$('#'+currentView.objName+"collabs").append("<div>"+iconText+name+xbutton+"</div>");
 }
 
 //Called when tasks are brought into focus in BucketView
@@ -244,17 +280,15 @@ function taskBlur(bucket) {
 	var currentTask = 'b'+bucket+'t'+currentTaskNum;
 	var currentTaskIcon = 'b'+bucket+'t'+currentTaskNum+'i';
 	
-	$('#dueLabel').removeClass('hidden')
 	if($(taskbox).val() == '' && $(taskbox).hasClass('new')) { // if the text is empty, don't actually create new task.
 		$(taskbox).text('New Task');
 		$(taskbox).css('color', '#aaa');
 	}
 	else if ($(taskbox).hasClass('new')) {
-		$(taskbox).removeClass('new');		
+		$('#dueLabel').removeClass('hidden')
 		name = $(taskbox).val();
-		var taskObj = new Task(name, organizer[parseInt(bucket)], currentTaskNum);
-		organizer[parseInt(bucket)].tasks[currentTaskNum]=taskObj; // add to organizer
-		
+		addTaskToBucket(name, bucket);
+				
 		//new sticky icon with id b(bucketNum)t(taskNum)i
 		var newIcon = "<img src=\"img/addStickyIconGreen copy.gif\""
                            + "id='"+currentTaskIcon+"'"
@@ -263,10 +297,10 @@ function taskBlur(bucket) {
         var checkbox = "<input type='checkbox' style='float:left'></input>"
 													 
 		//create a new line of text on the list of tasks with id b(bucketNum)t(taskNum)
-		rows = Math.ceil(name.length/16);
+		rows = Math.ceil(name.length/12);
     	var newText = "<textarea class='task fixed' "
                              + "id='" + currentTask +"'"
-							 +"onclick='addTaskToPaper("+bucket+","+String(currentTaskNum)+")'"
+							 +"onclick='addTaskToPaper("+bucket+","+currentTaskNum+")'"
 							 +"rows='"+String(rows)+"' "
 							 +"style='float:left;'>"
                              +name+"</textarea>"
@@ -277,11 +311,20 @@ function taskBlur(bucket) {
 		//reset taskbox
 		$(taskbox).text('New Task');
 		$(taskbox).css('color', '#aaa');
-		$(taskbox).addClass('new');
-		$(taskbox).onkeypress="ifEnter('#b"+bucket+"taskBox, event)";
+		$(taskbox).onkeyup="ifEnter('#b"+bucket+"taskBox, event)";
     $('#b'+bucket+'t').append("<div style='float: left'>"+newIcon+checkbox+newText+"</div>");
 
 	}
+}
+
+function addTaskToBucket(taskName, bucketNo) {
+	var bucket = organizer[parseInt(bucketNo)];
+	var taskNo = bucket.tasks.length;
+	var task = new Task(taskName, organizer[parseInt(bucketNo)], taskNo);
+	bucket.tasks[taskNo] = task;
+	
+	refreshDropDown();
+	//refreshPaper();
 }
 
 function noteFocus(bucket, task) {
@@ -303,37 +346,44 @@ function noteBlur(bucket, task) {
 			$(notebox).text('New Task');
 			$(notebox).css('color', '#aaa');
 		}
-		else 
-			if ($(notebox).hasClass('new')) {
-				var inBucket = organizer[parseInt(bucket)];
-				var inTask = organizer[parseInt(bucket)].tasks[parseInt(task)];
-				$(notebox).removeClass('new');
-				name = $(notebox).val();
-				var noteObj = new Note(name, inTask, inBucket);
-				inTask.notes[currentNoteNum] = noteObj; // add to organizer
-				//new sticky icon with id b(bucketNum)t(taskNum)i
-				var newIcon = "<img src=\"img/addStickyIcon.gif\""
-							+ "id='" + currentNoteIcon + "'" 
-							+ "class='stickyButton' " 
-							+ "onclick=\"addSticky('"+bucket+"','"+task+"','"+String(currentNoteNum) +"')\"></img>";
-				
-				//create a new line of text on the list of tasks with id b(bucketNum)t(taskNum)
-				var newText = "<textarea class='note' " 
-							+"id='"+currentNote +"'" +">" 
-							+name+"</textarea>"
-							+"<img src='img/alert_icon.gif' class='menu_class alertMenus' style='float: right; width:7%; height:auto;'>"
-							+"<ul class='the_menu menu5' style='float: right;'>"
-							+ "<li><textarea class='new collab' onfocus='collabFocus()'>Enter name</textarea></li></ul>"
-							+"</input><br>";
-				
-				//reset taskbox
-				$(notebox).text('New Note');
-				$(notebox).css('color', '#aaa');
-				$(notebox).addClass('new');
-				$(notebox).onkeypress = "ifEnter('#b" + bucket + "t" + task + "noteBox, event)";
-				$('#b'+bucket+'t'+task+'n').append(newIcon + newText);
-			}
+	else if ($(notebox).hasClass('new')) {
+			name = $(notebox).val();
+			addNoteToTask(name, task, bucket);
+			
+			$(notebox).removeClass('new');
+			//new sticky icon with id b(bucketNum)t(taskNum)i
+			var newIcon = "<img src=\"img/addStickyIcon.gif\""
+						+ "id='" + currentNoteIcon + "'" 
+						+ "class='stickyButton' " 
+						+ "onclick=\"addSticky('"+bucket+"','"+task+"','"+String(currentNoteNum) +"')\"></img>";
+		
+			//create a new line of text on the list of tasks with id b(bucketNum)t(taskNum)
+			var newText = "<textarea class='note' " 
+						+"id='"+currentNote +"'" +">" 
+						+name+"</textarea>"
+						+"<img src='img/alert_icon.gif' class='menu_class alertMenus' style='float: right; width:7%; height:auto;'>"
+						+"<ul class='the_menu menu5' style='float: right;'>"
+						+ "<li><textarea class='new collab' onfocus='collabFocus()'>Enter name</textarea></li></ul>"
+						+"</input><br>";
+			
+			//reset taskbox
+			$(notebox).text('New Note');
+			$(notebox).css('color', '#aaa');
+			$(notebox).addClass('new');
+			$(notebox).onkeyup = "ifEnter('#b" + bucket + "t" + task + "noteBox, event)";
+			$('#b'+bucket+'t'+task+'n').append(newIcon + newText);
+	}
 }
+
+function addNoteToTask(noteText, taskNo, bucketNo) {
+	var bucket = organizer[parseInt(bucketNo)];
+	var task = bucket.tasks[parseInt(taskNo)];
+	var noteNo = task.notes.length;
+	task.notes[noteNo] = new Note(noteText, task, bucket);
+	
+	//refreshPaper();
+}
+
 
 function addSticky(bucket, task, note) {
   var pos = getRandomPosition()
@@ -427,7 +477,120 @@ function getRandomPosition() {
 function ifEnter(field, event) {
   var theCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
   if (theCode == 13){
+  	$(field).val($(field).val().split('\n')[0]);
     $(field).blur();
   }  
 }
 
+function closePaper(id) {
+	$('#'+id).addClass('hidden');
+	for(i=0; i<visiblePapers.length; i++) {
+		if (visiblePapers[i] == id) {
+			delete visiblePapers[i];
+		}
+	}
+}
+
+function help() {
+	//create new paper, add it to container div
+	ind = findIndex("helpPaper", totalPapers);
+	visInd = findIndex("helpPaper", visiblePapers);
+	
+	if (ind == -1) {
+		totalPapers[totalPapers.length+1] = "helpPaper";
+		visiblePapers[visiblePapers.length+1]="helpPaper";
+	} else if(visInd == -1) {
+		visiblePapers[visiblePapers.length+1]="helpPaper";
+		$('#helpPaper').removeClass('hidden');
+		return;
+	} else {
+		return;
+	}
+	
+	var helpTitle = "<h3 style='padding:15px' > How can we help you? </h3>"
+	var helpPaper = "<div id='helpPaper' class='draggable paper'>"
+			+helpTitle
+			+"<div class='xbuttonPaper' onclick=\"closePaper('helpPaper')\">x</div>"
+			+"</div>";
+	$('#container').append(helpPaper);
+	$(".draggable").draggable( {containment: "#container"} );
+
+}
+
+function findIndex(item, arr) {
+	var idx;
+	var last = arr.length;
+	for (var i = 0; i < last; i++) {
+		idx = (item == arr[i])?i:-1;
+		if (-1 != idx) break;
+	}
+	return idx;
+}
+
+function logout() {
+	if($('#nameEntry').val()!="") {
+		$('#nameButton').attr("value", $('#nameEntry').val());
+	}
+	$('#welcomeHolder').removeClass('hidden');
+	$('#accountCreate').addClass('hidden');
+	$('#bottomBar').addClass('hidden');
+	$('#dropDownBar').addClass('hidden');
+	$('#enterScreen').addClass('hidden');
+	$('#textHolder').addClass('hidden');
+	
+	
+	for(i=0; i<visiblePapers.length;i++) {
+		$('#'+visiblePapers[i]).addClass('hidden');
+	}
+	
+	$('#paperHolder').removeClass('hidden');
+}
+
+function refreshPaper() {
+	var bucket;
+	var task;
+	var note;
+	var bucketCollabs;
+	var taskCollabs;
+	
+	for(i = 0; i < organizer.length; i ++) {
+		bucket = organizer[i];
+		bucketCollabs = bucket.collabs;
+		for(j = 0; j < bucket.tasks.length; j++) {
+			task = bucket.tasks[j];
+			taskCollabs = task.collabs;
+			for(k = 0; k < task.notes.length; k++) {
+				note = task.notes[k];
+			}
+		}
+	}
+
+}
+
+function refreshDropDown() {
+	var bucket;
+	var task;
+	var bucketName;
+	var taskName;
+	var inputBoxHTML = "<li><textarea id='bucketInput' class='new bucket' onfocus='bucketFocus(nBuckets)' onblur='bucketBlur(nBuckets)' "
+					+"onkeyup='ifEnter(\"#bucketInput\", event)'>New Bucket</textarea></li>"
+	var text = inputBoxHTML;
+	for(i = 0; i < organizer.length; i ++) {
+		var ul = "<li>"
+		bucket = organizer[i];
+		bucketName = bucket.name;
+		ul = ul + "<div><img id='b"+i+"expand' class='expandButton' style='float: left;' src='img/plus_green.gif' onclick='toggleAccordion("+i+")'></img></div>";
+		ul = ul + "<div onclick = 'addBucketToPaper("+i+")'>"+bucketName+"</div>";
+		ul = ul + "<div id='b"+i+"accordion' class='hidden' style='position:absolute'>";
+		for(j = 0; j < bucket.tasks.length; j++) {
+			task = bucket.tasks[j];
+			taskName = task.name;
+			ul = ul + "<input type='checkbox' style='float:left'></input>";
+			ul = ul + "<div onclick='addTaskToPaper("+i+", "+j+")'>"+taskName+"</div>"
+		}
+		ul = ul + "</div></li>"
+		
+		text = text + ul;	
+	}
+	$('#tasksMenu').html(text);
+}
