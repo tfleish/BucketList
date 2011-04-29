@@ -90,18 +90,19 @@
 		
 		<div id="paperHolder" class="draggable paper">	
 			<div id="welcomeHolder" class='tempscreen'>
-				<img src="img/nobucketLogo.gif" style="width: 360px; padding-top: 3%;"></img>
+				<img src="img/nobucketLogo.gif" style="width: 450px; padding-top: 3%;"></img>
 				<div style="text-align: left; padding: 0px; font-size: 10pt;"> 
-					<div>Username: <input id="usernameEnter" type="text"></input></div>
-					<div>Password: <input id="passwordEnter" type="password"></input></div>
+					<div><div style='width: 10em; float: left;'>Email Address: </div><input id="usernameEnter" type="text"></input></div>
+					<div><div style='width: 10em; float: left;'>Password: </div><input id="passwordEnter" type="password"></input></div><br>
 					<div>
 						<button type="button" onclick="enterBucketList()">Log in</button>
+						<button type = "button" style='float:right'>Forgot your password?</button>
 						<button type="button" style='float:right' onclick="createAccount()">Need an account?</button>
 					</div>
 				</div>
 			</div>
 			<div id="enterScreen" class="hidden tempscreen">
-				<img src="img/nobucketLogo.gif" style="width: 360px; padding-top: 3%;"></img>
+				<img src="img/nobucketLogo.gif" style="width: 450px; padding-top: 3%;"></img>
 				<div class='xbuttonPaper' onclick="closePaper('enterScreen')">x</div>
 				<div style="text-align: center; padding: 0px; font-size: 10pt;"> 
 					Log in was successful.  Time to get to work! See a list of buckets by clicking on "My Buckets."
@@ -109,12 +110,16 @@
 			</div>
 			<div id="accountCreate" class='hidden tempscreen'>
 				<div style="padding-top: 0px; font-size: 10pt;"> 
-					<img src="img/nobucketLogo.gif" style="width: 360px; padding-top: 3%;"></img>
-					<div>Name: <input id="nameEntry" type="text"></input></div>
-					<div>Username: <input type="text" style='width:8em'></input></div>
-					<div style='float:left;'>Password: <input type="password" style='width:8em';></input></div>
-					<div style='float: right'>
-						<button type="button" onclick="enterBucketList()">Create account and log in</button>
+					<img src="img/nobucketLogo.gif" style="width: 250px; padding-top: 3%;"></img>
+					<h1 style='margin: 0px'>Please enter your information.</h1>				
+					<div><div style='width: 10em; float: left;'>Name: </div> <input id="newNameEntry" type="text"></input></div>
+					<div><div style='width: 10em; float: left;'>Email Address: </div><input id='newEmail' type="text"></input></div>
+					<div><div style='width: 10em; float: left;'>Password: </div><input id='newPwd' type="password"></input></div>
+					<div><div style='width: 10em; float: left;'>Confirm Password: </div><input id='pwdconf' type="password"></input></div>
+					
+					<div>
+						<button type="button" onclick="login()" style='float: left'>Create account and log in</button>
+						<button type="button" onclick="returnToLogin()" style='float: right'>Return to login screen</button>
 					</div>
 				</div>
 			</div>

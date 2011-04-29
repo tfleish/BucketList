@@ -48,6 +48,23 @@ function enterBucketList() {
 	$('#enterScreen').removeClass('hidden');
 }
 
+function login() {
+	if($('#newPwd').val() == $('#pwdconf').val()) {
+		$('#welcomeHolder').addClass('hidden');
+		$('#accountCreate').addClass('hidden');
+		$('#bottomBar').removeClass('hidden');
+		$('#dropDownBar').removeClass('hidden');
+		$('#enterScreen').removeClass('hidden');
+	} else{
+		alert("Your passwords do not match.  Please double-check and try again.");
+	}
+}
+
+function returnToLogin() {
+	$('#welcomeHolder').removeClass('hidden');
+	$('#accountCreate').addClass('hidden');
+}
+
 function createAccount() {
 	$('#welcomeHolder').addClass('hidden');
 	$('#accountCreate').removeClass('hidden');
@@ -97,7 +114,7 @@ function addBucketToPaper(bucket) {
 				
 	//id of overall div is b(bucketNumber)c
 	//id of section holding collabs is b(bucketNumber)collabs
-	var collabsList = "<div id='b" + bucket + "c' class='hiddenFloat'>"
+	var collabsList = "<div id='b" + bucket + "c' class='hiddenFloat' style='positon: absolute'>"
 					+ "<div id='b"+bucket+"collabs' class='collabsBox'>"+String(collabs)+"</div></div>";
 
   $("#bottomLeftBox").html(notes);
@@ -141,10 +158,12 @@ function addTaskToPaper(b, t) {
 							+ "</div></div>"
               + "<textarea class='new note'"
                            + "id='b"+b+"t"+t+"noteBox'"
+                           + "rows='1' style='height: auto'"
                            + "onfocus=\"noteFocus('"+b+"','"+t+"')\" "
                            + "onblur=\"noteBlur('"+b+"','"+t+"')\" "
                            + "onkeyup=\"ifEnter('#b"+b+"t"+t+"noteBox', event)\">New Note</textarea><br>"
-				+ "<div class='divider'></div></div>";
+              + "<h4 id='alertLabel' class='hidden' style='float:right; padding-right:5px'>Alert\n</h4>"
+		   	  + "<div class='divider'></div></div>";
 				
 	//id of outer div is b(bucketNum)t(taskNum)c
 	//id of collabs box is b(bucketNum)t(taskNum)collabs
@@ -300,11 +319,12 @@ function taskBlur(bucket) {
 		rows = Math.ceil(name.length/12);
     	var newText = "<textarea class='task fixed' "
                              + "id='" + currentTask +"'"
-							 +"onclick='addTaskToPaper("+bucket+","+currentTaskNum+")'"
+							 +"ondblclick='addTaskToPaper("+bucket+","+currentTaskNum+")'"
 							 +"rows='"+String(rows)+"' "
 							 +"style='float:left;'>"
                              +name+"</textarea>"
-                             +"<input type='textbox' style='width: 7em; float:right;' class='date' id='datepicker"+currentTask+"'><br>";
+                             +"<img src='img/calendar_icon.gif' onclick='alert(\"hi\")' style='float: right' class='date' id='datepicker"+currentTask+"'></img><br>";
+                             //+"<input type='textbox' style='width: 0px; height=0px; float:right;' class='date' id='datepicker"+currentTask+"'><br>";
 		
 		$( ".date" ).datepicker();
 		
@@ -350,6 +370,7 @@ function noteBlur(bucket, task) {
 			name = $(notebox).val();
 			addNoteToTask(name, task, bucket);
 			
+			$('#alertLabel').removeClass('hidden');
 			$(notebox).removeClass('new');
 			//new sticky icon with id b(bucketNum)t(taskNum)i
 			var newIcon = "<img src=\"img/addStickyIcon.gif\""
@@ -358,7 +379,9 @@ function noteBlur(bucket, task) {
 						+ "onclick=\"addSticky('"+bucket+"','"+task+"','"+String(currentNoteNum) +"')\"></img>";
 		
 			//create a new line of text on the list of tasks with id b(bucketNum)t(taskNum)
-			var newText = "<textarea class='note' " 
+			rows = Math.ceil(name.length/22);
+
+			var newText = "<textarea class='note' rows='"+rows+"' style='height: auto;'" 
 						+"id='"+currentNote +"'" +">" 
 						+name+"</textarea>"
 						+"<img src='img/alert_icon.gif' class='menu_class alertMenus' style='float: right; width:7%; height:auto;'>"
@@ -371,7 +394,7 @@ function noteBlur(bucket, task) {
 			$(notebox).css('color', '#aaa');
 			$(notebox).addClass('new');
 			$(notebox).onkeyup = "ifEnter('#b" + bucket + "t" + task + "noteBox, event)";
-			$('#b'+bucket+'t'+task+'n').append(newIcon + newText);
+			$('#b'+bucket+'t'+task+'n').append("<div style='float: left;'>"+newIcon + newText+"</div>");
 	}
 }
 
@@ -393,13 +416,14 @@ function addSticky(bucket, task, note) {
   $(buttonId).attr("onclick", "");
   $(buttonId).css("opacity", "0.3");
   $(buttonId).css("filter", "alpha(opacity=30)");
-  var note = "<div class='sticky draggable' id='"+id+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
+  var note = "<div class='sticky draggable resizable' id='"+id+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
   			+"<div class='stickyNote'>"+$(noteId).val()+"</div>"
   			+"<div><img class='editStickyButton' src='img/EditObjectButton.png'></img>"
   			+"<div class='xbutton' onclick=\"closeSticky('"+id+"','"+bucket+"','"+task+"','"+note+"')\">x</div></div>";
   $('#'+id).removeClass('hidden');
   $("#container").append(note);
   $(".draggable").draggable( {containment: "#container"} );
+  $( ".resizable" ).resizable({aspectRatio: true});
 }
 
 function closeSticky(id, bucket, task, note) {
@@ -419,13 +443,14 @@ function addTaskSticky(bucket, task) {
   $(buttonId).attr("onclick", "");
   $(buttonId).css("opacity", "0.3");
   $(buttonId).css("filter", "alpha(opacity=30)");
-  var note = "<div class='taskSticky draggable' id='"+id+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
+  var note = "<div class='taskSticky draggable resizable' id='"+id+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
   			+"<div class='stickyNote'>"+$(taskID).val()+"</div>"
   			+"<div><img class='editStickyButton' src='img/EditObjectButton.png'></img>"
   			+"<div class='xbutton' onclick=\"closeTaskSticky('"+id+"','"+bucket+"','"+task+"')\">x</div></div>";
   $('#'+id).removeClass('hidden');
   $("#container").append(note);
   $(".draggable").draggable( {containment: "#container"} );
+  $( ".resizable" ).resizable({aspectRatio: true});
 }
 
 function closeTaskSticky(id, bucket, task) {
@@ -480,6 +505,10 @@ function ifEnter(field, event) {
   	$(field).val($(field).val().split('\n')[0]);
     $(field).blur();
   }  
+  
+  text = $(field).val()
+  var rows = Math.ceil(text.length/22);
+  $(field).attr('rows', String(rows));
 }
 
 function closePaper(id) {
@@ -586,7 +615,7 @@ function refreshDropDown() {
 			task = bucket.tasks[j];
 			taskName = task.name;
 			ul = ul + "<input type='checkbox' style='float:left'></input>";
-			ul = ul + "<div onclick='addTaskToPaper("+i+", "+j+")'>"+taskName+"</div>"
+			ul = ul + "<div style='width: 12em; height:auto;' onclick='addTaskToPaper("+i+", "+j+")'>"+taskName+"</div>"
 		}
 		ul = ul + "</div></li>"
 		

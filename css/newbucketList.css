@@ -39,6 +39,9 @@
 #bottomLeftBox{
 	overflow-y: scroll;
 }
+#bottomRightBox {
+	overflow-y: scroll;
+}
 
 #textHolder{
 	background-color="transparent";
@@ -115,7 +118,7 @@ ul, li {
 }
 
 .collab{
-	width: 11em;
+	width: 13em;
 }
 
 .menu_class {
@@ -161,6 +164,7 @@ ul, li {
   padding-left: 10px;
   padding-top: 15px;
   padding-right: 8px;
+  font-size: medium;
   cursor: move;
 }
 
@@ -174,12 +178,13 @@ ul, li {
   padding-left: 10px;
   padding-top: 15px;
   padding-right: 8px;
+  font-size: medium;
   cursor: move;
 }
 
 .paper {
-	height: 247px;
-	width: 380px;
+	height: 308px;
+	width: 475px;
 	float: left;
 	background-size: 100%;
 	background-repeat: no-repeat;
@@ -246,6 +251,7 @@ textarea.new {
   color: #aaa;
   background-color: #ffffff;  
   display:inline-block;
+  float: left;
 }
 
 textarea.real {
@@ -272,10 +278,15 @@ textarea.task {
 
 .stickyNote {
   background: transparent;
-  font-size: x-small;
+  font-size: small;
   font-family: Helvetica;
   height: inherit;
   width: inherit;
+  overflow-y: scroll;
+}
+
+.date {
+	cursor: default;
 }
 
 .fixed{
