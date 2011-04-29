@@ -33,9 +33,7 @@ $(document).ready(function() {
 
 function enterBucketList() {
 
-	if($('#nameEntry').val()!="") {
-		$('#nameButton').attr("value", $('#nameEntry').val());
-	}
+		
 	
 	$('#nameEntry').val("");
 	$('#usernameEnter').val("");
@@ -46,6 +44,7 @@ function enterBucketList() {
 	$('#bottomBar').removeClass('hidden');
 	$('#dropDownBar').removeClass('hidden');
 	$('#enterScreen').removeClass('hidden');
+	
 }
 
 function login() {
@@ -413,9 +412,12 @@ function addSticky(bucket, task, note) {
   var id = 'b'+bucket+'t'+task+'n'+note+'s';
   var noteId = '#b'+bucket+'t'+task+'n'+note;
   var buttonId = '#b'+bucket+'t'+task+'n'+note+'i';
+  var sticky = new Sticky()
+  
   $(buttonId).attr("onclick", "");
   $(buttonId).css("opacity", "0.3");
   $(buttonId).css("filter", "alpha(opacity=30)");
+  
   var note = "<div class='sticky draggable resizable' id='"+id+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
   			+"<div class='stickyNote'>"+$(noteId).val()+"</div>"
   			+"<div><img class='editStickyButton' src='img/EditObjectButton.png'></img>"
