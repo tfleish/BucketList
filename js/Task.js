@@ -1,7 +1,6 @@
 var Task = function(name, bucket, index) {
 	this.index = index;
-	this.bucket = bucket;
-	this.objName = this.bucket.objName + 't' + String(this.index);
+	this.bucketNum = bucket;
 	
 	this.name = name;
 	this.notes = [];

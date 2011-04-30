@@ -1,8 +1,9 @@
-var Sticky=function(position, size, type, item) {
+var Sticky=function(position, z, size, type, item) {
+	alert(position);
 	this.position = position;
 	this.x = position[0];
 	this.y = position[1];
-	this.z = position[2];
+	this.z = z;
 	
 	this.size = size;
 	this.height = size[0];

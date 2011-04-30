@@ -1,7 +1,8 @@
-var Note = function(text, task, bucket) {
+var Note = function(index, text, task, bucket) {
 	this.text = text;
-	this.task = task;
-	this.bucket = bucket;
+	this.index = index;
+	this.taskNo = task;
+	this.bucketNo = bucket;
 	this.alert = [];
 	this.creator = null;
 }

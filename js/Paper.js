@@ -1,4 +1,4 @@
-var Paper=function(position, type, item) {
+var Paper=function(position, type) {
 	this.position = position;
 	this.x = position[0];
 	this.y = position[1];
@@ -6,5 +6,6 @@ var Paper=function(position, type, item) {
 	
 	this.type = type;
 	
-	this.item = item;
+	this.uid;
+	this.item;
 }

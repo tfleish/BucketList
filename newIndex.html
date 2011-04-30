@@ -17,28 +17,19 @@
 		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.draggable.js"></script>
 
 		<script type="text/javascript" src="js/newbucketList.js"></script>
+		<script type="text/javascript" src="js/Board.js"></script>
 		<script type="text/javascript" src="js/Bucket.js"></script>
-		<script type="text/javascript" src="js/Task.js"></script>
+		<script type="text/javascript" src="js/Collaborator.js"></script>
 		<script type="text/javascript" src="js/Note.js"></script>
+		<script type="text/javascript" src="js/Paper.js"></script>
+		<script type="text/javascript" src="js/Sticky.js"></script>
+		<script type="text/javascript" src="js/Task.js"></script>
+		<script type="text/javascript" src="js/User.js"></script>
 		
 		<script type="text/javascript" language="JavaScript">
-		
-			var visiblePapers = ["paperHolder"];
-			var totalPapers = ["paperHolder"];
-			
-			var nBuckets = 2;
-			var firstBucket = new Bucket("My First Bucket", 0);
-			var secondBucket = new Bucket("Another Bucket", 1);
-			var task1 = new Task("Task #1", firstBucket, 0);
-			var task2 = new Task("Task #2", firstBucket, 1);
-			var task3 = new Task("Task #3", secondBucket, 0);
-			var task4 = new Task("Task #4", secondBucket, 1);
-			firstBucket.tasks = [task1, task2];
-			secondBucket.tasks = [task3, task4];
-			var organizer=[firstBucket, secondBucket];
-			var board = new Board();
-			
-			var currentView=null;
+			var user;
+			var totalPapers;
+			var maxZ; 
 		</script>
 	</head>
 	
@@ -67,8 +58,7 @@
 				<div id="myTasksDropDown">
     	   			<input type="button" id="tasksButton" value = "My Buckets" class="menu_class" style="background-color: #fcf589;">
 						<ul id = "tasksMenu" class="the_menu menu3">
-							<li><textarea id="bucketInput" class='new bucket' onfocus='bucketFocus(nBuckets)' onblur="bucketBlur(nBuckets)" onkeyup="ifEnter('#bucketInput', event)">New Bucket</textarea></li>
-							<li>
+							<!--<li>
 								<div><img id="b0expand" class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion(0)"></img></div>
 								<div onclick="addBucketToPaper(0)">My First Bucket</div>
 								<div id="b0accordion" class='hidden' style="position:absolute">
@@ -83,23 +73,23 @@
 									<input type="checkbox" style='float:left'></input> <div onclick="addTaskToPaper(1, 0)"> Task #3</div>
 									<input type="checkbox" style='float:left'></input> <div onclick="addTaskToPaper(1, 1)"> Task #4</div>
 								</div>
-							</li>
+							</li>-->
 						</ul>
 					</input>
       			</div>
 			</div>
 		</div>
 		
-		<div id="paperHolder" class="draggable paper">	
+		<div id="enterPaper" class="draggable paper">	
 			<div id="welcomeHolder" class='tempscreen'>
 				<img src="img/nobucketLogo.gif" style="width: 450px; padding-top: 3%;"></img>
 				<div style="text-align: left; padding: 0px; font-size: 10pt;"> 
 					<div><div style='width: 10em; float: left;'>Email Address: </div><input id="usernameEnter" type="text"></input></div>
 					<div><div style='width: 10em; float: left;'>Password: </div><input id="passwordEnter" type="password"></input></div><br>
 					<div>
-						<button type="button" onclick="enterBucketList()">Log in</button>
+						<button type="button" onclick="login()">Log in</button>
 						<button type = "button" style='float:right'>Forgot your password?</button>
-						<button type="button" style='float:right' onclick="createAccount()">Need an account?</button>
+						<button type="button" style='float:right' onclick="createAccountScreen()">Need an account?</button>
 					</div>
 				</div>
 			</div>
@@ -125,7 +115,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="textHolder" class="hidden">
+			<!--<div id="textHolder" class="hidden">
 				<div id="leftBox" style="width: 65%; float: left;">
 					<div id="topLeftBox" style="height: 10%; border-bottom: 1px solid black;">
 						<div>
@@ -154,7 +144,7 @@
 					<div id="bottomRightBox" style="height: 70%">
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<div id="bottomBar" style="position:fixed; bottom: 14px; right: 23px;" class='hidden'>
 			<div id="clearButtonDiv" style="float: right;">

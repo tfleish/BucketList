@@ -28,14 +28,6 @@
 	float: right;
 }
 
-#addCollabButton {
-	display: block;
-  width: 30px;
-  height: 30px;
-  margin: 0px auto;
-  cursor: pointer;
-}
-
 #bottomLeftBox{
 	overflow-y: scroll;
 }
@@ -43,11 +35,10 @@
 	overflow-y: scroll;
 }
 
-#textHolder{
+.textholder{
 	background-color="transparent";
 	font-size: 11pt;
 	padding-left: 10px;
-	padding-top: 8%;
 	padding-right: 10px;
 	padding-bottom: 8%;
 	position: relative;
@@ -79,12 +70,12 @@
 
 .collabsBox {
 	border: 1px inset #ececec;
-	height: 94%;
+	height: 65%;
 	padding: 3%;
 }
 
-.noteBox {
-	height: 92%;
+.notesBox {
+	height: 65%;
 	padding: 3%;
 	border-right: 1px outset #ececec;
 	border-top: 1px inset #ececec;
@@ -102,9 +93,15 @@ h4 {
 	margin-bottom:0px;
 }
 
+h2 {
+	padding: 0px;
+	margin: 0px;
+}
+
 .icon {
 	height: 22px;
 	width: 22px;
+	cursor: default;
 }
 
 .persona {
@@ -190,6 +187,7 @@ ul, li {
 	background-repeat: no-repeat;
 	background-image: url('../img/paper2.png');
 	cursor: move;
+	position: absolute;
 }
 
 .xbutton {
@@ -230,7 +228,6 @@ textarea {
 	font-family: courier;
 	background: transparent;
   border: none;
-  width: auto;
   height: 2em;
   resize: none;
   cursor: text;
@@ -249,9 +246,11 @@ textarea:focus {
 
 textarea.new {
   color: #aaa;
+  height: auto;
   background-color: #ffffff;  
   display:inline-block;
   float: left;
+  width: 85%;
 }
 
 textarea.real {
@@ -267,12 +266,14 @@ textarea.note {
 textarea.bucket {
   border-bottom: dashed 1px;
   border-color:-moz-use-text-color;
+  width: 100%;
   
 }
 
 textarea.task {
   border-bottom: dashed 1px;
   border-color:-moz-use-text-color;
+  width: 75%;
 }
 
 
@@ -292,7 +293,65 @@ textarea.task {
 .fixed{
 	height: auto;
 	cursor: pointer;
-	width: 45%;
+	width: 22em;
+}
+
+.leftBox {
+	width: 65%;
+	float: left;
+}
+.rightBox {
+	width: 35%;
+	float: right;
+}
+
+.topLeftBoxBucket {
+	border-bottom: 1px solid black;
+	overflow-y: visible;
+	height: 11%;
+}
+
+.topRightBoxBucket {
+	height: 11%; 
+	overflow-y: visible;
+	border-bottom: 1px solid black;
+}
+
+.topLeftBoxTask {
+	border-bottom: 1px solid black;
+	overflow-y: visible;
+	height: 20%;
+}
+
+.topRightBoxTask {
+	height: 20%; 
+	overflow-y: visible;
+	border-bottom: 1px solid black;
+}
+
+.collabsTitle {
+	float: left;
+}
+
+.addCollabButton {
+	float: right; 
+	padding-top: 0px; 
+	padding-bottom: 0px;		
+	display: block;
+  	width: 30px;
+  	height: 30px;
+  	margin: 0px auto;
+  	cursor: pointer;
+}
+
+.checkBoxIcon{
+	height: 15px;
+	width: 15px;
+	cursor: default;
+}
+
+.bucketTitle{
+	float: left;
 }
 
 .hidden {

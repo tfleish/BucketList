@@ -5,5 +5,5 @@ var User=function(pic, name, email) {
 	
 	this.organizer = [];
 	this.friends = [];
-	this.Board = new Board();
+	this.board = new Board();
 }
