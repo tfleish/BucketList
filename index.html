@@ -66,22 +66,6 @@
 				<div id="myTasksDropDown">
     	   			<input type="button" id="tasksButton" value = "My Buckets" class="menu_class" style="background-color: #fcf589;">
 						<ul id = "tasksMenu" class="the_menu menu3">
-							<!--<li>
-								<div><img id="b0expand" class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion(0)"></img></div>
-								<div onclick="addBucketToPaper(0)">My First Bucket</div>
-								<div id="b0accordion" class='hidden' style="position:absolute">
-									<input type="checkbox" style='float:left'></input><div onclick="addTaskToPaper(0, 0)"> Task #1</div>
-									<input type="checkbox" style='float:left'></input><div onclick="addTaskToPaper(0, 1)"> Task #2 </div>
-								</div>
-							</li>
-							<li>
-								<img id='b1expand' class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion(1)"></img>
-								<div onclick="addBucketToPaper(1)">Another Bucket</div>
-								<div id="b1accordion" class='hidden' style="position:absolute">
-									<input type="checkbox" style='float:left'></input> <div onclick="addTaskToPaper(1, 0)"> Task #3</div>
-									<input type="checkbox" style='float:left'></input> <div onclick="addTaskToPaper(1, 1)"> Task #4</div>
-								</div>
-							</li>-->
 						</ul>
 					</input>
       			</div>
@@ -95,7 +79,7 @@
 					<div><div style='width: 10em; float: left;'>Email Address: </div><input id="usernameEnter" type="text"></input></div>
 					<div><div style='width: 10em; float: left;'>Password: </div><input id="passwordEnter" type="password"></input></div><br>
 					<div>
-						<button type="button" onclick="login()">Log in</button>
+						<button type="button" onclick="login('login')">Log in</button>
 						<button type = "button" style='float:right'>Forgot your password?</button>
 						<button type="button" style='float:right' onclick="createAccountScreen()">Need an account?</button>
 					</div>
@@ -118,41 +102,11 @@
 					<div><div style='width: 10em; float: left;'>Confirm Password: </div><input id='pwdconf' type="password"></input></div>
 					
 					<div>
-						<button type="button" onclick="login()" style='float: left'>Create account and log in</button>
+						<button type="button" onclick="login('create')" style='float: left'>Create account and log in</button>
 						<button type="button" onclick="returnToLogin()" style='float: right'>Return to login screen</button>
 					</div>
 				</div>
 			</div>
-			<!--<div id="textHolder" class="hidden">
-				<div id="leftBox" style="width: 65%; float: left;">
-					<div id="topLeftBox" style="height: 10%; border-bottom: 1px solid black;">
-						<div>
-							 <img style="float: left" id="bucketIcon" class='hidden icon' onclick='toggleBox()'></img>
-						</div>
-						<div>
-							<textarea class="h2" id="paperTitle" onkeyup="ifEnter('#paperTitle', event)"></textarea>
-						</div>
-					</div>
-					<div id="bottomLeftBox" style="height: 70%; border-right: 1px solid black;">
-					</div>
-				</div>
-				<div id="rightBox" style="width: 35%; float: right;">
-					<div id="topRightBox" style="height: 10%; border-bottom: 1px solid black;">
-						<div>
-					 		<h5 id="collabsTitle" style="float: left;"><b>Collaborators</b></h5>
-						</div>
-						<div>
-					 		<img src="img/plusButton.png" class="menu_class" id="addCollabButton" style="width: 20%; height: auto; float: right; padding-top: 0px; padding-bottom: 0px;">
-								<ul id = "collabsMenu" class="the_menu menu4" style="float: left;">
-									<li><textarea id="collabInput" class='new collab' onfocus='collabFocus()' onblur="collabBlur(0, 0)" onkeyup="ifEnter('#collabInput', event)">Enter name</textarea></li>
-								</ul>
-							</input>
-						</div>
-					</div>
-					<div id="bottomRightBox" style="height: 70%">
-					</div>
-				</div>
-			</div> -->
 		</div>
 		<div id="bottomBar" style="position:fixed; bottom: 14px; right: 23px;" class='hidden'>
 			<div id="clearButtonDiv" style="float: right;">

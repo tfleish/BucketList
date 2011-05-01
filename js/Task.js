@@ -7,4 +7,5 @@ var Task = function(name, bucket, index) {
 	this.dueDate = null;
 	this.collabs = [];
 	this.done = false;
+	this.openSticky = false;
 }

@@ -105,6 +105,11 @@ h2 {
 	margin: 0px;
 }
 
+u:hover {
+	cursor: pointer;
+	font-weight: bold;
+}
+
 .icon {
 	height: 22px;
 	width: 22px;
@@ -240,7 +245,8 @@ textarea.h2 {
 	font-family: "Handwriting - Dakota";
 	font-size: large;
 	font-weight: bold;
-	height: 3em;
+	margin: 0px;
+	padding: 0px;
 }
 
 textarea:focus {
@@ -293,7 +299,6 @@ textarea.task {
   font-family: Helvetica;
   height: inherit;
   width: inherit;
-  overflow-y: scroll;
 }
 
 .date {
@@ -361,6 +366,10 @@ textarea.task {
 
 .bucketTitle{
 	float: left;
+}
+
+.strikeThrough {
+	text-decoration: line-through;
 }
 
 .hidden {

@@ -115,6 +115,8 @@ function postSticky(sticky) {
 	moveToFront(id);
 	$(".draggable").draggable( {containment: "#container"} );
   	$(".resizable").resizable({aspectRatio: true});
+  	
+  	refreshAllPapers();
 }
 
 function moveToFront(id) {
@@ -130,11 +132,11 @@ function postPaper(paper) {
 	var textHolder = "<div class='textholder'><div class='leftBox'>";
 	var titleBoxHTML = "<div class='topLeftBoxBucket' id='titleBox"+uid+"'>";
 	var iconHTML = "<div> <img style='float: left' src='img/bucket.gif' class='bucketIcon icon' id='icon"+uid+"' onClick = 'toggleBox(\""+uid+"\")'></img></div>";
-	var titleHTML = "<div> <textarea class='h2' class='bucketTitle' id='title"+uid+"' style='height: 100%' onkeyup = 'ifEnter(\"title"+uid+"\", event)'></textarea></div></div>";
+	var titleHTML = "<div class='bucketTitle' id='title"+uid+"' style='height: 100%'> </div></div>"
 	var notesBoxHTML = "<div id='notesBox"+uid+"' class='notesBox'></div>";
 	html = html + xbutton + textHolder + titleBoxHTML + iconHTML + titleHTML + notesBoxHTML + "</div>";
 	
-	html = html + "<div class='rightBox'><div class='topRightBoxBucket' id='collabsTitle"+uid+"'><div style='float: left;'><h5 class='collabsTitle'><b>Collaborators</b></h5></div>";
+		html = html + "<div class='rightBox'><div class='topRightBoxBucket' id='collabsTitle"+uid+"'><div style='float: left;'><h5 class='collabsTitle'><b>Collaborators</b></h5></div>";
 	var collabsButtonHTML = "<img id='addCollabButton"+uid+"' onclick='toggleCollabsBox(\""+uid+"\")' src='img/plusButton.png' class='addCollabButton'></div>";
 	var collabsBoxHTML = "<div class='collabsBox collabsView' id='collabsBox"+uid+"'></div></div>"
 	
@@ -150,11 +152,14 @@ function postPaper(paper) {
 	
 	if(paper.type == "bucket") {
 		bucket = paper.item;
-		$('#title'+uid).val(bucket.name);
+		var html = "<textarea class='h2' onkeyup = 'ifEnter(\"title"+uid+"\", event)'>"+bucket.name+"</textarea>"
+		$('#title'+uid).html(html);
 	} else {
 		task = paper.item;
 		bucket = user.organizer[task.bucketNum];
-		$('#title'+uid).val(task.name+' in Bucket '+bucket.name);
+		var html = "<textarea class='h2' onkeyup = 'ifEnter(\"title"+uid+"\", event)'>"+task.name+"</textarea>"
+		html = html + "<br><h5 style='float: left; font-weight: lighter'>in bucket <u><font onclick=\"alert('hi')\" color='#0000ff'>"+bucket.name+"</font></u></h5>"
+		$('#title'+uid).html(html);
 		$('#titleBox'+uid).removeClass('topLeftBoxBucket');
 		$('#titleBox'+uid).addClass('topLeftBoxTask');
 		$('#collabsTitle'+uid).removeClass('topLeftBoxBucket');
@@ -165,7 +170,6 @@ function postPaper(paper) {
 			$('#icon'+uid).attr('src', 'img/checkbox-empty.png')	
 		}
 	}
-	
 	moveToFront(uid);
 }
 
@@ -238,15 +242,12 @@ function processCollabAdd(uid) {
 	if(paper.type == 'bucket') {
 		var addList = user.friends;
 	} else {
-		var addList = user.organizer[item.bucketNum].collabs;
-	}
-	
+		var addList = user.organizer[item.bucketNum].collabs;}
 	for(i = 0; i < addList.length; i++) {
 		if($("#collabCheck"+i+uid).attr('src')=='img/checkbox-full.png') {
 			item.collabs[item.collabs.length] = addList[i];
 		}
-	}
-	
+	}	
 }
 
 function postCollabViewScreen(uid) {
@@ -275,10 +276,8 @@ function deleteItemFromPaper(paperID) {
 			closePaper(paperID);
 		} else { // Deleting a task, return to bucket view
 			user.organizer[item.bucketNum].tasks[item.index] = null;
-			changePaperFocus(item.bucketNum, null, paperID);
-			
+			changePaperFocus(item.bucketNum, null, paperID);	
 		}
-		
 		refreshDropDown();
 	} 
 }
@@ -317,10 +316,12 @@ function addBucketToPaper(b, paper) {
 		paper.item = bucketObj;
 		paper.uid = "p"+totalPapers;
 		totalPapers = totalPapers+1;
-	
 		postPaper(paper);
 		
-		var notes = "<div id='boxDiv"+paper.uid+"'><h4>Tasks</h4>"
+		var notes = "<div id='boxDiv"+paper.uid+"'><div><h4 style='float: left'>Tasks</h4>"
+			+ "<div id='alarmBox"+paper.uid+"' class='hidden' style='float:right'><img src='img/alarmclock.png' style='float:left; width:20px; height:auto;'></img>"
+			+ "<input type='textbox' id='alarmText"+paper.uid+"' style='width: 7em; float:right;' class='date'></input>"
+			+ "</div></div>"
 			+"<textarea class='task new' "
         	+"style='float:left'"
 	        + "id='textbox"+paper.uid+"'"
@@ -332,14 +333,10 @@ function addBucketToPaper(b, paper) {
 			+ "<div class='divider'></div></div><div class='notesDiv' id='notesDiv"+paper.uid+"'></div>";
 		
 		$("#notesBox"+paper.uid).html(notes);
-		
-		refreshPaper(paper.uid);
 	} else {
-		paper.item = bucketObj;
-		
-		refreshPaper(paper.uid);		
+		paper.item = bucketObj;		
 	}
-	
+	refreshAllPapers();
 }
 
 //Will be to toggle checkbox next to Task name
@@ -373,15 +370,14 @@ function addTaskToPaper(b, t, paper) {
 		paper.item = taskObj;
 		paper.uid = "p"+totalPapers;
 		totalPapers = totalPapers+1;
-	
 		postPaper(paper);
 	
 		var notes = "<div id='boxDiv"+paper.uid+"' class='noteBox'>"
 					+ "<div><h4 style='float: left;'>Notes</h4>"
-					+ "<div style='float:right'><img src='img/alarmclock.png' style='float:left; width:20px; height:auto;'></img>"
-					+ "<input type='textbox' style='width: 7em; float:right;' class='date'></input>"
+					+ "<div style='float:right'><img id='alarmBox"+paper.uid+"' src='img/alarmclock.png' style='float:left; width:20px; height:auto;'></img>"
+					+ "<input type='textbox' id='alarmText"+paper.uid+"' style='width: 7em; float:right;' class='date'></input>"
 					+ "</div></div>"
-      + "<textarea class='new note'"
+      				+ "<textarea class='new note'"
                    + "id='textbox"+paper.uid+"'"
                    + "rows='1' style='height: auto'"
                    + "onfocus=\"taskOrNoteFocus('"+paper.uid+"')\" "
@@ -391,14 +387,11 @@ function addTaskToPaper(b, t, paper) {
    	  + "<div class='divider'></div></div><div class='notesDiv' id='notesDiv"+paper.uid+"'></div>";
 	
 		$("#notesBox"+paper.uid).html(notes);
-		
-		refreshPaper(paper.uid);
 	} else {
-		paper.item = bucketObj;
-		
-		refreshPaper(paper.uid);		
+		paper.item = bucketObj;		
 	}
 	
+	refreshAllPapers();	
 }
 
 //This function focuses the newBucket section of the mytasks dropdown.  changes color.
@@ -516,24 +509,14 @@ function taskBlur(paperID) {
 	var taskbox = '#textbox'+paperID;
 	
 	if($(taskbox).val() == '' && $(taskbox).hasClass('new')) { // if the text is empty, don't actually create new task.
-		$(taskbox).text('New Task');
+		$(taskbox).text('New Note');
 		$(taskbox).css('color', '#aaa');
 	} else {
 		name = $(taskbox).val();
 		var task = new Task(name, bucket.index, bucket.tasks.length);
 		bucket.tasks[bucket.tasks.length] = task;
-		refreshPaper(paperID);
+		refreshAllPapers();
 	}
-}
-
-function addTaskToBucket(taskName, bucketNo) {
-	var bucket = user.organizer[parseInt(bucketNo)];
-	var taskNo = bucket.tasks.length;
-	var task = new Task(taskName, parseInt(bucketNo), taskNo);
-	bucket.tasks[taskNo] = task;
-	
-	refreshDropDown();
-	//refreshPaper();
 }
 
 //called when a note is blurred in TaskView
@@ -550,81 +533,70 @@ function noteBlur(paperID) {
 		name = $(taskbox).val();
 		var note = new Note(task.notes.length, name, task.index, task.bucketNum);
 		task.notes[task.notes.length] = note;
-		refreshPaper(paperID);
+		refreshAllPapers();
 	}
 }
 
-function addNoteToTask(noteText, taskNo, bucketNo) {
-	var bucket = user.organizer[parseInt(bucketNo)];
-	var task = bucket.tasks[parseInt(taskNo)];
-	var noteNo = task.notes.length;
-	task.notes[noteNo] = new Note(noteNo, noteText, task, bucket);
+
+function addSticky(index, paperID) { 
+	var pos = getRandomPosition([96, 75])
+	var buttonId = '#icon'+index+paperID;
+	var paper = getPaperFromID(paperID);
+	$(buttonId).attr("onclick", "");
+	$(buttonId).css("opacity", "0.3");
+	$(buttonId).css("filter", "alpha(opacity=30)");
+	maxZ = maxZ + 1;
+	if(paper.type == 'task') {
+		var note = paper.item.notes[index];
+		note.openSticky = true;
+		var sticky = new Sticky(pos, maxZ, [96, 75], "note", note)
+  
+  		var html = "<div class='sticky draggable resizable' id='stickyb"+note.bucketNo+"t"+note.taskNo+"n"+note.index+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
+  			+"<div class='stickyNote'>"+note.text+"</div>"
+  			+"<div><img class='editStickyButton' src='img/EditObjectButton.png'></img>"
+  			+"<div class='xbutton' onclick=\"closeSticky('"+note.bucketNo+"','"+note.taskNo+"','"+note.index+"')\">x</div></div>";
+  	} else {
+  		var task = paper.item.tasks[index];
+  		var sticky = new Sticky(pos, maxZ, [96, 75], "task", task);
+  		task.openSticky = true;
+  		var html = "<div class='taskSticky draggable resizable' id='stickyb"+task.bucketNum+"t"+task.index+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
+  			+"<div class='stickyNote'>"+task.name+"</div>"
+  			+"<div><img class='editStickyButton' src='img/EditObjectButton.png'></img>"
+  			+"<div class='xbutton' onclick=\"closeSticky('"+task.bucketNum+"','"+task.index+"',null)\">x</div></div>";
+  	}
+	user.board.stickies[user.board.stickies.length] = sticky;
+  $("#container").append(html);
+  $(".draggable").draggable( {containment: "#container"} );
+  $( ".resizable" ).resizable({aspectRatio: true});
+}
+
+function closeSticky(bucketNo, taskNo, noteNo) {
 	
-	//refreshPaper();
-}
-
-
-function addSticky(bucket, task, note) {
-  var pos = getRandomPosition([96, 75])
-  var id = 'b'+bucket+'t'+task+'n'+note+'s';
-  var noteId = '#b'+bucket+'t'+task+'n'+note;
-  var buttonId = '#b'+bucket+'t'+task+'n'+note+'i';
-  var sticky = new Sticky()
-  
-  $(buttonId).attr("onclick", "");
-  $(buttonId).css("opacity", "0.3");
-  $(buttonId).css("filter", "alpha(opacity=30)");
-  
-  var note = "<div class='sticky draggable resizable' id='"+id+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
-  			+"<div class='stickyNote'>"+$(noteId).val()+"</div>"
-  			+"<div><img class='editStickyButton' src='img/EditObjectButton.png'></img>"
-  			+"<div class='xbutton' onclick=\"closeSticky('"+id+"','"+bucket+"','"+task+"','"+note+"')\">x</div></div>";
-  $('#'+id).removeClass('hidden');
-  $("#container").append(note);
-  $(".draggable").draggable( {containment: "#container"} );
-  $( ".resizable" ).resizable({aspectRatio: true});
-}
-
-function closeSticky(id, bucket, task, note) {
-	$('#'+id).addClass('hidden');
-	var buttonId = '#b'+bucket+'t'+task+'n'+note+'i';
-	var clickFn = "addSticky('"+bucket+"', '"+task+"', '"+note+"')"
-	$(buttonId).attr("onclick", clickFn);
-  	$(buttonId).css("opacity", "1");
-  	$(buttonId).css("filter", "alpha(opacity=100)");
-}
-
-function addTaskSticky(bucket, task) {
-  var pos = getRandomPosition([96, 75])
-  var id = 'b'+bucket+'t'+task+'s';
-  var taskID = '#b'+bucket+'t'+task;
-  var buttonId = '#b'+bucket+'t'+task+'i';
-  $(buttonId).attr("onclick", "");
-  $(buttonId).css("opacity", "0.3");
-  $(buttonId).css("filter", "alpha(opacity=30)");
-  var note = "<div class='taskSticky draggable resizable' id='"+id+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
-  			+"<div class='stickyNote'>"+$(taskID).val()+"</div>"
-  			+"<div><img class='editStickyButton' src='img/EditObjectButton.png'></img>"
-  			+"<div class='xbutton' onclick=\"closeTaskSticky('"+id+"','"+bucket+"','"+task+"')\">x</div></div>";
-  $('#'+id).removeClass('hidden');
-  $("#container").append(note);
-  $(".draggable").draggable( {containment: "#container"} );
-  $( ".resizable" ).resizable({aspectRatio: true});
-}
-
-function closeTaskSticky(id, bucket, task) {
-	$('#'+id).addClass('hidden');
-	var buttonId = '#b'+bucket+'t'+task+'i';
-	var clickFn = "addTaskSticky('"+bucket+"', '"+task+"')"
-	$(buttonId).attr("onclick", clickFn);
-  	$(buttonId).css("opacity", "1");
-  	$(buttonId).css("filter", "alpha(opacity=100)");
+	if(noteNo == null) {
+		var id = "stickyb"+bucketNo+"t"+taskNo;
+		var item = user.organizer[bucketNo].tasks[taskNo]
+	} else {
+		var id = "stickyb"+bucketNo+"t"+taskNo+"n"+noteNo;
+		var item = user.organizer[bucketNo].tasks[taskNo].notes[noteNo];
+	}
+	for(i = 0; i < user.board.stickies.length; i++) {
+		s = user.board.stickies[i].item;
+		if(s = item) {
+			item.openSticky = false;
+			user.board.stickies.splice(i, i);
+			$('#'+id).remove();
+			$(buttonId).attr("onclick", clickFn);
+  			$(buttonId).css("opacity", "1");
+  			$(buttonId).css("filter", "alpha(opacity=100)");
+		}
+	}
+	
+	refreshAllPapers();
 }
 
 function getRandomPosition(size) {
 	var screenWidth = window.innerWidth;
 	var screenHeight = window.innerHeight;
-	
 	var pieceHt = size[1]
 	var pieceWd = size[0]
 	
@@ -648,7 +620,7 @@ function getRandomPosition(size) {
 		}
 	}
 	wid = getRandomWidth();
-	
+
 	return [ht, wid]
 }
 
@@ -675,7 +647,6 @@ function closePaper(id) {
 
 function help() {
 	//create new paper, add it to container div	
-
 	var helpTitle = "<h3 style='padding:15px' > How can we help you? </h3>"
 	var helpPaper = "<div id='helpPaper' class='draggable paper'>"
 			+helpTitle
@@ -695,8 +666,6 @@ function logout() {
 	$('#bottomBar').addClass('hidden');
 	$('#dropDownBar').addClass('hidden');
 	$('#enterScreen').addClass('hidden');
-	//$('#textHolder').addClass('hidden');
-	
 	
 	for(i=0; i<visiblePapers.length;i++) {
 		$('#'+visiblePapers[i]).addClass('hidden');
@@ -708,18 +677,17 @@ function logout() {
 function refreshPaper(paperID) {
 	var paper = getPaperFromID(paperID);
 	refreshDropDown();
-	
 	var uid = paper.uid;
 	if(paper.type == "bucket") {
 		var bucket = paper.item;
-		$('#title'+uid).val(bucket.name);
+		var titleHTML = "<textarea class='h2' onkeyup = 'ifEnter(\"title"+uid+"\", event)'>"+bucket.name+"</textarea>"
+		$('#title'+uid).html(titleHTML);
 		$('#icon'+uid).attr('src', 'img/bucket.gif')
 		$('#titleBox'+uid).addClass('topLeftBoxBucket');
 		$('#titleBox'+uid).removeClass('topLeftBoxTask');
 		$('#collabsTitle'+uid).addClass('topLeftBoxBucket');
 		$('#collabsTitle'+uid).removeClass('topLeftBoxTask');	
 		var html = ''; 
-		var dueDate =[];
 		for(i = 0; i < bucket.tasks.length; i++){
 				var task = bucket.tasks[i];
 				if(task != null) {
@@ -730,19 +698,22 @@ function refreshPaper(paperID) {
 				var newIcon = "<div style='float: left'><img src=\"img/addStickyIconGreen copy.gif\""
 		        	+ "id='icon"+i+paper.uid+"'"
 		        	+ "class='stickyButton' "
-		        	+ "onclick=\"postSticky(new Sticky(getRandomPosition([96, 75]), maxZ, [96, 75], 'task',"+stringTask+"))\"> </img>"//\"addTaskSticky('"+bucket.index+"', '"+i+"')\"></img>";
+		        	+ "onclick=\"addSticky("+i+", '"+uid+"')\"> </img>"
 		        if(task.done) {
 		        	src = 'img/checkbox-full.png';
-		        } else {src ='img/checkbox-empty.png';}
+		        } else {
+		        	src ='img/checkbox-empty.png';
+		        }
 		        var checkbox = "<img id='itemCheck"+i+paper.uid+"' onclick = 'toggleTask("+i+", \""+paper.uid+"\")' src='"+src+"' class='checkBoxIcon' style='float:left'></input>"
+		        
 				//create a new line of text on the list of tasks with id b(bucketNum)t(taskNum)
 				rows = Math.ceil(name.length/22);
 				
 				try {
-					dueDate[i] = $('#dateTexti'+i+uid).datepicker('getDate').getDate();
-					dueDate[i] = $('#dateTexti'+i+uid).datepicker('getDate');
+					task.dueDate = $('#dateTexti'+i+uid).datepicker('getDate').getDate();
+					task.dueDate = $('#dateTexti'+i+uid).datepicker('getDate');
 				} catch(err) {
-					dueDate[i] = null;
+					task.dueDate = null;
 				}
 				
 		    	var newText = "<textarea class='task fixed' "
@@ -752,9 +723,8 @@ function refreshPaper(paperID) {
 					+"style='float:left;'>"
 		        	+name+"</textarea></div>"
 		         	+"<div style='float: right; width: 65px;'>"
-		        	+"<input onchange='refreshPaper(\""+uid+"\")' id='dateTexti"+i+uid+"' class='hidden date' type='textbox' style='float: right; width:0px; padding:0px; margin:0px; border: 0px;'/>"
-		        	+"<img src='img/EditObjectButton.png' onclick='alert(\"hi2\")' class='icon' style='float: right'></img></div>";
-		                             //+"<input type='textbox' style='width: 0px; height=0px; float:right;' class='date' id='datepicker"+currentTask+"'><br>";
+		        	+"<input onchange='refreshAllPapers()' id='dateTexti"+i+uid+"' class='hidden date' type='textbox' style='float: right; width:0px; padding:0px; margin:0px; border: 0px;'/>"
+		        	+"<img src='img/EditObjectButton.png' onclick='alert(\"hi2\")' class='icon' style='float: left'></img></div>";
 		        var exit = "</div>";
 		        html = html + entry + newIcon + checkbox + newText + exit;
 	        }
@@ -763,22 +733,37 @@ function refreshPaper(paperID) {
 		$('#textbox'+uid).css('color', '#aaa');
 		$('#textbox'+uid).onkeyup="ifEnter('#textbox"+paper.uid+"', event)";
     	$('#notesDiv'+uid).html(html);
-		for(i=0;i<bucket.tasks.length;i++){    	
-	    	if(dueDate[i] != null) {
-		    	//var src = 'img/calendar_icon.gif';
-	    		var src='img/cals/cal'+dueDate[i].getDate()+'.gif';
+		for(i=0;i<bucket.tasks.length;i++){   
+			task = bucket.tasks[i]; 	
+	    	if(task.dueDate != null) {
+	    		var src='img/cals/cal'+task.dueDate.getDate()+'.gif';
 		    } else {
 		    	var src = 'img/calendar_icon.gif';
 		    }
+		    
+		    if(task.done) {
+	        	$('#text'+i+uid).addClass('strikeThrough');
+		    } else {
+		    	$('#text'+i+uid).removeClass('strikeThrough');
+		    }
+		    
 			$("#dateTexti"+i+uid).datepicker({ showOn: 'button', buttonImageOnly: true, buttonImage: src });
-			$('#dateTexti'+i+uid).datepicker("setDate", dueDate[i]);
+			$('#dateTexti'+i+uid).datepicker("setDate", task.dueDate);
+			
+	        if(bucket.tasks[i].openSticky) {
+	        	var buttonId = '#icon'+i+paper.uid;
+	       		$(buttonId).attr("onclick", "");
+				$(buttonId).css("opacity", "0.3");
+				$(buttonId).css("filter", "alpha(opacity=30)");
+		    }
 		}
-
 	} else {
 		$("#dueLabel"+paper.uid).addClass('hidden');
 		var task = paper.item;
 		var bucket = user.organizer[task.bucketNum];
-		$('#title'+uid).val(task.name+' in Bucket '+bucket.name);
+		var html = "<textarea class='h2' onkeyup = 'ifEnter(\"title"+uid+"\", event)'>"+task.name+"</textarea>"
+		html = html + "<br><h5 style='float: left; font-weight: lighter;'>in bucket <u><font onclick=\"changePaperFocus("+task.bucketNum+", null,'"+paper.uid+"');\" color='#0000ff'>"+bucket.name+"</font></u></h5>"
+		$('#title'+uid).html(html);
 		$('#titleBox'+uid).removeClass('topLeftBoxBucket');
 		$('#titleBox'+uid).addClass('topLeftBoxTask');
 		$('#collabsTitle'+uid).removeClass('topLeftBoxBucket');
@@ -799,20 +784,16 @@ function refreshPaper(paperID) {
 			var newIcon = "<div style='float: left; width: 80%;'><img src=\"img/addStickyIcon.gif\""
 						+ "id='icon"+i+paper.uid+"'" 
 						+ "class='stickyButton' " 
-						+ "onclick=\"addSticky('"+task.bucketNum+"','"+task.index+"','"+i+"')\"></img>";
+						+ "onclick=\"addSticky('"+i+"','"+paper.uid+"')\"></img>";
 														 
 			//create a new line of text on the list of tasks with id b(bucketNum)t(taskNum)
 			rows = Math.ceil(name.length/22);
-	    	var newText = "<textarea class='note fixed' rows='"+rows+"' style='float:left; width: 200px;'" 
+	    	var newText = "<textarea class='note fixed' rows='"+rows+"' style='float:right; width: 180px;'" 
 						+"id='text"+i+uid+"'" +">" 
 						+name+"</textarea></div>"
-						+"<div style='float: right; width: 20%;'>"
-							+"<img src='img/reorder.png' class='checkBoxIcon' style='float: left;'></img>"
+						+"<div style='float: right; width: 15px;'>"
 							+"<img src='img/alert_icon.gif' class='menu_class alertMenus checkBoxIcon' style='float: right;'>"
-						//+"<ul class='the_menu menu5' style='float: right;'></div>"
-						//+ "<li><textarea class='new collab' onfocus='collabFocus()'>Enter name</textarea></li></ul>"
 						+"</img></div>";
-	                             //+"<input type='textbox' style='width: 0px; height=0px; float:right;' class='date' id='datepicker"+currentTask+"'><br>";
 	        var exit = "</div>";
 	        
 	        html = html + entry + newIcon + newText + exit;	
@@ -822,9 +803,10 @@ function refreshPaper(paperID) {
 		$('#textbox'+uid).css('color', '#aaa');
 		$('#textbox'+uid).onkeyup="ifEnter('#textbox"+paper.uid+"', event)";
     	$('#notesDiv'+uid).html(html);
+    	$('#alarmText'+uid).datepicker();
+    	$('#alarmText'+uid).datepicker('setDate',task.dueDate)
 		
-	}
-	
+	}	
 }
 
 function toggleTask(ind, uid) {
@@ -834,12 +816,16 @@ function toggleTask(ind, uid) {
 	
 	if(task.done) {
 		task.done = false;
-		$('#itemCheck'+ind+uid).attr('src', 'img/checkbox-empty.png');}
+		$('#itemCheck'+ind+uid).attr('src', 'img/checkbox-empty.png');
+		$('#text'+ind+uid).removeClass('strikeThrough');
+		}
 	else {
 		task.done = true;
 		$('#itemCheck'+ind+uid).attr('src', 'img/checkbox-full.png');
+		$('#text'+ind+uid).addClass('strikeThrough');
 	}
 	
+	refreshAllPapers();
 	refreshDropDown();
 }
 
@@ -852,6 +838,7 @@ function changePaperFocus(bucketNum, taskNum, paperID) {
 		
 		paper.item = task;
 		paper.type = 'task';
+		$('#alarmBox'+paper.uid).removeClass('hidden');
 		$('#textbox'+paper.uid).blur(function() {
 	  		noteBlur(paperID);
 		});
@@ -859,12 +846,13 @@ function changePaperFocus(bucketNum, taskNum, paperID) {
 		var paper = getPaperFromID(paperID);
 		paper.item = bucket;
 		paper.type = 'bucket';
+		$('#alarmBox'+paper.uid).addClass('hidden');
 		$('#textbox'+paper.uid).blur(function() {
 	  		taskBlur(paperID);
 		});
 	}
 		
-	refreshPaper(paperID);
+	refreshAllPapers();
 }
 
 function refreshDropDown() {
@@ -884,7 +872,6 @@ function refreshDropDown() {
 				ul = ul + "<li>"
 				bucketName = bucket.name;
 				ul = ul + "<div><img id='b"+i+"expand' class='expandButton' style='float: left;' src='img/plus_green.gif' onclick='toggleAccordion("+i+")'></img></div>";
-				ul = ul + "<div><img id='b"+i+"expand' class='expandButton' style='float: left; width: 17px; height: 17px; ' src='img/reorder.png'></img></div>";
 				ul = ul + "<div onclick = 'addBucketToPaper("+i+", null)'>"+bucketName+"</div>";
 				ul = ul + "<div id='b"+i+"accordion' class='hidden' style='position:absolute'>";
 				for(j = 0; j < bucket.tasks.length; j++) {
@@ -909,17 +896,6 @@ function refreshDropDown() {
 	$('#tasksMenu').html(text);
 }
 
-function refreshBoard() {
-	bd = user.board;
-	for(i = 0; i < bd.stickies.length; i++) {
-		postSticky(bd.stickies[i]);
-	}
-	
-	for(i = 0; i < bd.papers.length; i++) {
-		postPaper(bd.papers[i]);
-	}
-}
-
 function getPaperFromID(paperID) {
 	for(i = 0; i < user.board.papers.length; i++) {
 		if(paperID == user.board.papers[i].uid) {
@@ -927,4 +903,10 @@ function getPaperFromID(paperID) {
 		}
 	}
 	return paper;
+}
+
+function refreshAllPapers() {
+	for(q = 0; q < user.board.papers.length; q++) {
+		refreshPaper(user.board.papers[q].uid);
+	}
 }

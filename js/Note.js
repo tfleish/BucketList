@@ -5,4 +5,5 @@ var Note = function(index, text, task, bucket) {
 	this.bucketNo = bucket;
 	this.alert = [];
 	this.creator = null;
+	this.openSticky = false;
 }
