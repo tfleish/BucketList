@@ -1,11 +1,13 @@
-var http = require('http');
+var express = require('express');
+var app = express.createServer();
 
-var s = http.createServer(function(req, res) {
-  res.writeHead(200, { 'content-type': 'text/plain' });
-  res.write("Hello\n");
-  setTimeout(function() {
-    res.end("tamara\n");
-  }, 2000);
+app.configure(function(){
+	app.use(express.bodyParser());
+    app.use(express.static("./"));
 });
 
-s.listen(8080);
+app.get('/', function(req, res) {
+	res.render('newIndex.html');
+});
+
+app.listen(8000);
