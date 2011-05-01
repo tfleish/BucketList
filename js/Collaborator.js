@@ -1,5 +1,5 @@
-var Collaborator=function(pic, name, email) {
-	this.pic = pic;
+var Collaborator=function(name, email) {
+	this.pic = 'img/personIcon.png';
 	this.name = name;
 	this.email = email;
 }

@@ -28,6 +28,10 @@
 	float: right;
 }
 
+#tasksByDate {
+	float: left;
+}
+
 #bottomLeftBox{
 	overflow-y: scroll;
 }
@@ -73,6 +77,7 @@
 	height: 65%;
 	padding: 3%;
 	width: 93%;
+	font-size: small;
 }
 
 .notesBox {
@@ -142,10 +147,6 @@ ul, li {
 	font-size: 10pt;
 	text-decoration:none; 
 	display:block;
-}
-
-.menu4 li {
-	background-color: #ececec;
 }
 
 .the_menu li:hover {
@@ -266,6 +267,13 @@ textarea.note {
 }
 
 textarea.bucket {
+  border-bottom: dashed 1px;
+  border-color:-moz-use-text-color;
+  width: 100%;
+  
+}
+
+textarea.collab {
   border-bottom: dashed 1px;
   border-color:-moz-use-text-color;
   width: 100%;
