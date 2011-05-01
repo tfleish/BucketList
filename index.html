@@ -3,70 +3,158 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		<title>BucketList</title>
+		<link rel="shortcut icon" href="http://web.mit.edu/~renminbi/Desktop/Public/favicon.ico" type="image/x-icon">
 		
-		<link rel="stylesheet" href="css/bucketList.css" type="text/css">
-		
+		<link rel="stylesheet" href="css/newbucketList.css" type="text/css">
+				
 		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 		
 		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.core.js"></script>
  		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.widget.js"></script>
  		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.mouse.js"></script>
 		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.draggable.js"></script>
-		<script src="3rdparty/jquery_1.4.2/jquery_libraries/ui/jquery.ui.resizable.js"></script>
- 		<script type="text/javascript" src="3rdparty/jquery_1.4.2/jquery-1.4.2.min.js"></script>
-		<script type="text/javascript" src="3rdparty/jquery_1.4.2/jquery_libraries/jquery-ui-1.8.5.custom.min.js"></script>
-		
-		<script type="text/javascript" src="js/bucketList.js"></script>
+
+		<script type="text/javascript" src="js/newbucketList.js"></script>
+		<script type="text/javascript" src="js/Board.js"></script>
+		<script type="text/javascript" src="js/Bucket.js"></script>
+		<script type="text/javascript" src="js/Collaborator.js"></script>
+		<script type="text/javascript" src="js/Note.js"></script>
+		<script type="text/javascript" src="js/Paper.js"></script>
+		<script type="text/javascript" src="js/Sticky.js"></script>
+		<script type="text/javascript" src="js/Task.js"></script>
+		<script type="text/javascript" src="js/User.js"></script>
 		
 		<script type="text/javascript" language="JavaScript">
-		  var currentView = "welcome";
+			var user;
+			var totalPapers;
+			var maxZ; 
 		</script>
 	</head>
 	
 	
-	<body>
-	  <div id="container">
-  
-    	<div id="top">
-    	 <div id="list">
-    	  <div style="padding: 5px"> Tamara Fleisher</div>
-        <img src="img/logo.gif" id="logo"></img>
-        
-        <div id="accordion" style="font-size:62.5%;">               
-          <div class="bucketGroup"></div> <!-- END bucketGroup -->   
-        </div> <!-- END accordion -->
-
-        <br>
-        <button type="button" class="newBucket" onclick="bucketName()" alt="Click to create a new bucket.">New Bucket</button><br>
-
-        <div id="bucketName" class="hidden">
-          Bucket Name:<br>
-          <textarea id="name" 
-                    onblur="addBucket()"
-                    onkeypress="ifEnter('#name', event)"></textarea><br>
-        </div>
-      </div> <!-- END list -->
-      <div id="taskInfo">
-		      <div id="welcome" style="margin: 10px">
-					<img src="img/nobucketLogo.gif"></img>
-		      </div>
-
-          <div id="notesBox"></div>
-          <div id="extras">
-            <div id="dueOptions"></div>
-            <div id="collabsBar"></div>	
-          </div>
-        </div> <!-- END taskInfo -->
-        <div class="clear"></div>
-      </div> <!-- END top -->
-      <div class="clear"></div>
-      <div id="bulletin"></div> <!-- END bulletin -->
-   
-      
-    	
-    	<div class="clear"></div>
-    
-    </div> <!-- END container -->
+  <body>
+    <div id="container">
+    	<div id="dropDownBar" class='hidden'>
+			<div id="nameDropDown">
+		  		<input type="button" id="nameButton" value = "Alice Packer" class="menu_class" style="background-color:#bbfb66">
+						<ul name = "nameMenu" class="the_menu menu1">
+							<li onclick='accountScreen()'>My Account</li>
+							<li onclick='logout()'>Log Out</li>
+						</ul>
+				</input>
+	  		</div>
+			<div id="rightSideDropDowns">
+				<div id="alertDropDown">
+				  <input type="button" id="alertButton" value = "My Alerts (1)" class="menu_class" style="background-color: #ffaaed">
+						<ul name = "alertMenu" class="the_menu menu2">
+							<li onclick="addBucketToPaper(0)"><b>My First Bucket</b></li>
+							<li onclick="addTaskToPaper(1, 0)">Task #3</li>
+						</ul>
+					</input>
+			  	</div>
+   	    
+				<div id="myTasksDropDown">
+    	   			<input type="button" id="tasksButton" value = "My Buckets" class="menu_class" style="background-color: #fcf589;">
+						<ul id = "tasksMenu" class="the_menu menu3">
+							<!--<li>
+								<div><img id="b0expand" class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion(0)"></img></div>
+								<div onclick="addBucketToPaper(0)">My First Bucket</div>
+								<div id="b0accordion" class='hidden' style="position:absolute">
+									<input type="checkbox" style='float:left'></input><div onclick="addTaskToPaper(0, 0)"> Task #1</div>
+									<input type="checkbox" style='float:left'></input><div onclick="addTaskToPaper(0, 1)"> Task #2 </div>
+								</div>
+							</li>
+							<li>
+								<img id='b1expand' class='expandButton' style='float:left' src="img/plus_green.gif" onclick="toggleAccordion(1)"></img>
+								<div onclick="addBucketToPaper(1)">Another Bucket</div>
+								<div id="b1accordion" class='hidden' style="position:absolute">
+									<input type="checkbox" style='float:left'></input> <div onclick="addTaskToPaper(1, 0)"> Task #3</div>
+									<input type="checkbox" style='float:left'></input> <div onclick="addTaskToPaper(1, 1)"> Task #4</div>
+								</div>
+							</li>-->
+						</ul>
+					</input>
+      			</div>
+			</div>
+		</div>
+		
+		<div id="enterPaper" class="draggable paper">	
+			<div id="welcomeHolder" class='tempscreen'>
+				<img src="img/nobucketLogo.gif" style="width: 450px; padding-top: 3%;"></img>
+				<div style="text-align: left; padding: 0px; font-size: 10pt;"> 
+					<div><div style='width: 10em; float: left;'>Email Address: </div><input id="usernameEnter" type="text"></input></div>
+					<div><div style='width: 10em; float: left;'>Password: </div><input id="passwordEnter" type="password"></input></div><br>
+					<div>
+						<button type="button" onclick="login()">Log in</button>
+						<button type = "button" style='float:right'>Forgot your password?</button>
+						<button type="button" style='float:right' onclick="createAccountScreen()">Need an account?</button>
+					</div>
+				</div>
+			</div>
+			<div id="enterScreen" class="hidden tempscreen">
+				<img src="img/nobucketLogo.gif" style="width: 450px; padding-top: 3%;"></img>
+				<div class='xbuttonPaper' onclick="closePaper('enterScreen')">x</div>
+				<div style="text-align: center; padding: 0px; font-size: 10pt;"> 
+					Log in was successful.  Time to get to work! See a list of buckets by clicking on "My Buckets."
+				</div>
+			</div>
+			<div id="accountCreate" class='hidden tempscreen'>
+				<div style="padding-top: 0px; font-size: 10pt;"> 
+					<img src="img/nobucketLogo.gif" style="width: 250px; padding-top: 3%;"></img>
+					<h1 style='margin: 0px'>Please enter your information.</h1>				
+					<div><div style='width: 10em; float: left;'>Name: </div> <input id="newNameEntry" type="text"></input></div>
+					<div><div style='width: 10em; float: left;'>Email Address: </div><input id='newEmail' type="text"></input></div>
+					<div><div style='width: 10em; float: left;'>Password: </div><input id='newPwd' type="password"></input></div>
+					<div><div style='width: 10em; float: left;'>Confirm Password: </div><input id='pwdconf' type="password"></input></div>
+					
+					<div>
+						<button type="button" onclick="login()" style='float: left'>Create account and log in</button>
+						<button type="button" onclick="returnToLogin()" style='float: right'>Return to login screen</button>
+					</div>
+				</div>
+			</div>
+			<!--<div id="textHolder" class="hidden">
+				<div id="leftBox" style="width: 65%; float: left;">
+					<div id="topLeftBox" style="height: 10%; border-bottom: 1px solid black;">
+						<div>
+							 <img style="float: left" id="bucketIcon" class='hidden icon' onclick='toggleBox()'></img>
+						</div>
+						<div>
+							<textarea class="h2" id="paperTitle" onkeyup="ifEnter('#paperTitle', event)"></textarea>
+						</div>
+					</div>
+					<div id="bottomLeftBox" style="height: 70%; border-right: 1px solid black;">
+					</div>
+				</div>
+				<div id="rightBox" style="width: 35%; float: right;">
+					<div id="topRightBox" style="height: 10%; border-bottom: 1px solid black;">
+						<div>
+					 		<h5 id="collabsTitle" style="float: left;"><b>Collaborators</b></h5>
+						</div>
+						<div>
+					 		<img src="img/plusButton.png" class="menu_class" id="addCollabButton" style="width: 20%; height: auto; float: right; padding-top: 0px; padding-bottom: 0px;">
+								<ul id = "collabsMenu" class="the_menu menu4" style="float: left;">
+									<li><textarea id="collabInput" class='new collab' onfocus='collabFocus()' onblur="collabBlur(0, 0)" onkeyup="ifEnter('#collabInput', event)">Enter name</textarea></li>
+								</ul>
+							</input>
+						</div>
+					</div>
+					<div id="bottomRightBox" style="height: 70%">
+					</div>
+				</div>
+			</div> -->
+		</div>
+		<div id="bottomBar" style="position:fixed; bottom: 14px; right: 23px;" class='hidden'>
+			<div id="clearButtonDiv" style="float: right;">
+				<input type="button" id="clearCompleted" value = "Clear Completed Tasks" class="menu_class" style="background-color: #23c3ff; width:auto;">
+			</div>
+		</div>
+		<div id="helpButtonDiv" style="float: left">
+			<img id="helpButton" onclick='help()' src="img/helpbutton.png"></img>
+		</div>
+	</div> <!-- END container -->
   </body>
 
 
