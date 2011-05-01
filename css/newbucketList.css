@@ -72,6 +72,7 @@
 	border: 1px inset #ececec;
 	height: 65%;
 	padding: 3%;
+	width: 93%;
 }
 
 .notesBox {
@@ -79,6 +80,7 @@
 	padding: 3%;
 	border-right: 1px outset #ececec;
 	border-top: 1px inset #ececec;
+	overflow-y: scroll;
 }
 
 h5 {
@@ -337,7 +339,6 @@ textarea.task {
 	float: right; 
 	padding-top: 0px; 
 	padding-bottom: 0px;		
-	display: block;
   	width: 30px;
   	height: 30px;
   	margin: 0px auto;
@@ -356,4 +357,9 @@ textarea.task {
 
 .hidden {
   visibility:hidden;
+}
+
+.ui-datepicker-trigger {
+	float: right;
+	cursor: default;
 }

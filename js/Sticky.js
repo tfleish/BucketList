@@ -1,5 +1,4 @@
 var Sticky=function(position, z, size, type, item) {
-	alert(position);
 	this.position = position;
 	this.x = position[0];
 	this.y = position[1];
