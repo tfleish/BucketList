@@ -3,7 +3,7 @@ var Paper=function(position, type) {
 	this.x = position[0];
 	this.y = position[1];
 	this.z = position[2];
-	
+	this.collabsView='view';
 	this.type = type;
 	
 	this.uid;

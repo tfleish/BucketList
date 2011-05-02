@@ -130,6 +130,12 @@ ul, li {
 	width: 13em;
 }
 
+.editableSticky {
+	height: 100%;
+	width: 100%;
+	background-color: transparent;
+}
+
 .menu_class {
 	font-family: "Handwriting - Dakota";
 	font-weight: bold;
@@ -196,6 +202,18 @@ ul, li {
 	background-image: url('../img/paper2.png');
 	cursor: move;
 	position: absolute;
+}
+
+#helpPaper {
+	height: 250px;
+	width: 201px;
+	background-image: url('../img/helpPaper.gif');
+}
+
+#acctPaper {
+	height: 250px;
+	width: 288px;
+	background-image: url('../img/accountPaper.png');
 }
 
 .xbutton {

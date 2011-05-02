@@ -108,9 +108,21 @@
 				</div>
 			</div>
 		</div>
+		<div id='acctPaper' class='draggable hidden paper'>
+			<div style="padding: 20px; padding-top: 40px; font-size: 10pt;"> 
+				<h4 style='margin: 0px; text-align: center;'>Your account</h4>				
+				<div><div style='width: 8em; float: left;'>Name: </div> <input id="nameEntryUpdate" type="text"></input></div>
+				<div><div style='width: 8em; float: left;'>Email Address: </div><input id='emailUpdate' type="text"></input></div>
+				<div><div style='width: 8em; float: left;'>Password: </div><input id='newPwdUpdate' type="password"></input></div>
+				<div><div style='width: 8em; float: left;'>Confirm: </div><input id='pwdconfUpdate' type="password"></input></div>
+				<div>
+					<button type="button" onclick="updateInfo()" style='float: right'>Update information</button>
+				</div>
+			</div>
+		</div>
 		<div id="bottomBar" style="position:fixed; bottom: 14px; right: 23px;" class='hidden'>
 			<div id="clearButtonDiv" style="float: right;">
-				<input type="button" id="clearCompleted" value = "Clear Completed Tasks" class="menu_class" style="background-color: #23c3ff; width:auto;">
+				<input type="button" onclick = 'clearCompleted()' id="clearCompleted" value = "Clear Completed Tasks" class="menu_class" style="background-color: #23c3ff; width:auto;">
 			</div>
 		</div>
 		<div id="helpButtonDiv" style="float: left">
