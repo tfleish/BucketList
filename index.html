@@ -40,25 +40,23 @@
 			<div id="nameDropDown">
 		  		<input type="button" id="nameButton" value = "Alice Packer" class="menu_class" style="background-color:#bbfb66">
 						<ul name = "nameMenu" class="the_menu menu1">
-							<li onclick='accountScreen()'>My Account</li>
-							<li onclick='logout()'>Log Out</li>
+							<li class='hoverBold' onclick='accountScreen()'>My Account</li>
+							<li class='hoverBold' onclick='logout()'>Log Out</li>
 						</ul>
 				</input>
 	  		</div>
 			<div id="rightSideDropDowns">
 				<div id="tasksByDate">
 					<input type="button" id="tasksByDateButton" value = "Tasks By Date" class="menu_class" style="background-color: #dbc2fc">
-						<ul name = "tbdMenu" class="the_menu menu4">
-							<li onclick="addBucketToPaper(0)"><b>My First Bucket</b></li>
-							<li onclick="addTaskToPaper(1, 0)">Task #3</li>
+						<ul id = "tbdMenu" class="the_menu menu4">
 						</ul>
 					</input>
 			  	</div>
 				<div id="alertDropDown">
 					<input type="button" id="alertButton" value = "My Alerts (1)" class="menu_class" style="background-color: #ffaaed">
 						<ul name = "alertMenu" class="the_menu menu2">
-							<li onclick="addBucketToPaper(0)"><b>My First Bucket</b></li>
-							<li onclick="addTaskToPaper(1, 0)">Task #3</li>
+							<li class='hoverBold' onclick="addBucketToPaper(0)"><b>My First Bucket</b></li>
+							<li class='hoverBold' onclick="addTaskToPaper(1, 0)">Task #3</li>
 						</ul>
 					</input>
 			  	</div>

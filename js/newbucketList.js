@@ -174,20 +174,13 @@ function postPaper(paper) {
 }
 
 function toggleCollabsBox(uid) {
-	if($('#collabsBox'+uid).hasClass('collabsView')) {
-		$('#collabsBox'+uid).addClass('collabsAdd');
-		$('#collabsBox'+uid).removeClass('collabsView');
-		$('#addCollabButton'+uid).attr('src', 'img/doneButton.gif');
-		$('#addCollabButton'+uid).css('width', '50px');
-		$('#addCollabButton'+uid).css('height', '25px');
+	var paper = getPaperFromID(uid);
+	if(paper.collabsView == "view") {
+		paper.collabsView = "add";
 		
 		postCollabAddScreen(uid);
 	} else {
-		$('#collabsBox'+uid).addClass('collabsView');
-		$('#collabsBox'+uid).removeClass('collabsAdd');
-		$('#addCollabButton'+uid).attr('src', 'img/plusButton.png');
-		$('#addCollabButton'+uid).css('width', '30px');
-		$('#addCollabButton'+uid).css('height', '30px');
+		paper.collabsView = 'view';
 		
 		processCollabAdd(uid);
 		postCollabViewScreen(uid);
@@ -197,6 +190,9 @@ function toggleCollabsBox(uid) {
 function postCollabAddScreen(uid) {
 	var paper = getPaperFromID(uid);
 	var item = paper.item;
+	$('#addCollabButton'+uid).attr('src', 'img/doneButton.gif');
+	$('#addCollabButton'+uid).css('width', '50px');
+	$('#addCollabButton'+uid).css('height', '25px');
 	
 	if(paper.type == 'bucket') {
 		var addList = user.friends;
@@ -253,6 +249,9 @@ function postCollabViewScreen(uid) {
 	var paper = getPaperFromID(uid);
 	paper.collabView = 'view'
 	var item = paper.item;
+	$('#addCollabButton'+uid).attr('src', 'img/plusButton.png');
+	$('#addCollabButton'+uid).css('width', '30px');
+	$('#addCollabButton'+uid).css('height', '30px');
 	
 	html='';
 	for(i = 0; i < item.collabs.length; i++) {
@@ -303,6 +302,17 @@ function toggleAccordion(id) {
 	}
 }
  
+function toggleAccordionDate(id) {
+	if($('#d'+id+'accordion').hasClass('hidden')) {
+		$('#d'+id+'expand').attr('src', 'img/red-minus.png')
+		$('#d'+id+'accordion').css('position','relative');
+		$('#d'+id+'accordion').removeClass('hidden');
+	} else {
+		$('#d'+id+'expand').attr('src', 'img/plus_green.gif')	
+		$('#d'+id+'accordion').css('position','absolute');
+		$('#d'+id+'accordion').addClass('hidden');
+	}
+}
 // This function is called whenever we open a Bucket View on a paper
 // Takes in the organizer index of a Bucket object.
 function addBucketToPaper(b, paper) {
@@ -375,7 +385,7 @@ function addTaskToPaper(b, t, paper) {
 		var notes = "<div id='boxDiv"+paper.uid+"' class='noteBox'>"
 					+ "<div><h4 style='float: left;'>Notes</h4>"
 					+ "<div style='float:right'>"
-					+ "<div id='addStickyButtonDiv"+paper.uid+"'><img id='addStickyButtonPaper"+paper.uid+"' onclick='addSticky(null,\""+paper.uid+"\")' src='img/addStickyIconGreen copy.gif' style='float:left; width:20px; cursor: default; padding-right: 90px; height:auto;'></img></div>"
+					+ "<div id='addStickyButtonDiv"+paper.uid+"' style='float:left; width:20px; cursor: default; padding-right: 90px; height:auto;'><img id='addStickyButtonPaper"+paper.uid+"' onclick='addSticky(null,\""+paper.uid+"\")' src='img/addStickyIconGreen copy.gif' style='float:left; width:20px; cursor: default; height:auto;'></img></div>"
 					+ "<img id='alarmBox"+paper.uid+"' src='img/alarmclock.png' style='float:left; width:20px; height:auto;'></img>"
 					+ "<input type='textbox' onchange = 'setDueDate("+0+", \""+paper.uid+"\")' id='alarmText"+paper.uid+"' style='width: 7em; float:right;' class='date'></input>"
 					+ "</div></div>"
@@ -447,10 +457,9 @@ function collabBlur(paperID) {
 	if ($(inp).val() == '' && $(inp).hasClass('new')) {
 	} 
 	else if (paper.type == "bucket") {//set t to -1 if it's a bucket
-		alert("it's a bucket");
 		name = $(inp).val();
 		var collab = new Collaborator(name, null);
-		addCollabToBucket(paper.item, collab);
+		addCollabToBucket(paper, collab);
     	//$(inp).removeClass('new');
 		//name = $(inp).val();
 		//var iconText = "<img src='img/personIcon.png' class='icon persona'></img>"
@@ -470,6 +479,7 @@ function addCollabToBucket(paper, collab) {
 	var bucket = paper.item;
 	var collabNo = bucket.collabs.length;
 	bucket.collabs[collabNo] = collab;
+	user.friends[user.friends.length]=collab;
 	refreshAllPapers();
 }
 
@@ -481,6 +491,7 @@ function addCollabToTask(paper, collab) {
 		var collabNo = task.collabs.length;
 		task.collabs[collabNo] = collab;
 		bucket.collabs[bucket.collabs.length] = collab;
+		user.friends[user.friends.length]=collab;
 	
 		refreshAllPapers();
 	}
@@ -530,7 +541,6 @@ function noteBlur(paperID) {
 }
 
 function addSticky(index, paperID) { 
-	alert([index, paperID]);
 	var pos = getRandomPosition([96, 75])
 	var buttonId = '#icon'+index+paperID;
 	var paper = getPaperFromID(paperID);
@@ -717,9 +727,24 @@ function setDueDate(i, paperID) {
 	refreshAllPapers();
 }
 
+function editTask(i, uid) {
+	$("#text"+i+uid).attr('readonly', '');
+	$("#text"+i+uid).select();
+}
+
+function editBlur(i, uid) {
+	var paper = getPaperFromID(uid);
+	var task = paper.item.tasks[i];
+	if($('#text'+i+uid).val() != '') {
+		task.name = $('#text'+i+uid).val();
+	}
+	
+	$('#text'+i+uid).attr('readonly', 'readonly')
+	refreshAllPapers();
+}
+
 function refreshPaper(paperID) {
 	var paper = getPaperFromID(paperID);
-	refreshDropDown();
 	var uid = paper.uid;
 	if(paper.type == "bucket") {
 		var bucket = paper.item;
@@ -754,13 +779,16 @@ function refreshPaper(paperID) {
 
 		    	var newText = "<textarea class='task fixed' "
 		        	+ "id='text"+i+uid+"'"
+		        	+ "readonly='readonly' "
 					+"ondblclick='changePaperFocus("+bucket.index+","+i+",\""+uid+"\")'"
+					+"onkeyup='ifEnter(\"#text"+i+uid+"\", event)' "
+					+"onblur='editBlur("+i+", \""+uid+"\")' "
 					+"rows='"+String(rows)+"' "
 					+"style='float:left;'>"
 		        	+name+"</textarea></div>"
 		         	+"<div style='float: right; width: 65px;'>"
 		        	+"<input onchange='setDueDate("+i+", \""+uid+"\")' id='dateTexti"+i+uid+"' class='hidden date' type='textbox' style='float: right; width:0px; padding:0px; margin:0px; border: 0px;'/>"
-		        	+"<img src='img/EditObjectButton.png' title='Click to edit.' onclick='alert(\"hi2\")' class='icon' style='float: left'></img></div>";
+		        	+"<img src='img/EditObjectButton.png' title='Click to edit.' onclick='editTask("+i+", \""+uid+"\")' class='icon' style='float: left'></img></div>";
 		        var exit = "</div>";
 		        html = html + entry + newIcon + checkbox + newText + exit;
 	        }
@@ -902,6 +930,8 @@ function changePaperFocus(bucketNum, taskNum, paperID) {
 		var paper = getPaperFromID(paperID);
 		paper.item = task;
 		paper.type = 'task';
+		$('#alarmText'+paper.uid).removeClass('hidden');
+		$('#addStickyButtonDiv'+paperID).removeClass('hidden');
 		$('#identTitle'+paper.uid).html("Notes");
 		$('#alarmBox'+paper.uid).removeClass('hidden');
 		$('#textbox'+paper.uid).blur(function() {
@@ -911,12 +941,15 @@ function changePaperFocus(bucketNum, taskNum, paperID) {
 		var paper = getPaperFromID(paperID);
 		paper.item = bucket;
 		paper.type = 'bucket';
+		$('#alarmText'+paper.uid).addClass('hidden');
 		$('#identTitle'+paper.uid).html("Tasks");
+		$('#addStickyButtonDiv'+paperID).addClass('hidden');
 		$('#alarmBox'+paper.uid).addClass('hidden');
 		$('#textbox'+paper.uid).blur(function() {
 	  		taskBlur(paperID);
 		});
-	}		
+	}	
+	paper.collabsView = 'view'	
 	refreshAllPapers();
 }
 
@@ -937,7 +970,7 @@ function refreshDropDown() {
 				ul = ul + "<li>"
 				bucketName = bucket.name;
 				ul = ul + "<div><img id='b"+i+"expand' class='expandButton' style='float: left;' src='img/plus_green.gif' onclick='toggleAccordion("+i+")'></img></div>";
-				ul = ul + "<div onclick = 'addBucketToPaper("+i+", null)'>"+bucketName+"</div>";
+				ul = ul + "<div class='hoverBold' onclick = 'addBucketToPaper("+i+", null)'>"+bucketName+"</div>";
 				ul = ul + "<div id='b"+i+"accordion' class='hidden' style='position:absolute'>";
 				for(j = 0; j < bucket.tasks.length; j++) {
 						task = bucket.tasks[j];
@@ -949,15 +982,57 @@ function refreshDropDown() {
 						} else {
 							src= 'img/checkbox-empty.png';
 						}
-						ul = ul + "<img id='dropDownCheckb"+i+"t"+j+"' src='"+src+"' class='checkBoxIcon' style='float:left'></input>";
-						ul = ul + "<div style='width: 12em; height:auto;' onclick='addTaskToPaper("+i+", "+j+")'>"+taskName+"</div>"
+						ul=ul+"<img onclick='toggleDDcheck("+i+", "+j+")' id='dropDownCheckb"+i+"t"+j+"' src='"+src+"' class='checkBoxIcon' style='float:left'></input>";
+						ul = ul + "<div style='width: 12em; height:auto;' class='hoverBold' onclick='addTaskToPaper("+i+", "+j+")'>"+taskName+"</div>"
 					}
 				}
 				ul = ul + "</div></li>"
 			}
 		text = text + ul;	
 	}
+		
 	$('#tasksMenu').html(text);
+	
+	var sortedTasks = sortTasksByDate();
+	
+	var text = "";
+	var ind = 0;
+	for(var i in sortedTasks) {
+		var ul = ""
+		ul = ul + "<li>"
+		var date = i;
+		if(date == '99/99/9999') {
+			date = "No due date"
+		}
+		ul = ul + "<div><img id='d"+ind+"expand' class='expandButton' style='float: left;' src='img/plus_green.gif' onclick='toggleAccordionDate("+ind+")'></img></div>";
+		ul = ul + "<div class='hoverBold'>"+date+"</div>";
+		ul = ul + "<div id='d"+ind+"accordion' class='hidden' style='position:absolute'>";
+		for(j = 0; j < sortedTasks[i].length; j++) {
+			var task = sortedTasks[i][j];
+			var taskName = task.name;
+			if(task.done) {
+				taskName = "<del>"+taskName+"</del>"
+				src= 'img/checkbox-full.png';
+			} else {
+				src= 'img/checkbox-empty.png';
+			}
+			ul=ul+"<img onclick='toggleDDcheck("+task.bucketNum+", "+task.index+")' id='dateDropDownCheckb"+ind+"t"+j+"' src='"+src+"' class='checkBoxIcon' style='float:left'></img>";
+			ul = ul + "<div style='width: 12em; height:auto;' class='hoverBold' onclick='addTaskToPaper("+task.bucketNum+", "+task.index+")'>"+taskName+"</div>"
+		}
+		ul = ul + "</div></li>"
+		text = text + ul;
+		ind = ind + 1;
+	}
+	$('#tbdMenu').html(text);
+}
+
+function toggleDDcheck(b, t) {
+	if(user.organizer[b].tasks[t].done){
+		user.organizer[b].tasks[t].done = false;
+	} else {
+		user.organizer[b].tasks[t].done = true;
+	}
+	refreshAllPapers();
 }
 
 function getPaperFromID(paperID) {
@@ -970,6 +1045,7 @@ function getPaperFromID(paperID) {
 }
 
 function refreshAllPapers() {
+	refreshDropDown();
 	for(q = 0; q < user.board.papers.length; q++) {
 		refreshPaper(user.board.papers[q].uid);
 	}
@@ -985,6 +1061,66 @@ function clearCompleted() {
 		}
 	}
 	refreshAllPapers();
+}
+
+function sortTasksByDate() {
+	var dateDict = new Array();
+	
+	for(var i = 0; i < user.organizer.length; i++) {
+		var bucket = user.organizer[i];
+		for(var j = 0; j < bucket.tasks.length; j++) {
+			var task = bucket.tasks[j];
+			if(task != null) {
+				if(task.dueDate == null) {
+					try{
+						dateDict['99/99/9999'][dateDict['99/99/9999'].length] = task;
+					} catch(err) {
+						dateDict['99/99/9999'] = [task];
+					}
+				} else {
+					var month = task.dueDate.getMonth()+1;
+					var date = task.dueDate.getDate();
+					var year = task.dueDate.getFullYear();
+					
+					var dayString = month + '/' + date + '/' + year;
+					try{
+						dateDict[dayString][dateDict[dayString].length] = task;
+					} catch(err) {
+						dateDict[dayString] = [task];
+					}					
+				}
+			}
+		}
+	}
+	dateDict = sortObj(dateDict);
+	return dateDict;
+}
+
+function sortObj(arr){
+	// Setup Arrays
+	var sortedKeys = new Array();
+	var sortedObj = {};
+
+	// Separate keys and sort them
+	for (var i in arr){
+		sortedKeys.push(i);
+	}
+	sortedKeys.sort(mdyOrdA);
+
+	// Reconstruct sorted obj based on keys
+	for (var i in sortedKeys){
+		sortedObj[sortedKeys[i]] = arr[sortedKeys[i]];
+	}
+	return sortedObj;
+}
+
+function mdyOrdA(a, b){
+	var dateRE = /^(\d{2})[\/\- ](\d{2})[\/\- ](\d{4})/;
+	a = a.replace(dateRE,"$3$1$2");
+	b = b.replace(dateRE,"$3$1$2");
+	if (a>b) return 1;
+	if (a <b) return -1;
+	return 0; 
 }
 
 function accountScreen() {

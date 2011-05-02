@@ -160,8 +160,10 @@ ul, li {
 	display:block;
 }
 
+.hoverBold:hover {
+	font-weight: bold;
+}
 .the_menu li:hover {
-	font-weight:bold;
 	cursor: pointer;
 }
 
@@ -265,6 +267,7 @@ textarea.h2 {
 	font-weight: bold;
 	margin: 0px;
 	padding: 0px;
+	height: 27px;
 }
 
 textarea:focus {
@@ -353,11 +356,11 @@ textarea.task {
 .topLeftBoxTask {
 	border-bottom: 1px solid black;
 	overflow-y: visible;
-	height: 20%;
+	height: 17%;
 }
 
 .topRightBoxTask {
-	height: 20%; 
+	height: 17%; 
 	overflow-y: visible;
 	border-bottom: 1px solid black;
 }
