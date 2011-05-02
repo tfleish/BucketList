@@ -552,6 +552,7 @@ function addSticky(index, paperID) {
 		var task = paper.item;
 		task.openPaper = true;
 		var sticky = new Sticky(pos, maxZ, [96, 75], "task", task);
+		var id='stickyb'+task.bucketNum+"t"+task.index
 		var html = "<div class='taskSticky draggable resizable' id='stickyb"+task.bucketNum+"t"+task.index+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
   			+"<div id='stickyTextb"+task.bucketNum+"t"+task.index+"' class='stickyNote'>"+task.name+"</div>"
   			+"<div><img onclick=\"editSticky('"+task.bucketNum+"','"+task.index+"',null)\" class='editStickyButton' title='Click to edit.' src='img/EditObjectButton.png'></img>"
@@ -570,6 +571,7 @@ function addSticky(index, paperID) {
   		var task = paper.item.tasks[index];
   		var sticky = new Sticky(pos, maxZ, [96, 75], "task", task);
   		task.openSticky = true;
+  		id = 'stickyb'+task.bucketNum+"t"+task.index
   		var html = "<div class='taskSticky draggable resizable' id='stickyb"+task.bucketNum+"t"+task.index+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
   			+"<div id='stickyTextb"+task.bucketNum+"t"+task.index+"' class='stickyNote'>"+task.name+"</div>"
   			+"<div><img onclick=\"editSticky('"+task.bucketNum+"','"+task.index+"',null)\" class='editStickyButton' title='Click to edit.' src='img/EditObjectButton.png'></img>"
@@ -577,6 +579,7 @@ function addSticky(index, paperID) {
   	}
 	user.board.stickies[user.board.stickies.length] = sticky;
   $("#container").append(html);
+  moveToFront('#'+id);
   $(".draggable").draggable( {containment: "#container"} );
   $( ".resizable" ).resizable({aspectRatio: true});
 }
