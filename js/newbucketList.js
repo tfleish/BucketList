@@ -2,6 +2,12 @@
  * @author Becky
  */
 $(document).ready(function() {
+
+	var screenWidth = window.innerWidth;
+	var screenHeight = window.innerHeight;
+	
+	$('#enterPaper').css('top', screenHeight/2 - 150);
+	$('#enterPaper').css('left', screenWidth/2 - 220);
 	
 	$(".draggable").draggable( {containment: "#container"} );
 	
@@ -57,8 +63,23 @@ function login(type) {
 		user.friends = [new Collaborator("Becky Bianco", "renminbi@mit.edu"), new Collaborator("Tamara Fleisher", "tfleish@mit.edu")];
 		maxZ = 0; // should get this and totalPapers from data from backend
 		totalPapers = 0;
-		loadLoginData();
 		
+		if(type == 'create') {
+			note = new Task("Buckets are groups of tasks. You can use them to organize tasks and share them with friends.", "z", 1);
+			user.board.stickies[0] = new Sticky([100, 500], 0, [187, 144], "task", note);
+			
+			note = new Task("You can post notes or tasks on your bulletin board by clicking the post-it image.", "z", 2);
+			user.board.stickies[1] = new Sticky([200, 700], 0, [187, 144], "task", note);
+			
+			note = new Note("r", "Collaborators in a Bucket can see all tasks within the Bucket. You can also assign tasks to individual collaborators.", 1, "z");
+			user.board.stickies[2] = new Sticky([300, 200], 0, [187, 144], "note", note);
+			
+			note = new Note("r", "Its easy to send alerts to other users reminding them about important information - just click the 'alert' button beside the note and check their name!", 2, "z");
+			user.board.stickies[3] = new Sticky([50, 900], 0, [187, 144], "note", note);
+			
+		}
+		
+		loadLoginData();
 	
 		$('#nameEntry').val("");
 		$('#usernameEnter').val("");
@@ -98,10 +119,10 @@ function postSticky(sticky) {
 		  var id = 'b'+b+'t'+t+'s';
 		  var taskID = '#b'+b+'t'+t;
 		  
-		  var note = "<div class='taskSticky draggable resizable' onmousedown='moveToFront(\"#"+id+"\")' id='"+id+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
+		  var note = "<div class='taskSticky draggable resizable' onmousedown='moveToFront(\"#"+id+"\")' id='"+id+"' style=\"position: absolute; left:"+pos[1]+"px; top: "+pos[0]+"px; height:"+sticky.size[0]+"px; width:"+sticky.size[1]+"px\">"
   			+"<div class='stickyNote'>"+item.name+"</div>"
   			+"<div><img class='editStickyButton' title='Click to edit.' src='img/EditObjectButton.png'></img>"
-  			+"<div class='xbutton' onclick=\"closeTaskSticky('"+id+"','"+b+"','"+t+"')\">x</div></div>";
+  			+"<div class='xbutton' onclick=\"closeSticky('"+b+"','"+t+"', null)\">x</div></div>";
 	} else { // Post a note sticky
 		  var note = sticky.item;
 		  var n = note.index;
@@ -110,10 +131,10 @@ function postSticky(sticky) {
 		  var id = 'b'+b+'t'+t+'n'+n+'s';
 		  var noteId = '#b'+b+'t'+t+'n'+n;
 
-		  var note = "<div class='sticky draggable resizable' onmousedown='moveToFront(\"#"+id+"\")' id='"+id+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
+		  var note = "<div class='sticky draggable resizable' onmousedown='moveToFront(\"#"+id+"\")' id='"+id+"' style=\"position: absolute; left:"+pos[1]+"px; top: "+pos[0]+"px; height:"+sticky.size[0]+"px; width:"+sticky.size[1]+"px\">"
   			+"<div class='stickyNote'>"+item.text+"</div>"
   			+"<div><img class='editStickyButton' title='Click to edit.' src='img/EditObjectButton.png'></img>"
-  			+"<div class='xbutton' onclick=\"closeSticky('"+id+"','"+b+"','"+t+"','"+n+"')\">x</div></div>";
+  			+"<div class='xbutton' onclick=\"closeSticky('"+b+"','"+t+"','"+n+"')\">x</div></div>";
 	}
 	$("#container").append(note);
 	moveToFront(id);
@@ -552,7 +573,7 @@ function addSticky(index, paperID) {
 		task.openPaper = true;
 		var sticky = new Sticky(pos, maxZ, [96, 75], "task", task);
 		var id='stickyb'+task.bucketNum+"t"+task.index
-		var html = "<div class='taskSticky draggable resizable' id='stickyb"+task.bucketNum+"t"+task.index+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
+		var html = "<div class='taskSticky draggable resizable' id='stickyb"+task.bucketNum+"t"+task.index+"' style=\"position: absolute; left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
   			+"<div id='stickyTextb"+task.bucketNum+"t"+task.index+"' class='stickyNote'>"+task.name+"</div>"
   			+"<div><img onclick=\"editSticky('"+task.bucketNum+"','"+task.index+"',null)\" class='editStickyButton' title='Click to edit.' src='img/EditObjectButton.png'></img>"
   			+"<div class='xbutton' onclick=\"closeSticky('"+task.bucketNum+"','"+task.index+"',null)\">x</div></div>";
@@ -562,7 +583,7 @@ function addSticky(index, paperID) {
 		note.openSticky = true;
 		var sticky = new Sticky(pos, maxZ, [96, 75], "note", note)
   
-  		var html = "<div class='sticky draggable resizable' id='stickyb"+note.bucketNo+"t"+note.taskNo+"n"+note.index+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
+  		var html = "<div class='sticky draggable resizable' id='stickyb"+note.bucketNo+"t"+note.taskNo+"n"+note.index+"' style=\"position: absolute; left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
   			+"<div class='stickyNote'>"+note.text+"</div>"
   			+"<div><img class='editStickyButton' title = 'Click to edit.' src='img/EditObjectButton.png'></img>"
   			+"<div class='xbutton' onclick=\"closeSticky('"+note.bucketNo+"','"+note.taskNo+"','"+note.index+"')\">x</div></div>";
@@ -571,7 +592,7 @@ function addSticky(index, paperID) {
   		var sticky = new Sticky(pos, maxZ, [96, 75], "task", task);
   		task.openSticky = true;
   		id = 'stickyb'+task.bucketNum+"t"+task.index
-  		var html = "<div class='taskSticky draggable resizable' id='stickyb"+task.bucketNum+"t"+task.index+"' style=\"left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
+  		var html = "<div class='taskSticky draggable resizable' id='stickyb"+task.bucketNum+"t"+task.index+"' style=\"position: absolute; left:"+pos[1]+"px; top: "+pos[0]+"px;\">"
   			+"<div id='stickyTextb"+task.bucketNum+"t"+task.index+"' class='stickyNote'>"+task.name+"</div>"
   			+"<div><img onclick=\"editSticky('"+task.bucketNum+"','"+task.index+"',null)\" class='editStickyButton' title='Click to edit.' src='img/EditObjectButton.png'></img>"
   			+"<div class='xbutton' onclick=\"closeSticky('"+task.bucketNum+"','"+task.index+"',null)\">x</div></div>";
@@ -584,7 +605,18 @@ function addSticky(index, paperID) {
 }
 
 function closeSticky(bucketNo, taskNo, noteNo) {
-	if(noteNo == null) {
+	if(bucketNo == "z") {
+		if(noteNo == null) {
+			var id = '#b'+bucketNo+'t'+taskNo+'s';
+			$(id).remove();
+			user.board.stickies.splice(taskNo-1, taskNo-1);
+		} else {
+			var id = '#b'+bucketNo+'t'+taskNo+'n'+noteNo+'s';
+			$(id).remove();
+			user.board.stickies.splice(taskNo+1, taskNo+1);
+		}
+	}
+	else if(noteNo == null) {
 		var id = "stickyb"+bucketNo+"t"+taskNo;
 		var item = user.organizer[bucketNo].tasks[taskNo]
 	} else {
@@ -691,28 +723,84 @@ function closePaper(id) {
 function help() {
 	//create new paper, add it to container div	
 	var helpTitle = "<h5 style='padding:10px' > How can we help you? </h5>"
+	var helpTopics = "<u><font onclick=\"changeHelpFocus('buckets')\" color='#0000ff'>Buckets</font></u><br>"
+	+"<u><font onclick=\"changeHelpFocus('postits')\" color='#0000ff'>Post-its</font></u><br>"
+	+"<u><font onclick=\"changeHelpFocus('collabs')\" color='#0000ff'>Collaborators</font></u><br>"
+	+"<u><font onclick=\"changeHelpFocus('alerts')\" color='#0000ff'>Alerts</font></u><br>"
 	var helpPaper = "<div id='helpPaper' class='draggable paper help'>"
 			+helpTitle
+			+helpTopics
 			+"<div class='xbuttonPaper' onclick=\"closeTempPaper('#helpPaper')\">x</div>"
 			+"</div>";
 	$('#container').append(helpPaper);
 	$(".draggable").draggable( {containment: "#container"} );
 }
 
-function logout() {
-	if($('#nameEntry').val()!="") {
-		$('#nameButton').attr("value", $('#nameEntry').val());
+function changeHelpFocus(dest) {
+	if(dest == 'back') {
+		var helpTitle = "<h5 style='padding:10px' > How can we help you? </h5>"
+		var helpTopics = "<u><font onclick=\"changeHelpFocus('buckets');\" color='#0000ff'>Buckets</font></u><br>"
+			+"<u><font onclick=\"changeHelpFocus('postits');\" color='#0000ff'>Post-its</font></u><br>"
+			+"<u><font onclick=\"changeHelpFocus('collabs');\" color='#0000ff'>Collaborators</font></u><br>"
+			+"<u><font onclick=\"changeHelpFocus('alerts');\" color='#0000ff'>Alerts</font></u><br>"
+		var helpPaper = helpTitle
+			+helpTopics
+			+"<div class='xbuttonPaper' onclick=\"closeTempPaper('#helpPaper')\">x</div>"
+		$('#helpPaper').html(helpPaper);
+	} else if(dest == 'buckets') {
+		var helpTitle = "<h5 style='padding:10px' > Buckets </h5>"
+		var helpText = "<div style='font-size: small'>Buckets are how you organize tasks into categories. You can use them for personal organization or add other users to you Bucket to share all the tasks within the Bucket with them. You can view a list of your Buckets by clicking 'My Buckets'. Clicking on a Bucket name lets you view all tasks within the bucket and a list of collaborators in the Bucket.</div><br>"
+		var backButton = "<button type='button' onclick=\"changeHelpFocus('back')\" style='float: right'>Back to Help Screen</button>"
+		var helpPaper = helpTitle
+			+helpText
+			+backButton
+			+"<div class='xbuttonPaper' onclick=\"closeTempPaper('#helpPaper')\">x</div>";
+		$('#helpPaper').html(helpPaper);
+	} else if(dest == 'postits') {
+		var helpTitle = "<h5 style='padding:10px' > Post-its </h5>"
+		var helpText = "<div style='font-size: small'>To help you organize and remember your important tasks and notes, you can post them on your bulletin board! To do this, simply click the post-it icon beside the task / note. You can move the post-its wherever you want on the board. You can also edit them, either from the post-it itself or from the task / Bucket view. Clicking the 'x' removes the post-it from the Bulletin board, but you can always reopen it later.</div><br>"
+		var backButton = "<button type='button' onclick=\"changeHelpFocus('back')\" style='float: right'>Back to Help Screen</button>"
+		var helpPaper = helpTitle
+			+helpText
+			+backButton
+			+"<div class='xbuttonPaper' onclick=\"closeTempPaper('#helpPaper')\">x</div>"
+		$('#helpPaper').html(helpPaper);
+	} else if(dest == 'collabs') {
+		var helpTitle = "<h5 style='padding:10px' > Collaborators </h5>"
+		var helpText = "<div style='font-size: small'>Collaborators on a Bucket can see all tasks within the Bucket. You can also assign specific tasks to individual collaborators. When adding collaborators to Buckets, you can select from any user you have previously communicated with, or type the name or email of a different user. To assign a task, simple select from the collaborators already added to the Bucket.</div><br>"
+		var backButton = "<button type='button' onclick=\"changeHelpFocus('back')\" style='float: right'>Back to Help Screen</button>"
+		var helpPaper = helpTitle
+			+helpText
+			+backButton
+			+"<div class='xbuttonPaper' onclick=\"closeTempPaper('#helpPaper')\">x</div>"
+		$('#helpPaper').html(helpPaper);
+	} else if(dest == 'alerts') {
+		var helpTitle = "<h5 style='padding:10px' > Alerts </h5>"
+		var helpText = "<div style='font-size: small'>Alerts make communicating with friends and sending reminders easy. You have a drop-down list with all your alerts (new ones in bold). You automatically receive an alert whenever a due-date is approaching or you are added to a Bucket or assigned a task. You also have the option of alerting collaborators of new notes, by clicking the 'alert' icon beside the note, to make sure they don’t miss anything important.</div><br>"
+		var backButton = "<button type='button' onclick=\"changeHelpFocus('back')\" style='float: right'>Back to Help Screen</button>"
+		var helpPaper = helpTitle
+			+helpText
+			+backButton
+			+"<div class='xbuttonPaper' onclick=\"closeTempPaper('#helpPaper')\">x</div>"
+		$('#helpPaper').html(helpPaper);
 	}
+}
+
+function logout() {
+
+	$('#enterPaper').removeClass('hidden');
 	$('#welcomeHolder').removeClass('hidden');
-	$('#accountCreate').addClass('hidden');
 	$('#bottomBar').addClass('hidden');
 	$('#dropDownBar').addClass('hidden');
-	$('#enterScreen').addClass('hidden');
-	
-	for(i=0; i<visiblePapers.length;i++) {
-		$('#'+visiblePapers[i]).addClass('hidden');
+	for(var i = 0; i < user.board.stickies.length; i++) {
+		user.board.stickies[i].remove();
 	}
-	$('#enterPaper').removeClass('hidden');
+	user.board.stickes = [];
+	
+	for(var j = 0; j < user.board.papers.length; j++) {
+		user.board.papers[j].remove();
+	}
+	user.board.papers = [];
 }
 
 function setDueDate(i, paperID) {
@@ -1058,10 +1146,24 @@ function clearCompleted() {
 		bucket = user.organizer[i];
 		for(j = 0; j < bucket.tasks.length; j++) {
 			if(bucket.tasks[j] != null && bucket.tasks[j].done) {
+				var task = bucket.tasks[j];
 				bucket.tasks[j] = null;
 			}
 		}
 	}
+	for(var i = 0; i < user.board.papers.length; i++) {
+		if(user.board.papers[i].item == task) {
+			$('#'+user.board.papers[i].uid).remove();
+			user.board.papers.splice(i,i);
+		}
+	}
+	/*
+	for(var i = 0; i < user.board.stickies.length; i++) {
+		if(user.board.stickies[i].item == task) {
+			$('#'+user.board.stickies[i].uid).remove();
+			user.board.stickies.splice(i,i);
+		}
+	}*/
 	refreshAllPapers();
 }
 
