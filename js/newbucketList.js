@@ -47,8 +47,12 @@ function login(type) {
 		firstBucket.tasks = [task1, task2];
 		secondBucket.tasks = [task3, task4];
 		var or=[firstBucket, secondBucket];
-	
-		user = new User('img/personIcon.png', "Alice Packer", "lisp@mit.edu")//usually gotten from backend
+		if(type == 'create') {
+			user = new User('img/personIcon.png', $('#newNameEntry').val(), $('#newEmail').val())//usually gotten from backend
+			$('#nameButton').val($('#newNameEntry').val())
+		} else {
+			user = new User('img/personIcon.png', "Alice Packer", "lisp@mit.edu");
+		}
 		user.organizer = or;
 		user.friends = [new Collaborator("Becky Bianco", "renminbi@mit.edu"), new Collaborator("Tamara Fleisher", "tfleish@mit.edu")];
 		maxZ = 0; // should get this and totalPapers from data from backend
@@ -460,11 +464,6 @@ function collabBlur(paperID) {
 		name = $(inp).val();
 		var collab = new Collaborator(name, null);
 		addCollabToBucket(paper, collab);
-    	//$(inp).removeClass('new');
-		//name = $(inp).val();
-		//var iconText = "<img src='img/personIcon.png' class='icon persona'></img>"
-		//var xbutton = "<div style='color:#808080; cursor: pointer; float: right;'>x</div>"
-    	//$('#'+currentView.objName+"collabs").append("<div>"+iconText+name+xbutton+"</div>");
     } else {
     	name = $(inp).val();
     	var collab = new Collaborator(name, null);
